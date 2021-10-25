@@ -1,0 +1,8 @@
+/**
+ * Returns the Length of a given String 
+*/
+int lengthOfString(char *string) {
+    int n;
+    for (n = 0; string[n] != '\0'; ++n);
+    return n;
+}
