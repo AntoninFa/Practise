@@ -1,3 +1,17 @@
 after Installing Ubuntu for Windows(don't forget to activate Hyper-V)
 
 bash in cmd um in Ubuntu console zu landen
+cd /mnt/c/Users/Antonin/Documents/Studium/aawslZeug (mit rechtsklick pasten)
+einzelne Dateien compilieren?
+gcc main.c print.c print.h testlib.c -o _3 (letzter part sind settings für den compiler)
+./_3 um Datei mit dem Namen _3 zu starten
+
+
+mit:
+code . 
+kann man direkt in dem dir vsCode öffnen 
+In Ubuntu kann man mit tar xf asst0X-templates.tar.gz gezippte packete unzippen
+
+Da einiges hier aus den Aufgabenblättern des OS Kurs des KIT stammt habe ich nicht alle tests und ganze Projekte kopiert,
+die ganzen Projekte sind unter C:\Users\Antonin\Documents\Studium\aawslZeug\oldSem zu finden, die Idee ist 
+es hier Algorithmen und Ideen bereitzustellen und weniger fertige getestete Projekte;)
