@@ -15,3 +15,5 @@ In Ubuntu kann man mit tar xf asst0X-templates.tar.gz gezippte packete unzippen
 Da einiges hier aus den Aufgabenblättern des OS Kurs des KIT stammt habe ich nicht alle tests und ganze Projekte kopiert,
 die ganzen Projekte sind unter C:\Users\Antonin\Documents\Studium\aawslZeug\oldSem zu finden, die Idee ist 
 es hier Algorithmen und Ideen bereitzustellen und weniger fertige getestete Projekte;)
+
+TODO: Alles was ich in Anki hatte zu Programmen machen
