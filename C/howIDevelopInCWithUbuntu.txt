@@ -1,0 +1,3 @@
+after Installing Ubuntu for Windows(don't forget to activate Hyper-V)
+
+bash in cmd um in Ubuntu console zu landen
