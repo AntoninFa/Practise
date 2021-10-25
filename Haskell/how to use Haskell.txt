@@ -1,0 +1,26 @@
+you can use chocolatey to install ghci/haskell plattform for haskell on windows
+"	
+choco install haskell-dev	
+refreshenv
+"
+should do that after installing Chocolatey https://www.haskell.org/platform/
+
+after that you can type 
+ghci
+into your console to activate the Haskell Plattform, there you should already be able to use functionality like 
+typing functions e.g. 4*4
+to load a .hs program simply type:
+:l program.hs
+( provided you are in the correct subfolder i.e.: cd C:\Users\Antonin\Documents\GitHub\Practise\Haskell\basics
+if not you have to write
+:l FULLPATH\program.hs)
+now you can use functions defined in program.hs, say there is f x = sin x/x defined in program.hs, you can input a 
+value to f by writing:
+f 10
+output: -5.440211108893698e-2
+f 3 
+output: 4.70400026866224e-2
+
+Other usefull commands:
+:r 
+to recompile your loaded file(after you changed something
