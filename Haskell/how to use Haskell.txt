@@ -24,3 +24,6 @@ output: 4.70400026866224e-2
 Other usefull commands:
 :r 
 to recompile your loaded file(after you changed something
+
+:cd 
+to change directory see cd in normal cmd (:dir sadly does not work)
