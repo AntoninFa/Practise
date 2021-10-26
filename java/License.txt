@@ -1,0 +1,3 @@
+Klassen aus Übungsbetrieb, welche nicht von mir geschrieben wurden:
+basics/Files/Scanner.java
+Übungsaufgaben1.SemSolutions
