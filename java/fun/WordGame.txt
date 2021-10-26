@@ -1,0 +1,5 @@
+never(not yet) finnished
+Idea was to have a game where you have to type as many dictionary words with constrains like
+"starts with a", "contains "ei"" ...
+
+But lost interest in the making, base should be solid tho... So i might one day continue this

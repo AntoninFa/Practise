@@ -1,3 +1,6 @@
 Klassen aus Übungsbetrieb, welche nicht von mir geschrieben wurden:
+Classes that were not written by me:
 basics/Files/Scanner.java
 Übungsaufgaben1.SemSolutions
+
+i.e. i have no ownership of these files, thus these files shouldn't be public
