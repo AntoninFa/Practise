@@ -1,0 +1,8 @@
+Other usefull commands:
+:r 
+to recompile your loaded file(after you changed something
+
+:cd 
+to change directory see cd in normal cmd (:dir sadly does not work)
+
+to write ` on qwertzuiopü you press SHIFT+ GRAVIS (the key right of ß/?)
