@@ -23,11 +23,17 @@ merge (x:xs) (y:ys)
  | (x <= y) = x:merge (xs) (y:ys)
  | otherwise = y:merge (x:xs) (ys)
 
+getFirstHalf [] = []
+getFirstHalf [x] = [x]
+getFirstHalf (x:xs) = let n = length (x:xs) in take (n `div` 2) (x:xs)
+
+getSndHalf [] = []
+getSndHalf [x] = [x]
+getSndHalf (x:xs) = let n = length (x:xs) in drop (n `div` 2) (x:xs)
 
 mergeSort :: Ord x => [x] -> [x]
 mergeSort [] = []
 mergeSort [x] = [x]
-mergeSort (x:xs) = let getFirstHalf (x:xs) = take (div (length (x:xs)) 2)
- in merge (mergeSort (getFirstHalf (x:xs))) (mergeSort (getFirstHalf(x:xs)))
+mergeSort (x:xs) =  merge (mergeSort (getFirstHalf (x:xs))) (mergeSort (getSndHalf(x:xs)))
 
 -- end
