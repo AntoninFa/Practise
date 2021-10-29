@@ -23,7 +23,7 @@ powA b e acc = if(e < 0 ) then error "negative exponent not allowed"
 pow3 b e = powA b e 1
 
 
-
+-- DISCLAIMER: Not sure if this works properly
 isPrime n
   | n < 2 = error "prime numbers have to be > 1"
   | otherwise = tryToDiv n 2 (sqrt n)
