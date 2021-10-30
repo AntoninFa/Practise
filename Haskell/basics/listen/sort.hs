@@ -21,25 +21,30 @@ insertSort (x:xs) = insert x (insertSort xs)
 --merging two sorted lists into one big sorted list
 merge xs [] = xs
 merge [] ys = ys
-merge (x:xs) (y:ys) 
+merge (x:xs) (y:ys)
  | x <= y = x : merge xs (y:xs)
  | otherwise = y : merge (x:xs) ys
 
 -- the actual MergeSort:
 mergeSort [] = []
 mergeSort [x] = [x]
-mergeSort xs = merge 
- (mergeSort (take (length xs `div` 2) xs)) 
+mergeSort xs = merge
+ (mergeSort (take (length xs `div` 2) xs))
  (mergeSort (drop (length xs `div` 2) xs))
 
 -- quick Sort:
 qsort :: (Ord t) => [t] -> [t]
 qsort [] = []
-qsort (p:ps) = (qsort [x | x <- ps, x <= p]) ++p: (qsort [x| x <- ps, x > p])
+qsort (p:ps) = (qsort [x | x <- ps, x <= p]) ++p: (qsort [x | x <- ps, x > p])
 
 qSortZ [] = []
 qSortZ (p:ps) = (qsort (filter (\x -> x <=p) ps)) ++p:(qsort (filter (\x -> x > p) ps))
 
+
+
+
+
 qSortSZ [] = []
-qSortSZ (p:ps) = (qsort (filter ( <= p) ps)) ++p:(qsort (filter ( > p) ps))
+qSortSZ (p:ps) = (qsort (filter ( <= p) ps)) ++p: (qsort (filter ( > p) ps))
+
 
