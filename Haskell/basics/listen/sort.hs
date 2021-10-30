@@ -45,6 +45,6 @@ qSortZ (p:ps) = (qsort (filter (\x -> x <=p) ps)) ++p:(qsort (filter (\x -> x > 
 
 
 qSortSZ [] = []
-qSortSZ (p:ps) = (qsort (filter ( <= p) ps)) ++p: (qsort (filter ( > p) ps))
+qSortSZ (p:ps) = (qsort (filter (<= p) ps)) ++p: (qsort (filter (> p) ps))
 
 
