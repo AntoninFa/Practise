@@ -4,6 +4,7 @@ a = [1, 2, 5, 7]
 len [] = 0
 len (x:xs) = 1 + len xs
 
+
 -- is in List
 
 isIn a [] = "False"
@@ -17,3 +18,6 @@ app (x:xs) r = x:(app xs r)
 rev [] = []
 rev (x:xs) = app(rev xs) [x]
 
+-- mit folds:
+
+appF left right = foldr (:) right left
