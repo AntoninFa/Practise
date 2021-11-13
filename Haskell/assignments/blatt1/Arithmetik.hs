@@ -9,6 +9,7 @@ testpow b e = powAcc b e 1
 powAcc b 0 acc = acc
 powAcc b e acc = powAcc b (e-1) (acc*b)
 
+
 pow2 b 0 = 1
 pow2 0 e = 0
 pow2 b 1 = b
