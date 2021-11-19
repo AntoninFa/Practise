@@ -7,6 +7,7 @@ listlength = foldr (\ x -> (+) 1) 0
 
 ropeLength:: Rope a -> Int
 ropeLength (Leaf a)= listlength a
-ropeLength (Inner _ i (Leaf a)) = i + listlength a
-ropeLength (Inner _ i (Inner (Rope a1) iL (Rope a2))) = i +  (Inner (Rope a1) iL (Rope a2))
+ropeLength (Inner _ i r2) = i + ropeLength r2
 
+ropeConcat :: Rope a -> Rope a -> Rope a
+ropeConcat Leaf a (Inner r1 i r2) =
