@@ -10,4 +10,6 @@ ropeLength (Leaf a)= listlength a
 ropeLength (Inner _ i r2) = i + ropeLength r2
 
 ropeConcat :: Rope a -> Rope a -> Rope a
-ropeConcat Leaf a (Inner r1 i r2) =
+ropeConcat (Leaf a) (Inner l i r) = (Inner (Leaf a) i (Inner l i r))
+ropeConcat (Inner l i r) r2 = Inner l i (ropeConcat r r2)
+
