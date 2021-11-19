@@ -8,8 +8,8 @@ type Env = Integer
 
 --eval:: Env t -> Exp t -> Integer
 eval SumExp e1 e2 
-  | (Konst k1)  (Konst k2) = k1 + k2
-  | (SumExp s1) (SumExp s2) = eval s1 + eval s2
+  | (Konst)  (Konst) = e1 + e2
+  | (SumExp ) (SumExp) = eval e1 + eval e2
   | (Konst k1) (Exp ex) = k1 + eval ex 
   | (Exp ex) (Konst k1) = eval ex + k1
   | (Var v) (Exp ex) = (read v ::Integer) + eval ex 
