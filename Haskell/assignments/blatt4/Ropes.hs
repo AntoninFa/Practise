@@ -25,3 +25,9 @@ ropeSplitAt i (Inner l w r)
                    in (ropeConcat l rl, rr)
      | otherwise = (l,r)
 
+
+
+ropeInsert :: Int->Rope a-> Rope a-> Rope a
+ropeInsert i a b = l `musterropeConcat` a `musterropeConcat` r
+    where (l,r) = ropeSplitAt i b 
+

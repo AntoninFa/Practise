@@ -6,5 +6,9 @@ len (x:xs) = 1 + len xs
 
 length list = foldr (+) 0 (map (\x -> 1) list)
 
--- RIP
-length1 = foldr (\x n -> n +1) 0
+listlength:: [a]-> Int
+listlength xs = foldr (\ x -> (+) 1) 0 xs
+
+
+listlength1:: [a]-> Int
+listlength1 = foldr (\ x -> (+) 1) 0
