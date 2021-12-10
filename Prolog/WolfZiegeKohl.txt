@@ -1,0 +1,14 @@
+seite(links). seite(rechts).
+ding(ziege). ding(wolf). ding(kohl). ding(leer).
+
+zTest((M,Z)):- (M==Z).
+
+test((M, Z, W, K)) :- (Z==W), (Z==K),  zTest((M,Z)).
+test((M,Z,W,K)) :- not(Z==W), (Z==K), zTest((M,Z)).
+test((M,Z,W,K)) :- (Z==W), not(Z==K), zTest((M,Z)).
+test((M,Z,W,K)) :- not(Z==W), not(Z==K).
+
+fahrt(S1, F, S2) :- 
+
+    
+    

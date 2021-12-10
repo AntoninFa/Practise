@@ -1,35 +1,20 @@
 farbe(rot). farbe(grün). farbe(blau). farbe(gelb).
-bereich(07).
-bereich(08).
-bereich(09).
-bereich(06).
-bereich(02).
-bereich(03).
-bereich(05).
-bereich(04).
 
 
-
-bHasColor(B,C) :- bereich(B), farbe(C).
-bHasColor(07, grün).
-bHasColor(08, rot).
-
-nachbar(X,Y) :- bereich(X), bereich(Y), bHasColor(X, C1), bHasColor(Y, C2), not(C1==C2).
+nachbar(C1,C2) :-  farbe(C1), farbe(C2), not(C1==C2).
     
 
 
          
-deutschland :- nachbar(07, 09), nachbar(07,08), nachbar(07,06),
- 				nachbar(08, 09),
-  				nachbar(09, 06), nachbar(09, 03),
-  				nachbar(06, 02), nachbar(06, 05), nachbar(06, 03),
-  				nachbar(02, 05),
-  				nachbar(03, 05), nachbar(03, 04),
-  				nachbar(05, 04).
+deutschland(Cb07, Cb08, Cb09, Cb06, Cb02, Cb03, Cb05, Cb04) :- 
+          		nachbar(Cb07, Cb09), nachbar(Cb07,Cb08), nachbar(Cb07,Cb06),
+ 				nachbar(Cb08, Cb09),
+  				nachbar(Cb09, Cb06), nachbar(Cb09, Cb03),
+  				nachbar(Cb06, Cb02), nachbar(Cb06, Cb05), nachbar(Cb06, Cb03),
+  				nachbar(Cb02, Cb05),
+  				nachbar(Cb03, Cb05), nachbar(Cb03, Cb04),
+  				nachbar(Cb05, Cb04).
 
-solve([A,B,C,D,E,F,G,H], [I,J,K,L,M,N,O,P]) :- deutschland , bHasColor(A,I), bHasColor(B,J), bHasColor(C,K),
-      											bHasColor(D,L), bHasColor(E,M), bHasColor(F,N), bHasColor(G,O), 
-    											bHasColor(H,P).
+% 4. "?deutschland(Cb07, Cb08, Cb09, Cb06, Cb02, Cb03, Cb05, Cb04)" in den Chat
 
-% Eingabe: solve([07,08,09,06,02,03,05,04], S)
-% bHasColor schränkt nicht wirklich ein
+% 5. Nur noch 3 Farben def. z.B.: -farbe(gelb). 
