@@ -1,0 +1,44 @@
+farbe(rot). farbe(grün). farbe(blau). farbe(gelb).
+bereich(b07).
+bereich(b08).
+bereich(b09).
+bereich(b06).
+bereich(b02).
+bereich(b03).
+bereich(b05).
+bereich(b04).
+
+
+
+bHasColor(B,C) :- bereich(B), farbe(C).
+
+
+nachbar(X,Y) :- bereich(X), bereich(Y), bHasColor(X, C1), bHasColor(Y, C2), not(C1==C2), not(X==Y).
+    
+
+
+         
+deutschland :- nachbar(b07, b09), nachbar(b07,b08), nachbar(b07,b06),
+ 				nachbar(b08, b09),
+  				nachbar(b09, b06), nachbar(b09, b03),
+  				nachbar(b06, b02), nachbar(b06, b05), nachbar(b06, b03),
+  				nachbar(b02, b05),
+  				nachbar(b03, b05), nachbar(b03, b04),
+  				nachbar(b05, b04).
+
+deutschland(c02,c03,c04,c05,c06,c07,c08,c09) :-
+    bereichEinfaerben(b07,b09, c07, c09),
+    bereichEinfaerben(b07,b09, c07, c09),
+    bereichEinfaerben(b07,b09, c07, c09),
+    
+    
+bereichEinfaerben(B1, B2, C1, C2) :-
+  nachbar(B1, B2), farbe(C1), farbe(C2), not(C1 == C2).
+
+
+solve([A,B,C,D,E,F,G,H], [I,J,K,L,M,N,O,P]) :-  deutschland, bHasColor(A,I), bHasColor(B,J), bHasColor(C,K),
+      											bHasColor(D,L), bHasColor(E,M), bHasColor(F,N), bHasColor(G,O), 
+    											bHasColor(H,P).
+
+% Eingabe: solve([07,08,09,06,02,03,05,04], S)
+% bHasColor schränkt nicht wirklich ein
