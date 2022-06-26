@@ -8,12 +8,12 @@ int laenge = 10;
 int precision =100;
 int i=0;
 int avgCounter = 0;
-int lastN =0; // tmp 
+long lastN =0; // tmp 
 int currentValue =0; //tmp
 int avgOverLastN =200; // über wie viele Avg (wie viele zsm. rechnen)
 
 int wertVonDerNiedrigstenAusgabe = 353;
-int stufenSize = 3;
+int stufenSize = 2;
 
 int farbe_rot;
 int farbe_gruen;
@@ -34,9 +34,10 @@ void setup() {
 // the loop routine runs over and over again forever:
 void loop() {
   // wie oft der Input des Sensors gemessen wird
-if (i%precision == 0) {
+if (i >= precision) {
   light();
  avgCounter++; // zählt jeden eingang in die if(i%precision)
+ i=0;
 } // precision loop ENDE
 i++;
 
@@ -49,13 +50,15 @@ void light () {
   int sensorValue = analogRead(A0);
   // print out the value you read:
   lastN += sensorValue;
-  if( avgCounter % avgOverLastN == 0){
-    
- Serial.println(lastN / avgOverLastN);
- // loudnessAsInt
- Serial.println(loudnessAsInteger());
+  //Serial.println(avgCounter);
+  if( avgCounter >= avgOverLastN){
+
+ // Summe der letzen N Messungen /N   
  currentValue = (lastN / avgOverLastN);
+ //Serial.println(currentValue);
+ Serial.println(loudnessAsInteger());
  lastN = 0;
+ avgCounter =0;
   }
   }
 
