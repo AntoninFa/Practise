@@ -10,9 +10,10 @@ int i=0;
 int avgCounter = 0;
 int lastN =0; // tmp 
 int currentValue =0; //tmp
-int avgOverLastN =50; // über wie viele Avg (wie viele zsm. rechnen)
+int avgOverLastN =200; // über wie viele Avg (wie viele zsm. rechnen)
 
-int WertVonDerNiedrigstenAusgabe = 360;
+int wertVonDerNiedrigstenAusgabe = 353;
+int stufenSize = 3;
 
 int farbe_rot;
 int farbe_gruen;
@@ -60,22 +61,23 @@ void light () {
 
 int loudnessAsInteger() {
 int r =7;
- if(currentValue <= WertVonDerNiedrigstenAusgabe ) {
-  Serial.println("wtf");
-  r=1;
- } else if(currentValue <= (WertVonDerNiedrigstenAusgabe +2) ) {
-  r=2;
- } else if(currentValue <= (WertVonDerNiedrigstenAusgabe +5) ) {
-  r=3;
+ if(currentValue <= wertVonDerNiedrigstenAusgabe ) {
+  return 1;
  }
- if(currentValue <= (WertVonDerNiedrigstenAusgabe +10) ) {
-  r=4;
+ if(currentValue <= (wertVonDerNiedrigstenAusgabe + stufenSize) ) {
+  return 2;
  }
- if(currentValue <=50 ) {
-  r=5;
+ if(currentValue <= (wertVonDerNiedrigstenAusgabe +(2* stufenSize)) ) {
+  return 3;
  }
- if(currentValue <=100 ) {
-  r=6;
+ if(currentValue <= (wertVonDerNiedrigstenAusgabe + (3* stufenSize)) ) {
+  return 4;
+ }
+ if(currentValue <= (wertVonDerNiedrigstenAusgabe +(4* stufenSize)) ) {
+  return 5;
+ }
+ if(currentValue <= (wertVonDerNiedrigstenAusgabe +(6* stufenSize)) ) {
+  return 6;
  } else { 
   return r;
  }
