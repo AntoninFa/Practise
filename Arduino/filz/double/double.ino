@@ -5,15 +5,17 @@
 int laenge = 10;
 
 
-int precision =100;
-int i=0;
-int avgCounter = 0;
+int precision =50; // genauigkeit, umgekehrt proportional
+int i=0; // tmp zähler
+int avgCounter = 0; // tmp zähler
 long lastN =0; // tmp 
 int currentValue =0; //tmp
 int avgOverLastN =200; // über wie viele Avg (wie viele zsm. rechnen)
 
-int wertVonDerNiedrigstenAusgabe = 353;
+int wertVonDerNiedrigstenAusgabe = 353; // niedrigster Wert, welcher vom Sensor ausgegeben wird 352, 354 gut wenn licht auch mal ausgehen soll
 int stufenSize = 2;
+
+int loudnessLvl = 1;
 
 int farbe_rot;
 int farbe_gruen;
@@ -55,8 +57,13 @@ void light () {
 
  // Summe der letzen N Messungen /N   
  currentValue = (lastN / avgOverLastN);
+ int loudnessLvl = loudnessAsInteger();
+ setColorOnLoudness();
+ lightUpN((currentValue - (wertVonDerNiedrigstenAusgabe +1)) *2); // Damit n bei 0 beginnt, -1 um öfters 0 zu haben
+
+ 
  //Serial.println(currentValue);
- Serial.println(loudnessAsInteger());
+ //Serial.println(loudnessAsInteger());
  lastN = 0;
  avgCounter =0;
   }
@@ -83,5 +90,56 @@ int r =7;
   return 6;
  } 
  return r;
-  
+}
+
+void setColorOnLoudness() {
+  if(loudnessLvl = 1 ) {
+    //leise
+    setColor(168, 166, 50);
+  return;
+ }
+ if(currentValue <= (wertVonDerNiedrigstenAusgabe + stufenSize) ) {
+  setColor(237, 182, 64);
+  return;
+ }
+ if(currentValue <= (wertVonDerNiedrigstenAusgabe +(2* stufenSize)) ) {
+  setColor();
+  return;
+ }
+ if(currentValue <= (wertVonDerNiedrigstenAusgabe + (3* stufenSize)) ) {
+  setColor();
+  return;
+ }
+ if(currentValue <= (wertVonDerNiedrigstenAusgabe +(4* stufenSize)) ) {
+  setColor();
+  return;
+ }
+ if(currentValue <= (wertVonDerNiedrigstenAusgabe +(6* stufenSize)) ) {
+  setColor();
+  return;
+ } 
+ // ganz laut
+ setColor();
+ return;
+}
+
+void setColor(int rot, int gruen, int blau) {
+  farbe_rot = rot;
+  farbe_gruen = gruen;
+  farbe_blau = blau;
+}
+
+void lightUpN(int n) {
+  Serial.println(n);
+  if (n < 0) {
+    Serial.println("ERROR, n kleiner 0");
+  }
+  for (int i = 0; i<=n; i++) {
+    pixels.setPixelColor(i, pixels.Color(farbe_rot,farbe_gruen,farbe_blau));
+    
+  }
+  for (int i=n; i<= NUM_LEDS; i++) {
+    pixels.setPixelColor(i, pixels.Color(0,0,0));
+  }
+  pixels.show();
 }
