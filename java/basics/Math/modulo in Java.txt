@@ -1,0 +1,23 @@
+Modulo in java isn't really modulus but a remainder function
+(a / b) * b + (a % b) == a
+
+x%y always equals x%-y. You can think of the sign of the second operand as being ignored.
+
+
+If the result of your java % is negative you can make it positve like this:
+DISCLAIMER: If the result of the mod operation would be positive the result will be just var a 
+if (b > 0) {
+            int mod = (mod = a % b) < 0 ? a+b : a;
+        }
+
+Using 2x modulo you can implement a modulo function that behaves as expected:
+It should even work for b < 0, but no guarantee for that.
+
+    int modulo(int a, int b) {
+        return (a%b +b) % b;
+    }
+This expression works as the result of (a % b) is necessarily lower than b,
+no matter if a is positive or negative. Adding b takes care of the negative values of a,
+since (a % b) is a negative value between -b and 0, (a % b + b) is necessarily lower than b and positive. 
+The last modulo is there in case a was positive to begin with, since if a is positive (a % b + b) would become larger than b. 
+Therefore, (a % b + b) % b turns it into smaller than b again (and doesn't affect negative a values).
