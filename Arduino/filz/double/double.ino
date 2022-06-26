@@ -2,18 +2,17 @@
 
 #define DATA_PIN 6
 #define NUM_LEDS 55
-int laenge = 10;
 
-
-int precision =50; // genauigkeit, umgekehrt proportional
+int precision =100; // genauigkeit, umgekehrt proportional
 int i=0; // tmp zähler
 int avgCounter = 0; // tmp zähler
 long lastN =0; // tmp 
 int currentValue =0; //tmp
-int avgOverLastN =200; // über wie viele Avg (wie viele zsm. rechnen)
+int avgOverLastN =250; // über wie viele Avg (wie viele zsm. rechnen)
 
-int wertVonDerNiedrigstenAusgabe = 353; // niedrigster Wert, welcher vom Sensor ausgegeben wird 352, 354 gut wenn licht auch mal ausgehen soll
-int stufenSize = 2;
+int wertVonDerNiedrigstenAusgabe = 354; // niedrigster Wert, welcher vom Sensor ausgegeben wird 352, 354 gut wenn licht auch mal ausgehen soll
+int stufenSize = 5;
+int multiplikatorLEDs = 4;
 
 int loudnessLvl = 1;
 
@@ -21,7 +20,7 @@ int farbe_rot;
 int farbe_gruen;
 int farbe_blau;
 
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM_LEDS, DATA_PIN, NEO_RGB + NEO_KHZ800);
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM_LEDS, DATA_PIN, NEO_RBG + NEO_KHZ800);
 
 void setup() {
   // initialize serial communication at 9600 bits per second:
@@ -57,9 +56,11 @@ void light () {
 
  // Summe der letzen N Messungen /N   
  currentValue = (lastN / avgOverLastN);
- int loudnessLvl = loudnessAsInteger();
+ Serial.println(currentValue);
+ loudnessLvl = loudnessAsInteger();
+ 
  setColorOnLoudness();
- lightUpN((currentValue - (wertVonDerNiedrigstenAusgabe +1)) *2); // Damit n bei 0 beginnt, -1 um öfters 0 zu haben
+ lightUpN((currentValue - (wertVonDerNiedrigstenAusgabe +1)) * multiplikatorLEDs); // Damit n bei 0 beginnt, -1 um öfters 0 zu haben
 
  
  //Serial.println(currentValue);
@@ -93,40 +94,40 @@ int r =7;
 }
 
 void setColorOnLoudness() {
-  if(loudnessLvl = 1 ) {
+  if(loudnessLvl == 1 ) {
     //leise
-    setColor(168, 166, 50);
+    setColor(255, 0,0);
   return;
  }
- if(currentValue <= (wertVonDerNiedrigstenAusgabe + stufenSize) ) {
-  setColor(237, 182, 64);
+ if(loudnessLvl == 2 ) {
+  setColor(0, 255, 0);
   return;
  }
- if(currentValue <= (wertVonDerNiedrigstenAusgabe +(2* stufenSize)) ) {
-  setColor();
+ if(loudnessLvl == 3 ) {
+  setColor(0, 0, 255);
   return;
  }
- if(currentValue <= (wertVonDerNiedrigstenAusgabe + (3* stufenSize)) ) {
-  setColor();
+ if(loudnessLvl == 4 ) {
+  setColor(232, 23, 190);
   return;
  }
- if(currentValue <= (wertVonDerNiedrigstenAusgabe +(4* stufenSize)) ) {
-  setColor();
+ if(loudnessLvl == 5) {
+  setColor(145, 14, 227);
   return;
  }
- if(currentValue <= (wertVonDerNiedrigstenAusgabe +(6* stufenSize)) ) {
-  setColor();
+ if(loudnessLvl == 6) {
+  setColor(12, 123, 235);
   return;
  } 
  // ganz laut
- setColor();
+ setColor(12, 123, 235);
  return;
 }
 
 void setColor(int rot, int gruen, int blau) {
-  farbe_rot = rot;
-  farbe_gruen = gruen;
-  farbe_blau = blau;
+  farbe_rot = gruen;
+  farbe_gruen = blau;
+  farbe_blau = rot;
 }
 
 void lightUpN(int n) {
