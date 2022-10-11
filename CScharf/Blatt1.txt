@@ -1,9 +1,0 @@
-using System;
-class HelloWorld {
-  static void Main() {
-    Console.WriteLine("a.) Ich heiße Antonin");
-    Console.WriteLine("b.) " + 37*47 );
-    Console.WriteLine("c.) " + 2/3 );
-    Console.WriteLine("A 1.5 " + 2.0/3.0 );
-  }
-}
