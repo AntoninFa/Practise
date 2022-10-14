@@ -8,7 +8,7 @@ class Straße
 
     public Straße(string name)
     {
-        if (!String.IsNullOrEmpty(name))
+        if (!String.IsNullOrEmpty(name) && !String.IsNullOrWhiteSpace(name))
         {
             _name = name;
         }
@@ -31,7 +31,7 @@ class Straße
         get => _name;
         set
         {
-            if (!String.IsNullOrWhiteSpace(value))
+            if (!String.IsNullOrWhiteSpace(value) && !String.IsNullOrEmpty(value))
             {
                 _name = value;
             }
@@ -108,14 +108,14 @@ class Person
 
     public Person(string name, Adresse adresse)
     {
-        if (name != null && adresse != null)
+        if (!String.IsNullOrEmpty(name) && !String.IsNullOrWhiteSpace(name) && adresse != null)
         {
             this._name = name;
             this._adresse = adresse;
         }
         else
         {
-            throw new ArgumentException();
+            throw new Exception();
         }
     }
 }
