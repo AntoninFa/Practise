@@ -13,3 +13,18 @@ C:\Users\Antonin\Documents\GitHub\Practise\CScharf\Rider\ha2\Ablauf\ha2\obj\Debu
 C:\Users\Antonin\Documents\GitHub\Practise\CScharf\Rider\ha2\Ablauf\ha2\obj\Debug\net6.0\ha2.pdb
 C:\Users\Antonin\Documents\GitHub\Practise\CScharf\Rider\ha2\Ablauf\ha2\obj\Debug\net6.0\ha2.genruntimeconfig.cache
 C:\Users\Antonin\Documents\GitHub\Practise\CScharf\Rider\ha2\Ablauf\ha2\obj\Debug\net6.0\ref\ha2.dll
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\obj\Debug\net6.0\ha2.csproj.AssemblyReference.cache
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\obj\Debug\net6.0\ha2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\obj\Debug\net6.0\ha2.AssemblyInfoInputs.cache
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\obj\Debug\net6.0\ha2.AssemblyInfo.cs
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\obj\Debug\net6.0\ha2.csproj.CoreCompileInputs.cache
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\obj\Debug\net6.0\ha2.dll
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\obj\Debug\net6.0\refint\ha2.dll
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\obj\Debug\net6.0\ha2.pdb
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\bin\Debug\net6.0\ha2.exe
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\bin\Debug\net6.0\ha2.deps.json
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\bin\Debug\net6.0\ha2.runtimeconfig.json
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\bin\Debug\net6.0\ha2.dll
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\bin\Debug\net6.0\ha2.pdb
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\obj\Debug\net6.0\ha2.genruntimeconfig.cache
+C:\Users\Hartmut Metzger\Documents\Github\Practise\CScharf\Rider\ha2\Ablauf\ha2\obj\Debug\net6.0\ref\ha2.dll

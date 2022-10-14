@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Antonin\\.nuget\\packages\\": {}
+    "C:\\Users\\Hartmut Metzger\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Antonin\\Documents\\GitHub\\Practise\\CScharf\\Rider\\ha2\\Ablauf\\ha2\\ha2.csproj",
+      "projectUniqueName": "C:\\Users\\Hartmut Metzger\\Documents\\Github\\Practise\\CScharf\\Rider\\ha2\\Ablauf\\ha2\\ha2.csproj",
       "projectName": "ha2",
-      "projectPath": "C:\\Users\\Antonin\\Documents\\GitHub\\Practise\\CScharf\\Rider\\ha2\\Ablauf\\ha2\\ha2.csproj",
-      "packagesPath": "C:\\Users\\Antonin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Antonin\\Documents\\GitHub\\Practise\\CScharf\\Rider\\ha2\\Ablauf\\ha2\\obj\\",
+      "projectPath": "C:\\Users\\Hartmut Metzger\\Documents\\Github\\Practise\\CScharf\\Rider\\ha2\\Ablauf\\ha2\\ha2.csproj",
+      "packagesPath": "C:\\Users\\Hartmut Metzger\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Hartmut Metzger\\Documents\\Github\\Practise\\CScharf\\Rider\\ha2\\Ablauf\\ha2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Antonin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Hartmut Metzger\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
