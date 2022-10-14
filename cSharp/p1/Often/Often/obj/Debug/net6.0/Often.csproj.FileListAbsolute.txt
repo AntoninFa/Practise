@@ -1,0 +1,15 @@
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\bin\Debug\net6.0\Often.exe
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\bin\Debug\net6.0\Often.deps.json
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\bin\Debug\net6.0\Often.runtimeconfig.json
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\bin\Debug\net6.0\Often.dll
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\bin\Debug\net6.0\Often.pdb
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\obj\Debug\net6.0\Often.csproj.AssemblyReference.cache
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\obj\Debug\net6.0\Often.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\obj\Debug\net6.0\Often.AssemblyInfoInputs.cache
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\obj\Debug\net6.0\Often.AssemblyInfo.cs
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\obj\Debug\net6.0\Often.csproj.CoreCompileInputs.cache
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\obj\Debug\net6.0\Often.dll
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\obj\Debug\net6.0\refint\Often.dll
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\obj\Debug\net6.0\Often.pdb
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\obj\Debug\net6.0\Often.genruntimeconfig.cache
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\Often\Often\obj\Debug\net6.0\ref\Often.dll
