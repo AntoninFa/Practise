@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Often", "Often\Often.csproj", "{CD1E0C89-37DD-4664-B949-A573184AB9B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CD1E0C89-37DD-4664-B949-A573184AB9B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD1E0C89-37DD-4664-B949-A573184AB9B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD1E0C89-37DD-4664-B949-A573184AB9B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD1E0C89-37DD-4664-B949-A573184AB9B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

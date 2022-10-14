@@ -1,6 +1,6 @@
-﻿//Daten.cs (zu V02-Personenverzeichnis)
-
+﻿
 namespace Daten;
+
 
 class Straße
 {
@@ -52,12 +52,12 @@ class Adresse
 
     public Straße Straße
     {
-        get { return new Straße(_straße); }
+        get => _straße;
     }
 
     public int Hausnummer
     {
-        get { return _hausnummer; }
+        get => _hausnummer;
 
         set
         {
@@ -98,12 +98,12 @@ class Person
 
     public string Name
     {
-        get { return _name; }
+        get => _name;
     }
 
     public Adresse Adresse
     {
-        get { return _adresse.Kopie(); }
+        get => _adresse.Kopie();
     }
 
     public Person(string name, Adresse adresse)
