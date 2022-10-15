@@ -28,6 +28,8 @@ internal class Often
 
         
         Console.Write("Rows: ");
+        // Console.WriteLine(string.Join("", toPrint)); would be the more efficent option, since you have
+        // less Syscall overhead
         foreach (var e in countClass.acceptedRows(matrix, nxn))
         {
             Console.Write( e.ToString() + " ");

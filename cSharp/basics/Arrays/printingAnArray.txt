@@ -1,0 +1,38 @@
+static void Print1(string[] toPrint)
+{
+    foreach(string s in toPrint)
+    {
+        Console.Write(s);
+    }
+}
+
+static void Print2(string[] toPrint)
+{
+    toPrint.ToList().ForEach(Console.Write);
+}
+
+// Am schnellsten, weil Syscall overhead nur einmal
+static void Print3(string[] toPrint)
+{
+    Console.WriteLine(string.Join("", toPrint));
+}
+
+// Relativ clean noch
+static void Print4(string[] toPrint)
+{
+    Array.ForEach(toPrint, Console.Write);
+}
+
+The results are as follows:
+
+ Strings per trial: 10000
+ Number of Trials: 100
+ Total Time Taken to complete: 00:01:20.5004836
+ Print1 Average: 484.37ms
+ Print2 Average: 246.29ms
+ Print3 Average: 70.57ms
+ Print4 Average: 233.81ms
+
+So Print3 is the fastest, because it only has one call to the Console.WriteLine which seems to be the main bottleneck for the speed of printing out an array. Print4 is slightly faster than Print2 and Print1 is the slowest of them all.
+
+I think that Print4 is probably the most versatile of the 4 I tested, even though Print3 is faster.
