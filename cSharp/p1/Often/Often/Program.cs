@@ -12,27 +12,36 @@ internal class Often
     {
         //TODO as user input
         // n is the number of rows and collums our matrix will have
-        int nxn = 10;
+        int nxn = 20;
         
         Count countClass = new Count();
-        bool[,] matrix = new bool[nxn, nxn];
+        bool[][] matrix = new bool[nxn] [];
         // filling the matrix with test values
         for (int i = 0; i < nxn; i++)
         {
+            matrix[i] = new bool[nxn];
             for (int j = 0; j < nxn; j++)
             {
-                matrix[i, j] = countClass.oneOrNone();
+                matrix[i] [j] = countClass.oneOrNone();
             }
         }
+
         
-        countClass.acceptedRows(matrix, nxn);
+        Console.Write("Rows: ");
+        foreach (var e in countClass.acceptedRows(matrix, nxn))
+        {
+            Console.Write( e.ToString() + " ");
+        }
+        Console.WriteLine();
+        
+        
         
         //printout
         for (int i = 0; i < nxn; i++)
         {
             for (int j = 0; j < nxn; j++)
             {
-                if (matrix[i, j])
+                if (matrix[i] [j])
                 {
                     Console.Write("1");
                 }
@@ -77,32 +86,33 @@ internal class Count
         return num;
     }
 
-    public void acceptedRows(bool[,] m, int nxn)
+    /*
+     * returns the accepted rows as List
+     */
+    public int[] acceptedRows(bool[][] m, int nxn)
     {
         //TODO Maybe calculate what's the expected num of accepted rows for init.
         List<int> rList = new List<int>();
-        if (m.Length == (nxn * nxn))
+        if (m.Length == nxn)
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < nxn; i++)
             {
-                
+                if (howMTrue(m[i]) == i)
+                {
+                    //TODO remove 
+                    //Console.WriteLine("Found one"+ i);
+                    rList.Add(i);
+                }
             }
+
+            return rList.ToArray();
         }
         else
         {
             throw new ArgumentException("given matrix does not add up with the given size");
         }
     }
-
-    /**
-     * returns the matching rows
-     */
-    private int[] rowsA()
-    {
-        return null;
-    }
-
-
+    
 
 }
 
