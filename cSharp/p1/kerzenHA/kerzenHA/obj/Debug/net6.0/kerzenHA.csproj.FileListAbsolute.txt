@@ -1,0 +1,15 @@
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\obj\Debug\net6.0\kerzenHA.csproj.AssemblyReference.cache
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\obj\Debug\net6.0\kerzenHA.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\obj\Debug\net6.0\kerzenHA.AssemblyInfoInputs.cache
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\obj\Debug\net6.0\kerzenHA.AssemblyInfo.cs
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\obj\Debug\net6.0\kerzenHA.csproj.CoreCompileInputs.cache
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\bin\Debug\net6.0\kerzenHA.exe
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\bin\Debug\net6.0\kerzenHA.deps.json
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\bin\Debug\net6.0\kerzenHA.runtimeconfig.json
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\bin\Debug\net6.0\kerzenHA.dll
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\bin\Debug\net6.0\kerzenHA.pdb
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\obj\Debug\net6.0\kerzenHA.dll
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\obj\Debug\net6.0\refint\kerzenHA.dll
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\obj\Debug\net6.0\kerzenHA.pdb
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\obj\Debug\net6.0\kerzenHA.genruntimeconfig.cache
+C:\Users\Hartmut Metzger\Documents\Github\Practise\cSharp\p1\kerzenHA\kerzenHA\obj\Debug\net6.0\ref\kerzenHA.dll
