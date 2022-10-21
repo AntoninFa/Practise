@@ -20,7 +20,9 @@ namespace Ablauf
             Console.WriteLine($"Lampe: {lampe.Lichtstrom} lm");
             ExceptionOn(lampe.Lichtstrom != 1000);
 
+
             ElektrischeLampe elektrischeLampe = new ElektrischeLampe(860, 12, 35); // Halogen 12V
+            
             Console.WriteLine($"Elektrische Lampe: {elektrischeLampe.Lichtstrom} lm, {elektrischeLampe.Spannung} V, {elektrischeLampe.Leistungsaufnahme} W, {elektrischeLampe.Lichtausbeute:0.00} lm/W");
             ExceptionOn(elektrischeLampe.Lichtstrom != 860);
             ExceptionOn(elektrischeLampe.Spannung != 12);

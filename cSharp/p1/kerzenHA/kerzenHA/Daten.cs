@@ -30,7 +30,7 @@ class ElektrischeLampe : Lampe
 
     public int Spannung
     {
-        get => Spannung;
+        get => _spannung;
         set
         {
             _spannung = value;
@@ -53,9 +53,14 @@ class ElektrischeLampe : Lampe
 
     public ElektrischeLampe(int lichtstrom, int spannung, int strom) : base (lichtstrom)
     {
+        if (lichtstrom < 0) throw new ArgumentException();
+        this._lichtstrom = lichtstrom;
+        if (spannung < 0) throw new ArgumentException();
         this._spannung = spannung;
+        if (strom < 0) throw new ArgumentException();
         this._leistungsaufnahme = strom;
-        this._lichtausbeute =(double) spannung / _leistungsaufnahme;
+        this._lichtausbeute =(double)  lichtstrom/strom;
+        //TODO Ursprünglich, why? this._lichtausbeute =(double) spannung / _leistungsaufnahme;
 
 
     }
@@ -72,10 +77,14 @@ class Glühlampe : ElektrischeLampe
 
     public Glühlampe(int lichtstrom, int spannung, int strom, string glühfaden) : base(lichtstrom, spannung, strom)
     {
+        if (spannung < 0) throw new ArgumentException();
         this._spannung = spannung;
+        if(strom < 0) throw new ArgumentException();
         this._leistungsaufnahme = strom;
-        this.Lichtausbeute =(double) spannung / _leistungsaufnahme;
+        this.Lichtausbeute =(double) lichtstrom/strom;
+        if (String.IsNullOrEmpty(glühfaden) || String.IsNullOrWhiteSpace(glühfaden)) throw new ArgumentException();
         this._glühfaden = glühfaden;
+        
     }
 }
 
@@ -105,6 +114,7 @@ class Kerze : ChemischPhysikalischeLampe
 
     public Kerze(int lichtstrom, string brennstoff) : base(lichtstrom)
     {
+        if (String.IsNullOrWhiteSpace(brennstoff) || String.IsNullOrEmpty(brennstoff)) throw new ArgumentException();
         this._brennstoff = brennstoff;
     }
 }
