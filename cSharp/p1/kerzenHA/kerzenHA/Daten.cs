@@ -60,8 +60,6 @@ class ElektrischeLampe : Lampe
         if (strom < 0) throw new ArgumentException();
         this._leistungsaufnahme = strom;
         this._lichtausbeute =(double)  lichtstrom/strom;
-        //TODO Ursprünglich, why? this._lichtausbeute =(double) spannung / _leistungsaufnahme;
-
 
     }
 }
