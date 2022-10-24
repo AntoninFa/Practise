@@ -53,8 +53,7 @@ class ElektrischeLampe : Lampe
 
     public ElektrischeLampe(int lichtstrom, int spannung, int strom) : base (lichtstrom)
     {
-        if (lichtstrom < 0) throw new ArgumentException();
-        this._lichtstrom = lichtstrom;
+        
         if (spannung < 0) throw new ArgumentException();
         this._spannung = spannung;
         if (strom < 0) throw new ArgumentException();
@@ -75,11 +74,6 @@ class Glühlampe : ElektrischeLampe
 
     public Glühlampe(int lichtstrom, int spannung, int strom, string glühfaden) : base(lichtstrom, spannung, strom)
     {
-        if (spannung < 0) throw new ArgumentException();
-        this._spannung = spannung;
-        if(strom < 0) throw new ArgumentException();
-        this._leistungsaufnahme = strom;
-        this.Lichtausbeute =(double) lichtstrom/strom;
         if (String.IsNullOrEmpty(glühfaden) || String.IsNullOrWhiteSpace(glühfaden)) throw new ArgumentException();
         this._glühfaden = glühfaden;
         
@@ -88,31 +82,21 @@ class Glühlampe : ElektrischeLampe
 
 class ChemischPhysikalischeLampe : Lampe
 {
-    public ChemischPhysikalischeLampe(int lichtstrom) : base (lichtstrom)
-    {
-        if (lichtstrom >= 0)
-        {
-            this._lichtstrom = lichtstrom;
-        }
-        else
-        {
-            throw new ArgumentException("lumen should be positive");
-        }
-    }
+    public ChemischPhysikalischeLampe(int lichtstrom) : base (lichtstrom){}
 }
 
 class Kerze : ChemischPhysikalischeLampe
 {
-    private string _brennstoff;
+    protected string Pbrennstoff;
 
     public string Brennstoff
     {
-        get => _brennstoff;
+        get => Pbrennstoff;
     }
 
-    public Kerze(int lichtstrom, string brennstoff) : base(lichtstrom)
+    public Kerze(int lichtstrom, string pbrennstoff) : base(lichtstrom)
     {
-        if (String.IsNullOrWhiteSpace(brennstoff) || String.IsNullOrEmpty(brennstoff)) throw new ArgumentException();
-        this._brennstoff = brennstoff;
+        if (String.IsNullOrWhiteSpace(pbrennstoff) || String.IsNullOrEmpty(pbrennstoff)) throw new ArgumentException();
+        this.Pbrennstoff = pbrennstoff;
     }
 }
