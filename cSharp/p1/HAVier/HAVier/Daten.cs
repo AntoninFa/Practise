@@ -1,11 +1,12 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Ablauf
+namespace Daten
 {
 
     public class Gegenstand
     {
-        private bool PflegeBed = false;
+        private bool PflegeBed;
 
         public bool IstPflegebedürftig
         {
@@ -15,6 +16,10 @@ namespace Ablauf
         public Gegenstand(bool pflegeBed)
         {
             this.PflegeBed = pflegeBed;
+        }
+
+        public Gegenstand() : this(false)
+        {
         }
 
         public void PflegebedürftigMachen()
@@ -54,11 +59,101 @@ namespace Ablauf
 
     public class Fahrrad
     {
-        private Vorderrad vR;
-        private Hinterrad hR;
-        private Rahmen r;
+        private readonly Gegenstand vR;
+        private readonly Gegenstand hR;
+        private readonly Gegenstand r;
+        
+        private bool istPutzBed;
+        protected int numOfUses;
+
+        public bool VorderradIstPflegebedürftig
+        {
+            get => vR.IstPflegebedürftig;
+        }
+
+        public bool HinterradIstPflegebedürftig
+        {
+            get => hR.IstPflegebedürftig;
+        }
+
+        public bool RahmenIstPflegebedürftig
+        {
+            get => r.IstPflegebedürftig;
+        }
+
+        public bool IstPutzbedürftig
+        {
+            get
+            {
+                return (VorderradIstPflegebedürftig || HinterradIstPflegebedürftig || RahmenIstPflegebedürftig);
+            }
+        }
         
 
+        public Fahrrad()
+        {
+            vR = new Gegenstand();
+            hR = new Gegenstand();
+            r = new Gegenstand();
+            numOfUses = 0;
+        }
+
+        public void Putzen()
+        {
+            vR.Pflegen();
+            hR.Pflegen();
+            r.Pflegen();
+        }
+
+        public void Fahren()
+        {
+            if (numOfUses == 0)
+            {
+                vR.PflegebedürftigMachen();
+            } else if (numOfUses == 1)
+            {
+                hR.PflegebedürftigMachen();
+            } else if (numOfUses == 2)
+            {
+                r.PflegebedürftigMachen();
+            }
+
+            numOfUses++;
+
+        }
+
+        public string Darstellung()
+        {
+            string s = " vR: " + vR.IstPflegebedürftig + " hR: " + hR.IstPflegebedürftig + " R: " +
+                       r.IstPflegebedürftig ;
+            return s;
+        }
+        
+
+    }
+
+    public class VerkehrssicheresFahrrad : Fahrrad
+    {
+        private readonly Gegenstand lAnlage;
+
+        public VerkehrssicheresFahrrad()
+        {
+            lAnlage = new Gegenstand();
+        }
+
+        public void Fahren()
+        {
+            if (numOfUses == 3)
+            {
+                lAnlage.PflegebedürftigMachen();
+            }
+            base.Fahren();
+        }
+
+        public bool IstPutzbedürftig()
+        {
+            return (base.IstPutzbedürftig || lAnlage.IstPflegebedürftig);
+        }
     }
 
 
