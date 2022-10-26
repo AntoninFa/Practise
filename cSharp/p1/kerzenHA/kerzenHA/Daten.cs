@@ -60,7 +60,7 @@ namespace Daten
 
     class Glühlampe : ElektrischeLampe
     {
-        private string _glühfaden;
+        private readonly string _glühfaden;
 
         public string Glühfaden
         {
@@ -84,7 +84,7 @@ namespace Daten
 
     class Kerze : ChemischPhysikalischeLampe
     {
-        private string _brennstoff;
+        private readonly string _brennstoff;
 
         public string Brennstoff
         {
