@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Hartmut Metzger\\.nuget\\packages\\": {}
+    "C:\\Users\\Antonin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Hartmut Metzger\\Documents\\Github\\Practise\\cSharp\\p1\\kerzenHA\\kerzenHA\\kerzenHA.csproj",
+      "projectUniqueName": "C:\\Users\\Antonin\\Documents\\GitHub\\Practise\\cSharp\\p1\\kerzenHA\\kerzenHA\\kerzenHA.csproj",
       "projectName": "kerzenHA",
-      "projectPath": "C:\\Users\\Hartmut Metzger\\Documents\\Github\\Practise\\cSharp\\p1\\kerzenHA\\kerzenHA\\kerzenHA.csproj",
-      "packagesPath": "C:\\Users\\Hartmut Metzger\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Hartmut Metzger\\Documents\\Github\\Practise\\cSharp\\p1\\kerzenHA\\kerzenHA\\obj\\",
+      "projectPath": "C:\\Users\\Antonin\\Documents\\GitHub\\Practise\\cSharp\\p1\\kerzenHA\\kerzenHA\\kerzenHA.csproj",
+      "packagesPath": "C:\\Users\\Antonin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Antonin\\Documents\\GitHub\\Practise\\cSharp\\p1\\kerzenHA\\kerzenHA\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Hartmut Metzger\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Antonin\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"

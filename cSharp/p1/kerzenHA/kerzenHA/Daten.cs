@@ -1,102 +1,102 @@
-namespace Daten;
-
-class Lampe
+namespace Daten
 {
-    protected int _lichtstrom;
 
-    public int Lichtstrom
+    class Lampe
     {
-        get => _lichtstrom;
-    }
+        private int _lichtstrom;
 
-    public Lampe(int lichtstrom)
-    {
-        if (lichtstrom >= 0)
+        public int Lichtstrom
         {
-            this._lichtstrom = lichtstrom;
+            get => _lichtstrom;
         }
-        else
-        {
-            throw new ArgumentException("lumen should be positive");
-        }
-    }
-}
 
-class ElektrischeLampe : Lampe
-{
-    protected int _spannung; // volt
-    protected int _leistungsaufnahme; //watt
-    protected double _lichtausbeute;
-
-    public int Spannung
-    {
-        get => _spannung;
-        set
+        public Lampe(int lichtstrom)
         {
-            _spannung = value;
+            if (lichtstrom >= 0)
+            {
+                this._lichtstrom = lichtstrom;
+            }
+            else
+            {
+                throw new ArgumentException("lumen should be positive");
+            }
         }
     }
 
-    public int Leistungsaufnahme
+    class ElektrischeLampe : Lampe
     {
-        get => _leistungsaufnahme;
-    }
+        private int _spannung; // volt
+        private int _leistungsaufnahme; //watt
+        private double _lichtausbeute;
 
-    public double Lichtausbeute
-    {
-        get => _lichtausbeute;
-        set
+        public int Spannung
         {
-            _lichtausbeute = value;
+            get => _spannung;
+            set { _spannung = value; }
+        }
+
+        public int Leistungsaufnahme
+        {
+            get => _leistungsaufnahme;
+        }
+
+        public double Lichtausbeute
+        {
+            get => _lichtausbeute;
+            set { _lichtausbeute = value; }
+        }
+
+        public ElektrischeLampe(int lichtstrom, int spannung, int strom) : base(lichtstrom)
+        {
+
+            if (spannung < 0) throw new ArgumentException();
+            this._spannung = spannung;
+            if (strom < 0) throw new ArgumentException();
+            this._leistungsaufnahme = strom;
+            this._lichtausbeute = (double)lichtstrom / strom;
+
         }
     }
 
-    public ElektrischeLampe(int lichtstrom, int spannung, int strom) : base (lichtstrom)
+    class Glühlampe : ElektrischeLampe
     {
-        
-        if (spannung < 0) throw new ArgumentException();
-        this._spannung = spannung;
-        if (strom < 0) throw new ArgumentException();
-        this._leistungsaufnahme = strom;
-        this._lichtausbeute =(double)  lichtstrom/strom;
+        private string _glühfaden;
 
-    }
-}
+        public string Glühfaden
+        {
+            get => _glühfaden;
+        }
 
-class Glühlampe : ElektrischeLampe
-{
-    private string _glühfaden;
+        public Glühlampe(int lichtstrom, int spannung, int strom, string glühfaden) : base(lichtstrom, spannung, strom)
+        {
+            if (String.IsNullOrEmpty(glühfaden) || String.IsNullOrWhiteSpace(glühfaden)) throw new ArgumentException();
+            this._glühfaden = glühfaden;
 
-    public  string Glühfaden
-    {
-        get => _glühfaden;
+        }
     }
 
-    public Glühlampe(int lichtstrom, int spannung, int strom, string glühfaden) : base(lichtstrom, spannung, strom)
+    class ChemischPhysikalischeLampe : Lampe
     {
-        if (String.IsNullOrEmpty(glühfaden) || String.IsNullOrWhiteSpace(glühfaden)) throw new ArgumentException();
-        this._glühfaden = glühfaden;
-        
-    }
-}
-
-class ChemischPhysikalischeLampe : Lampe
-{
-    public ChemischPhysikalischeLampe(int lichtstrom) : base (lichtstrom){}
-}
-
-class Kerze : ChemischPhysikalischeLampe
-{
-    protected string Pbrennstoff;
-
-    public string Brennstoff
-    {
-        get => Pbrennstoff;
+        public ChemischPhysikalischeLampe(int lichtstrom) : base(lichtstrom)
+        {
+        }
     }
 
-    public Kerze(int lichtstrom, string pbrennstoff) : base(lichtstrom)
+    class Kerze : ChemischPhysikalischeLampe
     {
-        if (String.IsNullOrWhiteSpace(pbrennstoff) || String.IsNullOrEmpty(pbrennstoff)) throw new ArgumentException();
-        this.Pbrennstoff = pbrennstoff;
+        private string _brennstoff;
+
+        public string Brennstoff
+        {
+            get => _brennstoff;
+        }
+
+        public Kerze(int lichtstrom, string brennstoff) : base(lichtstrom)
+        {
+            if (String.IsNullOrWhiteSpace(brennstoff) || String.IsNullOrEmpty(brennstoff))
+                throw new ArgumentException();
+            this._brennstoff = brennstoff;
+        }
     }
+
 }
