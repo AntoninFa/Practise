@@ -135,6 +135,21 @@ namespace Daten
     public class VerkehrssicheresFahrrad : Fahrrad
     {
         private readonly Gegenstand lAnlage;
+        public bool LichtanlageIstPflegebedürftig
+        {
+            get
+            {
+                return lAnlage.IstPflegebedürftig;
+            }
+        }
+
+        public bool IstPutzbedürftig
+        {
+            get
+            {
+                return (base.IstPutzbedürftig || lAnlage.IstPflegebedürftig);
+            }
+        }
 
         public VerkehrssicheresFahrrad()
         {
@@ -149,11 +164,7 @@ namespace Daten
             }
             base.Fahren();
         }
-
-        public bool IstPutzbedürftig()
-        {
-            return (base.IstPutzbedürftig || lAnlage.IstPflegebedürftig);
-        }
+        
     }
 
 
