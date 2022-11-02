@@ -53,7 +53,6 @@ namespace Daten
     {
         public Rahmen(bool pflegeBed) : base(pflegeBed)
         {
-            
         }
     }
 
@@ -62,9 +61,8 @@ namespace Daten
         private readonly Gegenstand vR;
         private readonly Gegenstand hR;
         private readonly Gegenstand r;
-        
-        private bool istPutzBed;
-        protected int numOfUses;
+        // protected since it's used in the subclass
+        protected int NumOfUses;
 
         public bool VorderradIstPflegebedürftig
         {
@@ -95,7 +93,7 @@ namespace Daten
             vR = new Gegenstand();
             hR = new Gegenstand();
             r = new Gegenstand();
-            numOfUses = 0;
+            NumOfUses = 0;
         }
 
         public void Putzen()
@@ -107,18 +105,18 @@ namespace Daten
 
         public void Fahren()
         {
-            if (numOfUses == 0)
+            if (NumOfUses == 0)
             {
                 vR.PflegebedürftigMachen();
-            } else if (numOfUses == 1)
+            } else if (NumOfUses == 1)
             {
                 hR.PflegebedürftigMachen();
-            } else if (numOfUses == 2)
+            } else if (NumOfUses == 2)
             {
                 r.PflegebedürftigMachen();
             }
 
-            numOfUses++;
+            NumOfUses++;
 
         }
 
@@ -158,7 +156,7 @@ namespace Daten
 
         public void Fahren()
         {
-            if (numOfUses == 3)
+            if (NumOfUses == 3)
             {
                 lAnlage.PflegebedürftigMachen();
             }
