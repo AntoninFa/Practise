@@ -164,6 +164,12 @@ namespace Daten
             }
             base.Fahren();
         }
+
+        public void Putzen()
+        {
+            lAnlage.Pflegen();
+            base.Putzen();
+        }
         
     }
 
