@@ -1,21 +1,33 @@
 ﻿using System;
 using System.Text;
+using System.Diagnostics;
 
 namespace Abgaben2
 {
     class Program
     {
-        static void Main()
+        static void Main() 
         {
-            var gnirts = "abcdefghijklmnop";
+            var gnirts = "abcdefghijklmnopqrstuvwxyz";
             var sW = new StringWorker();
-            Console.Write(sW.Reverse(gnirts));
+
+            Console.WriteLine(sW.Reverse(gnirts));
+            Console.WriteLine(sW.Reverse("1234567890"));
+            var testMessage =
+                "Program.cs(14, 21): [CS0029] Der Typ \"void\" kann nicht implizit in \"bool\" konvertiert werden.";
             
+            
+            var egasseMtset = sW.Reverse(testMessage);
+            Trace.Assert(testMessage == sW.Reverse(egasseMtset));
+            
+            Console.WriteLine(egasseMtset);
+            Console.WriteLine(sW.Reverse(egasseMtset));
         }
     }
 
     class StringWorker
     {
+        
         public string Reverse(string wert)
         {
             if (wert.Length <= 1)
