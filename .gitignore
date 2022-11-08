@@ -3,3 +3,14 @@
 *.txt
 *.dll
 *.dll
+*.xml
+*.json
+*.targets
+*.sln
+*.props
+cSharp/p1/EinsAbgabe2/Pro2ha5Weight/Pro2ha5Weight/obj/Debug/net6.0/Pro2ha5Weight.GlobalUsings.g.cs
+cSharp/p1/EinsAbgabe2/Pro2ha5Weight/Pro2ha5Weight/Pro2ha5Weight.csproj
+cSharp/p1/EinsAbgabe2/Pro2ha5Weight/Pro2ha5Weight/obj/rider.project.restore.info
+cSharp/p1/EinsAbgabe2/Pro2ha5Weight/Pro2ha5Weight/obj/Debug/net6.0/Pro2ha5Weight.GeneratedMSBuildEditorConfig.editorconfig
+cSharp/p1/EinsAbgabe2/Pro2ha5Weight/Pro2ha5Weight/obj/Debug/net6.0/Pro2ha5Weight.AssemblyInfo.cs
+cSharp/p1/EinsAbgabe2/Pro2ha5Weight/Pro2ha5Weight/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs
