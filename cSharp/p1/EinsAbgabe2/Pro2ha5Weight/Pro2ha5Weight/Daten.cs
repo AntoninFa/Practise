@@ -25,12 +25,7 @@ namespace Daten
             this._gewicht = gewicht;
             this._spannung = spannung;
         }
-
-        public Batterie()
-        {
-            //TODO Sollte ich den Aufruf hier verhindern?
-        }
-
+        
         public override string ToString()
         {
             return $"Batterie, Gewicht: {_gewicht}, Spannung: {_spannung}";
@@ -51,13 +46,17 @@ namespace Daten
 
     public class Mignonzelle : Batterie
     {
-        private readonly double _gewicht = 25;
-        private readonly double _spannung = 1.5;
+        private readonly double _gewicht;
+        private readonly double _spannung;
         
         public override bool Equals(object obj)
         {
             Mignonzelle b = obj as Mignonzelle;
             return b != null && _gewicht.Equals(b._gewicht) && _spannung.Equals(b._spannung);
+        }
+        public Mignonzelle() : base(25,1.5)
+        {
+            
         }
         
     }
