@@ -6,12 +6,13 @@ namespace Abgaben2
 {
     class Program
     {
-        static void Main() 
+        static void Main()
         {
+            string input = Console.ReadLine();
             var gnirts = "abcdefghijklmnopqrstuvwxyz";
             var sW = new StringWorker();
 
-            Console.WriteLine(sW.Reverse(gnirts));
+            /*Console.WriteLine(sW.Reverse(gnirts));
             Console.WriteLine(sW.Reverse("1234567890"));
             var testMessage =
                 "Program.cs(14, 21): [CS0029] Der Typ \"void\" kann nicht implizit in \"bool\" konvertiert werden.";
@@ -22,6 +23,10 @@ namespace Abgaben2
             
             Console.WriteLine(egasseMtset);
             Console.WriteLine(sW.Reverse(egasseMtset));
+            */
+            Console.WriteLine(sW.Reverse(input));
+            string test = Console.ReadLine();
+            
         }
     }
 
