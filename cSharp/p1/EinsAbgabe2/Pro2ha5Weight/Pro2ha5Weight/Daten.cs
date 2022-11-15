@@ -1,9 +1,9 @@
 namespace Daten
 {
     
-    interface IGewichtHabend
+    public interface IGewichtHabend
     {
-        double Gewicht { get; }
+        public double Gewicht { get; }
     }
 
     public class Batterie : Last, IGewichtHabend
@@ -20,9 +20,13 @@ namespace Daten
             get => _spannung;
         }
 
-        public Batterie(double gewicht, double spannung)
+        public Batterie(double spannung, double gewicht)
         {
+            if (gewicht <= 0)
+                throw new Exception();
             this._gewicht = gewicht;
+            if (spannung <= 0)
+                throw new Exception();
             this._spannung = spannung;
         }
         
@@ -55,7 +59,7 @@ namespace Daten
             return b != null && _gewicht.Equals(b._gewicht) && _spannung.Equals(b._spannung);
         }
         // wegen base wird base-constructor von Batterie aufgerufen und die Attribute gesetzt
-        public Mignonzelle() : base(25,1.5)
+        public Mignonzelle() : base(1.5,25)
         {
 
         }
@@ -71,9 +75,9 @@ namespace Daten
     }
     public abstract class ElektrischeWaage
     {
-        private Last _last;
+        private Last? _last;
 
-        public  Last Last
+        public  Last? Last
         {
             get => _last;
         }
@@ -91,12 +95,15 @@ namespace Daten
             this._last = last;
         }
 
-        public void Wegnehmen()
+        public void Wegnehmen(out IGewichtHabend gh)
         {
             if (_last == null)
                 throw new Exception("leer");
+            gh = this.Last;
             this._last = null;
+
         }
+        
         
         public override string ToString()
         {
@@ -125,8 +132,8 @@ namespace Daten
 
     public class ElektrischeWaageMignon : ElektrischeWaage, ICloneable
     {
-        private Mignonzelle _batterie;
-        public Mignonzelle Batterie
+        private Mignonzelle? _batterie;
+        public Mignonzelle? Batterie
         {
             get => _batterie;
         }
@@ -148,8 +155,11 @@ namespace Daten
             this._batterie = mZelle;
         }
 
-        public void Entnehmen()
+        public void Entnehmen(out Mignonzelle m)
         {
+            if (Batterie == null)
+                throw new Exception("Keine Batterie enthalten");
+            m = Batterie;
             this._batterie = null;
         }
     
