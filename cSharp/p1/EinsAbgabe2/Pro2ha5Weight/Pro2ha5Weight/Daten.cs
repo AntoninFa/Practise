@@ -6,12 +6,12 @@ namespace Daten
         public double Gewicht { get; }
     }
 
-    public class Batterie : Last, IGewichtHabend
+    public class Batterie : Last
     {
         private double _gewicht;
         public double Gewicht
         {
-            get => _gewicht;
+             get => _gewicht;
         }
         private double _spannung;
 
@@ -51,6 +51,7 @@ namespace Daten
     public class Mignonzelle : Batterie
     {
         private readonly double _gewicht;
+        
         private readonly double _spannung;
         
         public override bool Equals(object obj)
@@ -65,12 +66,11 @@ namespace Daten
         }
         
     }
-    public class Last : IGewichtHabend
+    public interface Last : IGewichtHabend
     {
-        private double _gewicht;
         public double Gewicht
         {
-            get => _gewicht;
+            get;
         }
     }
     public abstract class ElektrischeWaage
