@@ -91,6 +91,9 @@ namespace Daten
         {
             if (_last != null)
                 throw new Exception("voll");
+            if (last == null)
+                throw new Exception("übergebene Last ist null");
+            
             this._last = last;
         }
 
@@ -153,6 +156,8 @@ namespace Daten
         {
             if (this._batterie != null)
                 throw new Exception("Es ist bereits eine Batterie eingelegt");
+            if (mZelle == null)
+                throw new Exception("Übergebene mZelle ist null");
             this._batterie = mZelle;
         }
 
@@ -183,28 +188,18 @@ namespace Daten
 
         public override int GetHashCode()
         {
+            if (_batterie == null)
+                return (Last?.GetHashCode() ?? 0) ^ 0;
+
             return (Last?.GetHashCode() ?? 0) ^ Spannung.GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
             ElektrischeWaageMignon eWM = obj as ElektrischeWaageMignon;
-            Last l = eWM.Last;
-            if (base.Last == null && _batterie == null)
-                return eWM != null && eWM.Last == null && eWM._batterie == null;
-            if (base.Last == null && _batterie != null)
-                return eWM != null && eWM.Last == null && _batterie.Spannung.Equals(eWM._batterie);
-                       //TODO Equals für Batt?
-            if (base.Last != null && _batterie == null)
-                           return eWM != null && Last.Equals(eWM.Last) && eWM == null;
-            //TODO Equals für Plast?
-            return eWM != null && Last.Equals(eWM.Last) && _batterie.Spannung.Equals(eWM._batterie);
-                       
-
-                       /*'if (l != null )
-                           return eWM != null && _last.Gewicht.Equals(eW._last.Gewicht) && _spannung.Equals(eW.Spannung);
-                       return eW != null && _spannung.Equals(eW.Spannung);
-                       */
+            return eWM != null && (Last?.Gewicht ?? 0) == (eWM.Last?.Gewicht ?? 0) &&
+                   (Batterie?.Spannung ?? 0) == (eWM.Batterie?.Spannung ?? 0);
+            
         }
     }
     
