@@ -81,11 +81,10 @@ namespace Daten
         {
             get => _last;
         }
-        private double _spannung;
 
-        public double Spannung
+        public abstract double Spannung
         {
-            get => _spannung;
+            get;
         }
 
         public void Auflegen(Last last)
@@ -97,7 +96,7 @@ namespace Daten
 
         public void Wegnehmen(out IGewichtHabend gh)
         {
-            if (_last == null)
+            if (Last == null)
                 throw new Exception("leer");
             gh = this.Last;
             this._last = null;
@@ -108,14 +107,14 @@ namespace Daten
         public override string ToString()
         {
             if (_last == null)
-                return $"Leer, Spannung: {_spannung}";
-            return $"Last: {_last.Gewicht}, Spannung: {_spannung}";
+                return $"Leer, Spannung: {Spannung}";
+            return $"Last: {_last.Gewicht}, Spannung: {Spannung}";
         }
 
         public override int GetHashCode()
         {
             //TODO last auf null checken
-            return _last.GetHashCode() ^ _spannung.GetHashCode();
+            return _last.GetHashCode() ^ Spannung.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -123,8 +122,8 @@ namespace Daten
             ElektrischeWaage eW = obj as ElektrischeWaage;
             Last l = eW._last;
             if (l != null )
-                return eW != null && _last.Gewicht.Equals(eW._last.Gewicht) && _spannung.Equals(eW.Spannung);
-            return eW != null && _spannung.Equals(eW.Spannung);
+                return eW != null && _last.Gewicht.Equals(eW._last.Gewicht) && Spannung.Equals(eW.Spannung);
+            return eW != null && Spannung.Equals(eW.Spannung);
         }
         
         
@@ -138,7 +137,9 @@ namespace Daten
             get => _batterie;
         }
 
-        public double Spannung
+       
+
+        public override double Spannung
         {
             get
             {
@@ -182,7 +183,7 @@ namespace Daten
 
         public override int GetHashCode()
         {
-            return base.Last.GetHashCode() ^ Spannung.GetHashCode();
+            return (Last?.GetHashCode() ?? 0) ^ Spannung.GetHashCode();
         }
 
         public override bool Equals(object obj)
