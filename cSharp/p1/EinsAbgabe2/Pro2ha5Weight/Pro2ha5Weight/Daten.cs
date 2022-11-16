@@ -8,12 +8,12 @@ namespace Daten
 
     public class Batterie : Last
     {
-        private double _gewicht;
+        private readonly double _gewicht;
         public double Gewicht
         {
              get => _gewicht;
         }
-        private double _spannung;
+        private readonly double _spannung;
 
         public double Spannung
         {
