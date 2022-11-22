@@ -1,8 +1,6 @@
 namespace Daten
 {
     
-    //TODO Hascode not readonly
-    
     public static class GlobalVar
     {
         public const double TOLERANCE = 0.0000001;
@@ -103,7 +101,6 @@ namespace Daten
 
         public override int GetHashCode()
         {
-            //TODO Hashcode von last reinbringen?
             return (_last?.GetHashCode() ?? 0) ^ Spannung.GetHashCode();
         }
 
@@ -175,8 +172,7 @@ namespace Daten
         {
             if (_batterie == null)
                 return (Last?.GetHashCode() ?? 0) ^ 0;
-
-            // TODO Last oder Batterie als Hashcode
+            
             return (Last?.GetHashCode() ?? 0) ^ Spannung.GetHashCode();
         }
 
