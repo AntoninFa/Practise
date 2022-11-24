@@ -20,23 +20,23 @@ namespace EasyBankingBilanz.Datenverarbeitung
         private VorgabenAktuellePeriode _vorgabenAktuellePeriode;
 
 
-
-/// <summary>
-/// 
-/// </summary>
-/// <param name="infrastruktur">Zeile der Tabelle 'Infrastruktur' für die aktuelle Periode (P1)</param>
-/// <param name="infrastrukturVP">Zeile der Tabelle 'Infrastruktur' für die Vorperiode (P0)</param>
-/// <param name="kreditinstitute">Zeile der Tabelle 'Kreditinstitute' für die aktuelle Periode (P1</param>
-/// <param name="kreditinstituteVP">Zeile der Tabelle 'Kreditinstitute' für die Vorperiode (P0)</param>
-/// <param name="kreditinstituteVVP">Zeile der Tabelle 'Kreditinstitute' für die Vorvorperiode (P-1)</param>
-/// <param name="kreditinstituteVVVP">Zeile der Tabelle 'Kreditinstitute' für die Vorvorvorperiode (P-2)</param>
-/// <param name="par30">Zeile der Tabelle 'PAR30' für die aktuelle Periode (P1)</param>
-/// <param name="volumenNeugeschäft">Zeile der Tabelle 'VolumenNeugeschäft' für die aktuelle Periode (P1)</param>
-/// <param name="volumenNeugeschäftVP">Zeile der Tabelle 'VolumenNeugeschäft' für die Vorperiode (P0)</param>
-/// <param name="volumenNeugeschäftVVP">Zeile der Tabelle 'VolumenNeugeschäft' für die Vorvorperiode (P-1)</param>
-/// <param name="volumenNeugeschäftVVVP">Zeile der Tabelle 'VolumenNeugeschäft' für die Vorvorvorperiode (P-2)</param>
-/// <param name="volumenNeugeschäftVVVVP">Zeile der Tabelle 'VolumenNeugeschäft' für die Vorvorvorvorperiode (P-3)</param>
-/// <param name="vorgabenAktuellePeriode">Vorgaben für die aktuelle Periode (P1)</param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="infrastruktur">Zeile der Tabelle 'Infrastruktur' für die aktuelle Periode (P1)</param>
+        /// <param name="infrastrukturVP">Zeile der Tabelle 'Infrastruktur' für die Vorperiode (P0)</param>
+        /// <param name="kreditinstitute">Zeile der Tabelle 'Kreditinstitute' für die aktuelle Periode (P1</param>
+        /// <param name="kreditinstituteVP">Zeile der Tabelle 'Kreditinstitute' für die Vorperiode (P0)</param>
+        /// <param name="kreditinstituteVVP">Zeile der Tabelle 'Kreditinstitute' für die Vorvorperiode (P-1)</param>
+        /// <param name="kreditinstituteVVVP">Zeile der Tabelle 'Kreditinstitute' für die Vorvorvorperiode (P-2)</param>
+        /// <param name="par30">Zeile der Tabelle 'PAR30' für die aktuelle Periode (P1)</param>
+        /// <param name="volumenNeugeschäft">Zeile der Tabelle 'VolumenNeugeschäft' für die aktuelle Periode (P1)</param>
+        /// <param name="volumenNeugeschäftVP">Zeile der Tabelle 'VolumenNeugeschäft' für die Vorperiode (P0)</param>
+        /// <param name="volumenNeugeschäftVVP">Zeile der Tabelle 'VolumenNeugeschäft' für die Vorvorperiode (P-1)</param>
+        /// <param name="volumenNeugeschäftVVVP">Zeile der Tabelle 'VolumenNeugeschäft' für die Vorvorvorperiode (P-2)</param>
+        /// <param name="volumenNeugeschäftVVVVP">Zeile der Tabelle 'VolumenNeugeschäft' für die Vorvorvorvorperiode (P-3)</param>
+        /// <param name="vorgabenAktuellePeriode">Vorgaben für die aktuelle Periode (P1)</param>
+//TODO Plausi Prüfung 
         public Bilanz(
             Infrastruktur infrastruktur,
             Infrastruktur infrastrukturVP,
@@ -66,14 +66,11 @@ namespace EasyBankingBilanz.Datenverarbeitung
             _volumenNeugeschäftVVVP = volumenNeugeschäftVVVP;
             _volumenNeugeschäftVVVVP = volumenNeugeschäftVVVVP;
             _vorgabenAktuellePeriode = vorgabenAktuellePeriode;
-
-
-
-
         }
 
+        public Währung AktiviaAutokredit()
+        {
+            
+        }
     }
-
-
-
 }
