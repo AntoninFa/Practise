@@ -1,19 +1,25 @@
 namespace Daten
 {
     
+    public static class GlobalVar
+    {
+        public const double TOLERANCE = 0.0000001;
+    }
+    
+
     public interface IGewichtHabend
     {
         public double Gewicht { get; }
     }
 
-    public class Batterie : Last, IGewichtHabend
+    public class Batterie : ILast
     {
-        private double _gewicht;
+        private readonly double _gewicht;
         public double Gewicht
         {
-            get => _gewicht;
+             get => _gewicht;
         }
-        private double _spannung;
+        private readonly double _spannung;
 
         public double Spannung
         {
@@ -40,9 +46,9 @@ namespace Daten
             return _gewicht.GetHashCode() ^ _spannung.GetHashCode();
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            Batterie b = obj as Batterie;
+            var b = obj as Batterie;
             return b != null && _gewicht.Equals(b._gewicht) && _spannung.Equals(b._spannung);
         }
         
@@ -50,51 +56,32 @@ namespace Daten
 
     public class Mignonzelle : Batterie
     {
-        private readonly double _gewicht;
-        private readonly double _spannung;
-        
-        public override bool Equals(object obj)
-        {
-            Mignonzelle b = obj as Mignonzelle;
-            return b != null && _gewicht.Equals(b._gewicht) && _spannung.Equals(b._spannung);
-        }
         // wegen base wird base-constructor von Batterie aufgerufen und die Attribute gesetzt
         public Mignonzelle() : base(1.5,25)
         {
-
         }
         
     }
-    public class Last : IGewichtHabend
+    public interface ILast : IGewichtHabend
     {
-        private double _gewicht;
-        public double Gewicht
-        {
-            get => _gewicht;
-        }
     }
     public abstract class ElektrischeWaage
     {
-        private Last? _last;
+        private ILast? _last;
 
-        public  Last? Last
-        {
-            get => _last;
-        }
+        public ILast? Last => _last;
 
         public abstract double Spannung
         {
             get;
         }
 
-        public void Auflegen(Last last)
+        public void Auflegen(ILast last)
         {
             if (_last != null)
                 throw new Exception("voll");
-            if (last == null)
-                throw new Exception("übergebene Last ist null");
-            
-            this._last = last;
+
+            this._last = last ?? throw new Exception("übergebene Last ist null");
         }
 
         public void Wegnehmen(out IGewichtHabend gh)
@@ -109,24 +96,24 @@ namespace Daten
         
         public override string ToString()
         {
-            if (_last == null)
-                return $"Leer, Spannung: {Spannung}";
-            return $"Last: {_last.Gewicht}, Spannung: {Spannung}";
+            return _last == null ? $"Leer, Spannung: {Spannung}" : $"Last: {_last.Gewicht}, Spannung: {Spannung}";
         }
 
         public override int GetHashCode()
         {
-            //TODO last auf null checken
-            return _last.GetHashCode() ^ Spannung.GetHashCode();
+            return (_last?.GetHashCode() ?? 0) ^ Spannung.GetHashCode();
         }
 
-        public override bool Equals(object obj)
+        protected bool IsWeightEqual(ElektrischeWaage eW)
         {
-            ElektrischeWaage eW = obj as ElektrischeWaage;
-            Last l = eW._last;
-            if (l != null )
-                return eW != null && _last.Gewicht.Equals(eW._last.Gewicht) && Spannung.Equals(eW.Spannung);
-            return eW != null && Spannung.Equals(eW.Spannung);
+            return Math.Abs((Last?.Gewicht ?? 0) - (eW.Last?.Gewicht ?? 0)) < GlobalVar.TOLERANCE;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            var eW = obj as ElektrischeWaage;
+            return eW != null && IsWeightEqual(eW) && Math.Abs(Spannung - eW.Spannung) < GlobalVar.TOLERANCE;
+            
         }
         
         
@@ -135,13 +122,8 @@ namespace Daten
     public class ElektrischeWaageMignon : ElektrischeWaage, ICloneable
     {
         private Mignonzelle? _batterie;
-        public Mignonzelle? Batterie
-        {
-            get => _batterie;
-        }
-
-       
-
+        public Mignonzelle? Batterie => _batterie;
+        
         public override double Spannung
         {
             get
@@ -177,28 +159,28 @@ namespace Daten
         
         public override string ToString()
         {
-            if (base.Last == null && _batterie == null)
+            if (Last == null && _batterie == null)
                 return $"Elektrische Waage Mignon, Keine Last und keine Batterie";
-            if (base.Last == null && _batterie != null)
+            if (Last == null && _batterie != null)
                 return $"Elektrische Waage Mignon, Leer,Spannung: {Spannung}";
-            if (base.Last != null && _batterie == null)
-                return $"Elektrische Waage Mignon, Last: {base.Last.Gewicht}, keine Batterie";
-            return $"Elektrische Waage Mignon, Last: {base.Last.Gewicht}, Spannung: {Spannung}";
+            if (Last != null && _batterie == null)
+                return $"Elektrische Waage Mignon, Last: {Last.Gewicht}, keine Batterie";
+            return $"Elektrische Waage Mignon, Last: {Last.Gewicht}, Spannung: {Spannung}";
         }
 
         public override int GetHashCode()
         {
             if (_batterie == null)
                 return (Last?.GetHashCode() ?? 0) ^ 0;
-
+            
             return (Last?.GetHashCode() ?? 0) ^ Spannung.GetHashCode();
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            ElektrischeWaageMignon eWM = obj as ElektrischeWaageMignon;
-            return eWM != null && (Last?.Gewicht ?? 0) == (eWM.Last?.Gewicht ?? 0) &&
-                   (Batterie?.Spannung ?? 0) == (eWM.Batterie?.Spannung ?? 0);
+            var eWM = obj as ElektrischeWaageMignon;
+            return eWM != null && IsWeightEqual(eWM) &&
+                   Math.Abs((Batterie?.Spannung ?? 0) - (eWM.Batterie?.Spannung ?? 0)) < GlobalVar.TOLERANCE;
             
         }
     }
