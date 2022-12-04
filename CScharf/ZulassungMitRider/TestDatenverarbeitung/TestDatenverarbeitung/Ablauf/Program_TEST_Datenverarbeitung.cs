@@ -64,10 +64,9 @@ namespace EasyBankingBilanz.TestDatenverarbeitung.Ablauf
             PL(); CompareAndPrint(bilanz.AktivaForderungenAnKundenBrutto.Betrag, 5640000000.0M);
             PL(); CompareAndPrint(bilanz.AktivaRisikovorsorge.Betrag, 28200000.0M);
             PL(); CompareAndPrint(bilanz.AktivaForderungenAnKundenNetto.Betrag, 5611800000.0M);
-            
             PL(); CompareAndPrint(bilanz.AktivaFilialen.Betrag, 79267500.0M);
-            /*
             PL(); CompareAndPrint(bilanz.AktivaIT.Betrag, 60000000.0M);
+            /*
             PL(); CompareAndPrint(bilanz.AktivaSummeOhneLiquideMittel.Betrag, 5801067500.0M);
             PL(); CompareAndPrint(bilanz.AktivaLiquideMittel.Betrag, 660382500.0M);
             PL(); CompareAndPrint(bilanz.AktivaSumme.Betrag, 6461450000.0M);

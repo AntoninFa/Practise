@@ -1,4 +1,4 @@
-using System.ComponentModel;
+// @Autor Antonin Fahning faan1011 
 using EasyBankingBilanz.Datenhaltung.Transfer;
 
 
@@ -69,10 +69,16 @@ namespace EasyBankingBilanz.Datenverarbeitung
             _vorgabenAktuellePeriode = vorgabenAktuellePeriode;
         }
 
-        private double _calcAbschreibungenP1()
+        private double _calcAbschreibungenFilialenP1()
         {
             return ((double)1 - _vorgabenAktuellePeriode.AbschreibungFilialen);
         }
+
+        private double _calcAbschreibungenITP1()
+        {
+            return ((double)1 - _vorgabenAktuellePeriode.AbschreibungIT);
+        }
+        
         /// <summary>
         /// Neugeschäft Autokredite in P1 zzgl. 50% Neugeschäft Autokredite in P0 zzgl. PAR30 Autokredite in P1
         /// </summary>
@@ -99,7 +105,7 @@ namespace EasyBankingBilanz.Datenverarbeitung
             {
                 Währung filP1 = decimal.Multiply(_infrastruktur.AnzahlFilialen,
                     _infrastruktur.AnschaffungskostenJeFiliale);
-                return MultiplyConst(filP1, _calcAbschreibungenP1());
+                return MultiplyConst(filP1, _calcAbschreibungenFilialenP1());
             }
         }
         
@@ -143,6 +149,19 @@ namespace EasyBankingBilanz.Datenverarbeitung
             }
         }
 
+        /// <summary>
+        /// Summe aus IT-Wert in P0 und IT-Investitionen in P1 abzüglich Abschreibung IT in P1
+        /// </summary>
+        public Währung AktivaIT
+        {
+            get
+            {
+                Währung valITp0PitInvp1 = decimal.Add(_infrastrukturVP.ITWert, _infrastruktur.ITInvestitionen);
+                return MultiplyConst(valITp0PitInvp1, _calcAbschreibungenITP1());
+            }
+        }
+        
+        
         /// <summary>
         /// Neugeschäft Konsumkredite in P1 zzgl. PAR30 Konsumkredite in P1
         /// </summary>
