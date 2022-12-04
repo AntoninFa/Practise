@@ -69,6 +69,7 @@ namespace EasyBankingBilanz.Datenverarbeitung
             _vorgabenAktuellePeriode = vorgabenAktuellePeriode;
         }
 
+        
         private double _calcAbschreibungenFilialenP1()
         {
             return ((double)1 - _vorgabenAktuellePeriode.AbschreibungFilialen);
