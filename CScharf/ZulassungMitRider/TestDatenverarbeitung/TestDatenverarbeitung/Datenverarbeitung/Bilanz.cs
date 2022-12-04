@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using EasyBankingBilanz.Datenhaltung.Transfer;
 
 
@@ -67,10 +68,31 @@ namespace EasyBankingBilanz.Datenverarbeitung
             _volumenNeugeschäftVVVVP = volumenNeugeschäftVVVVP;
             _vorgabenAktuellePeriode = vorgabenAktuellePeriode;
         }
+        
+        public Währung AktivaAutokredit {
+            get {decimal p5;
+                try
+                {
+                    p5 = new decimal(0.5);
+                }
+                catch (OverflowException)
+                {
+                    throw new OverflowException("Dezimal Konvertierung nicht möglich");
+                }
 
-        public Währung AktiviaAutokredit()
-        {
-            
+                Währung p0AutoKrediteFityPercent = Decimal.Multiply(_volumenNeugeschäftVP.Autokredite, p5);
+                Währung autoKred = decimal.Add(_volumenNeugeschäft.Autokredite, p0AutoKrediteFityPercent);
+                //TODO Hab hier nur eine Bekommen, why?
+                Währung par30Ak = decimal.Add(1, _par30.Autokredite);
+                Währung res = decimal.Add(autoKred, par30Ak);
+                return res;}
         }
+        
+        
+        
+        
+        
+        
+        
     }
 }
