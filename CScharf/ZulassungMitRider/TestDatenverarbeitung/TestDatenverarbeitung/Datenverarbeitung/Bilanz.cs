@@ -74,21 +74,13 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// </summary>
         /// <exception cref="OverflowException"></exception>
         public Währung AktivaAutokredit {
-            get {decimal p5;
-                try
-                {
-                    p5 = new decimal(0.5);
-                }
-                catch (OverflowException)
-                {
-                    throw new OverflowException("Dezimal Konvertierung nicht möglich");
-                }
+            get {
 
-                Währung p0AutoKrediteFityPercent = Decimal.Multiply(_volumenNeugeschäftVP.Autokredite, p5);
+                Währung p0AutoKrediteFityPercent = MultiplyConst(_volumenNeugeschäftVP.Autokredite, 0.5);
                 Währung autoKred = decimal.Add(_volumenNeugeschäft.Autokredite, p0AutoKrediteFityPercent);
                 //TODO Hab hier nur eine Bekommen, why?
                 Währung par30Ak = decimal.Add(1, _par30.Autokredite);
-                Währung res = decimal.Add(autoKred, par30Ak);
+                Währung res = decimal.Multiply(autoKred, par30Ak);
                 return res;}
         }
 
