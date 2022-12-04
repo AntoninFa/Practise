@@ -68,7 +68,11 @@ namespace EasyBankingBilanz.Datenverarbeitung
             _volumenNeugeschäftVVVVP = volumenNeugeschäftVVVVP;
             _vorgabenAktuellePeriode = vorgabenAktuellePeriode;
         }
-        
+
+        private double _calcAbschreibungenP1()
+        {
+            return ((double)1 - _vorgabenAktuellePeriode.AbschreibungFilialen);
+        }
         /// <summary>
         /// Neugeschäft Autokredite in P1 zzgl. 50% Neugeschäft Autokredite in P0 zzgl. PAR30 Autokredite in P1
         /// </summary>
@@ -81,24 +85,24 @@ namespace EasyBankingBilanz.Datenverarbeitung
                 //TODO Hab hier nur eine Bekommen, why?
                 Währung par30Ak = decimal.Add(1, _par30.Autokredite);
                 Währung res = decimal.Multiply(autoKred, par30Ak);
-                return res;}
+                return res;
+                
+            }
         }
 
         /// <summary>
         /// Produkt aus Anzahl Filialen in P1 und Anschaffungskosten je Filiale in P1 abzüglich Abschreibungen in P1
         /// </summary>
-        public Währung AktiviaFilialen
+        public Währung AktivaFilialen
         {
             get
             {
-                // Anschaffungskosten aller Filialien
-                Währung anKoAllerFil = decimal.Multiply(_infrastruktur.AnzahlFilialen,
+                Währung filP1 = decimal.Multiply(_infrastruktur.AnzahlFilialen,
                     _infrastruktur.AnschaffungskostenJeFiliale);
-                //Abschreibungen in P1
-                Währung abschreibungenP1 = new decimal((double)1 - _vorgabenAktuellePeriode.AbschreibungFilialen);
-                return decimal.Multiply(abschreibungenP1, anKoAllerFil);
+                return MultiplyConst(filP1, _calcAbschreibungenP1());
             }
         }
+        
 
         /// <summary>
         /// Summe der Forderungen an andere Kreditinstitute über P1 bis P-2 
@@ -113,6 +117,9 @@ namespace EasyBankingBilanz.Datenverarbeitung
             }
         }
 
+        /// <summary>
+        /// Summe aus Konsum-, Auto- und Hypothekenkredite
+        /// </summary>
         public Währung AktivaForderungenAnKundenBrutto
         {
             get
@@ -123,13 +130,16 @@ namespace EasyBankingBilanz.Datenverarbeitung
             }
         }
 
+        /// <summary>
+        ///  Aktiva Forderungen an Kunden brutto abzüglich Risikovorsorge
+        /// </summary>
         public Währung AktivaForderungenAnKundenNetto
         {
             get
             {
                 // Ergebnis aus drüber - EgAusDrüber* Vorgaben.Risikovorsorge
                 return decimal.Subtract(AktivaForderungenAnKundenBrutto,
-                    decimal.Multiply(AktivaForderungenAnKundenBrutto, _vorgabenAktuellePeriode.Risikovorsorge));
+                    AktivaRisikovorsorge);
             }
         }
 
@@ -153,12 +163,18 @@ namespace EasyBankingBilanz.Datenverarbeitung
                 // p-1+ p-2
                 Währung pm1Ppm2 = decimal.Add(MultiplyConst(_volumenNeugeschäftVVP.Hypothekenkredite, 0.6),
                     MultiplyConst(_volumenNeugeschäftVVVP.Hypothekenkredite, 0.4));
-                Währung p3Mpar30 =
-                    decimal.Multiply(_volumenNeugeschäftVVVVP.Hypothekenkredite, decimal.Add(_par30.Hypothekenkredite, 1));
-                return decimal.Add(p1p0, decimal.Add(pm1Ppm2, p3Mpar30));
+                Währung leftSide = decimal.Add(p1p0, decimal.Add(pm1Ppm2, 
+                    MultiplyConst( _volumenNeugeschäftVVVVP.Hypothekenkredite, 0.2)));
+                return decimal.Multiply(leftSide, decimal.Add(_par30.Hypothekenkredite, 1));
 
             }
         }
+
+        /// <summary>
+        ///  Produkt aus Forderungen an Kunden brutto und prozentualer Anteil der Risikovorsorge
+        /// </summary>
+        public Währung AktivaRisikovorsorge =>
+            decimal.Multiply(AktivaForderungenAnKundenBrutto, _vorgabenAktuellePeriode.Risikovorsorge);
 
         private decimal MultiplyConst(decimal value, double c)
         {
