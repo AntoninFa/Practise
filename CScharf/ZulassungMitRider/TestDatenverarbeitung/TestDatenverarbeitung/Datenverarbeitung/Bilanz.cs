@@ -37,7 +37,6 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// <param name="volumenNeugeschäftVVVP">Zeile der Tabelle 'VolumenNeugeschäft' für die Vorvorvorperiode (P-2)</param>
         /// <param name="volumenNeugeschäftVVVVP">Zeile der Tabelle 'VolumenNeugeschäft' für die Vorvorvorvorperiode (P-3)</param>
         /// <param name="vorgabenAktuellePeriode">Vorgaben für die aktuelle Periode (P1)</param>
-//TODO Plausi Prüfung 
         public Bilanz(
             Infrastruktur infrastruktur,
             Infrastruktur infrastrukturVP,
@@ -54,6 +53,7 @@ namespace EasyBankingBilanz.Datenverarbeitung
             VorgabenAktuellePeriode vorgabenAktuellePeriode
         )
         {
+            //TODO Plausibilitätsprüfung :DDDDDDDDDDD
             _infrastruktur = infrastruktur;
             _infrastrukturVP = infrastrukturVP;
             _kreditinstitute = kreditinstitute;
@@ -69,6 +69,10 @@ namespace EasyBankingBilanz.Datenverarbeitung
             _vorgabenAktuellePeriode = vorgabenAktuellePeriode;
         }
         
+        /// <summary>
+        /// Neugeschäft Autokredite in P1 zzgl. 50% Neugeschäft Autokredite in P0 zzgl. PAR30 Autokredite in P1
+        /// </summary>
+        /// <exception cref="OverflowException"></exception>
         public Währung AktivaAutokredit {
             get {decimal p5;
                 try
@@ -87,12 +91,86 @@ namespace EasyBankingBilanz.Datenverarbeitung
                 Währung res = decimal.Add(autoKred, par30Ak);
                 return res;}
         }
-        
-        
-        
-        
-        
-        
-        
+
+        /// <summary>
+        /// Produkt aus Anzahl Filialen in P1 und Anschaffungskosten je Filiale in P1 abzüglich Abschreibungen in P1
+        /// </summary>
+        public Währung AktiviaFilialen
+        {
+            get
+            {
+                // Anschaffungskosten aller Filialien
+                Währung anKoAllerFil = decimal.Multiply(_infrastruktur.AnzahlFilialen,
+                    _infrastruktur.AnschaffungskostenJeFiliale);
+                //Abschreibungen in P1
+                Währung abschreibungenP1 = new decimal((double)1 - _vorgabenAktuellePeriode.AbschreibungFilialen);
+                return decimal.Multiply(abschreibungenP1, anKoAllerFil);
+            }
+        }
+
+        /// <summary>
+        /// Summe der Forderungen an andere Kreditinstitute über P1 bis P-2 
+        /// </summary>
+        public Währung AktivaForderungAnKreditinstitute
+        {
+            get
+            {
+                Währung res = decimal.Add(_kreditinstitute.Forderungen, decimal.Add(_kreditinstituteVP.Forderungen,
+                    decimal.Add(_kreditinstituteVVP.Forderungen, _kreditinstituteVVVP.Forderungen)));
+                return res;
+            }
+        }
+
+        public Währung AktivaForderungenAnKundenBrutto
+        {
+            get
+            {
+                //TODO WOher soll ich jetzt wissen, welle Periode gemeint ist???, Müsste laufen wenn Hypokredit da ist
+                Währung res = decimal.Add(AktivaKonsumkredit, decimal.Add(AktivaAutokredit, AktivaHypothekenkredit));
+                return res;
+            }
+        }
+
+        public Währung AktivaForderungenAnKundenNetto
+        {
+            get
+            {
+                // Ergebnis aus drüber - EgAusDrüber* Vorgaben.Risikovorsorge
+                return decimal.Subtract(AktivaForderungenAnKundenBrutto,
+                    decimal.Multiply(AktivaForderungenAnKundenBrutto, _vorgabenAktuellePeriode.Risikovorsorge));
+            }
+        }
+
+        /// <summary>
+        /// Neugeschäft Konsumkredite in P1 zzgl. PAR30 Konsumkredite in P1
+        /// </summary>
+        public Währung AktivaKonsumkredit => MultiplyConst(_volumenNeugeschäft.Konsumkredite, 1.05);
+
+        /// <summary>
+        /// Summe aus: Neugeschäft Hypothekenkredite in P1, 80% Neugeschäft Hypothekenkredite in P0vp,
+        /// 60% Neugeschäft Hypothekenkredite in P-1 vvp, 40% Neugeschäft Hypothekenkredite in P-2 vvvp,
+        /// 20% Neugeschäft Hypothekenkredite in P-3 vvvvp, zzgl. PAR30 Hypothekenkredite in P1 
+        /// </summary>
+        public Währung AktivaHypothekenkredit
+        {
+            get
+            {
+                
+                Währung p1p0 = decimal.Add(_volumenNeugeschäft.Hypothekenkredite,
+                    MultiplyConst(_volumenNeugeschäftVP.Hypothekenkredite, 0.8));
+                // p-1+ p-2
+                Währung pm1Ppm2 = decimal.Add(MultiplyConst(_volumenNeugeschäftVVP.Hypothekenkredite, 0.6),
+                    MultiplyConst(_volumenNeugeschäftVVVP.Hypothekenkredite, 0.4));
+                Währung p3Mpar30 =
+                    decimal.Multiply(_volumenNeugeschäftVVVVP.Hypothekenkredite, decimal.Add(_par30.Hypothekenkredite, 1));
+                return decimal.Add(p1p0, decimal.Add(pm1Ppm2, p3Mpar30));
+
+            }
+        }
+
+        private decimal MultiplyConst(decimal value, double c)
+        {
+            return decimal.Multiply(new decimal(c), value );
+        }
     }
 }

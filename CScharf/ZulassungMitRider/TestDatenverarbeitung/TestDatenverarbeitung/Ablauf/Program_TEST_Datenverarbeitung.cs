@@ -58,12 +58,13 @@ namespace EasyBankingBilanz.TestDatenverarbeitung.Ablauf
                                              vorgabenAktuellePeriode);
 
             PL(); CompareAndPrint(bilanz.AktivaForderungAnKreditinstitute.Betrag, 50000000.0M);
-            PL(); CompareAndPrint(bilanz.AktivaKonsumkredit.Betrag, 1050000000.0M);
+            PL(); CompareAndPrint(bilanz.AktivaKonsumkredit.Betrag, 1050000000.0M);                                                                                   
             PL(); CompareAndPrint(bilanz.AktivaAutokredit.Betrag, 1545000000.0M);
             PL(); CompareAndPrint(bilanz.AktivaHypothekenkredit.Betrag, 3045000000.0M);
             PL(); CompareAndPrint(bilanz.AktivaForderungenAnKundenBrutto.Betrag, 5640000000.0M);
-            PL(); CompareAndPrint(bilanz.AktivaRisikovorsorge.Betrag, 28200000.0M);
+            //PL(); CompareAndPrint(bilanz.AktivaRisikovorsorge.Betrag, 28200000.0M);
             PL(); CompareAndPrint(bilanz.AktivaForderungenAnKundenNetto.Betrag, 5611800000.0M);
+            /*
             PL(); CompareAndPrint(bilanz.AktivaFilialen.Betrag, 79267500.0M);
             PL(); CompareAndPrint(bilanz.AktivaIT.Betrag, 60000000.0M);
             PL(); CompareAndPrint(bilanz.AktivaSummeOhneLiquideMittel.Betrag, 5801067500.0M);
@@ -85,6 +86,7 @@ namespace EasyBankingBilanz.TestDatenverarbeitung.Ablauf
             PL(); CompareAndPrint(bilanz.PassivaSummeOhneÜberziehungskredit.Betrag, 6461450000.0M);
             PL(); CompareAndPrint(bilanz.PassivaÜberziehungskredit.Betrag, 0.0M);
             PL(); CompareAndPrint(bilanz.PassivaSumme.Betrag, 6461450000.0M);
+            */
 
             #endregion
 
