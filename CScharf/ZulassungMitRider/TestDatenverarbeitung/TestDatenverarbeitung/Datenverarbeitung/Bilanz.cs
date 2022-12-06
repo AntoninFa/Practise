@@ -204,6 +204,16 @@ namespace EasyBankingBilanz.Datenverarbeitung
         public Währung AktivaRisikovorsorge =>
             decimal.Multiply(AktivaForderungenAnKundenBrutto, _vorgabenAktuellePeriode.Risikovorsorge);
 
+        public Währung PassivaVerbindlichkeitenGegenüberKreditinstituten
+        {
+            get
+            {
+                
+            }
+        }
+
+
+
         private decimal MultiplyConst(decimal value, double c)
         {
             return decimal.Multiply(new decimal(c), value );
