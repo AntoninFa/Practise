@@ -24,10 +24,10 @@ namespace Ablauf
             Console.WriteLine($"Willkommen zur Party von {gastgeber.Name}!\n");
         }
 
-        private void GetränkMixen(Person gast, string getränk)
+        private async Task GetränkMixenAsync(Person gast, string getränk)
         {
             Console.WriteLine($"Bitte ein(e) {getränk} für {gast.Name}!");
-            Task.Delay(_zufallsgenerator.Next(500, 1500)).Wait();
+            await Task.Delay(_zufallsgenerator.Next(500, 1500));
             Console.WriteLine($"{getränk} für {gast.Name} ist " +
                 $"fertig!");
         }
@@ -57,11 +57,13 @@ namespace Ablauf
 
             Console.WriteLine($"Gast {gast.Name} kommt zur Party von {Gastgeber.Name}!");
 
-            GetränkMixen(gast, getränk);
+            // Mixen wird asynchron gemacht + wir warten halt mit dem genieß dass das fertig Wird
+            // Task mixen = Task.Run(()=>GetränkMixen(gast, getränk)); wäre einfache Lösung wie in VL
 
+            Task mixen = GetränkMixenAsync(gast, getränk);
             GastgeberBegrüßen(gast);
-            
-            
+
+            mixen.Wait();
             GetränkGenießen(gast, getränk);
 
             Console.WriteLine($"Gast {gast.Name} verlässt die Party von {Gastgeber.Name}!");

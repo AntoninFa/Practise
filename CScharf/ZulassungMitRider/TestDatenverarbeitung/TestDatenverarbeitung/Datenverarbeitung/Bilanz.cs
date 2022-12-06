@@ -190,6 +190,14 @@ namespace EasyBankingBilanz.Datenverarbeitung
             }
         }
 
+        public Währung AktivaLiquideMittel
+        {
+            get
+            {
+                //TODO
+            }
+        }
+
         /// <summary>
         ///  Produkt aus Forderungen an Kunden brutto und prozentualer Anteil der Risikovorsorge
         /// </summary>
