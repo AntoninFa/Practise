@@ -194,7 +194,7 @@ namespace EasyBankingBilanz.Datenverarbeitung
         {
             get
             {
-                //TODO
+                //TODO Muss ich die Passiva Summe berechnen und die Summe ohne ÜberzKredit oderso
             }
         }
 
