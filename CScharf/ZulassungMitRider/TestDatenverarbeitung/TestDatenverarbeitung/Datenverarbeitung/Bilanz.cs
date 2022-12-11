@@ -232,7 +232,8 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// </summary>
         public Währung PassivaVerlustvortrag =>
             Math.Min(0,
-                _vorgabenAktuellePeriode.Periodenüberschuss + _vorgabenAktuellePeriode.VerlustvortragVorperiode);
+                decimal.Add(_vorgabenAktuellePeriode.Periodenüberschuss,
+                    _vorgabenAktuellePeriode.VerlustvortragVorperiode));
 
         /// <summary>
         ///  Periodenüberschuss aus P1
