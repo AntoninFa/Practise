@@ -54,21 +54,48 @@ namespace EasyBankingBilanz.Datenverarbeitung
             VorgabenAktuellePeriode vorgabenAktuellePeriode
         )
         {
-            //TODO Plausibilitätsprüfung :DDDDDDDDDDD
+            if (infrastruktur == null) 
+                throw new ArgumentNullException("infrastruktur ist null");
             _infrastruktur = infrastruktur;
+            if (infrastrukturVP == null) 
+                throw new ArgumentNullException("infrastrukturVP ist null");
             _infrastrukturVP = infrastrukturVP;
+            if (kreditinstitute == null) 
+                throw new ArgumentNullException("kreditinstitute ist null");
             _kreditinstitute = kreditinstitute;
+            //TODO PLAUSIII 
+            if (kreditinstituteVP == null) 
+                throw new ArgumentNullException("kreditinstituteVP ist null");
             _kreditinstituteVP = kreditinstituteVP;
+            if (kreditinstituteVVP == null) 
+                throw new ArgumentNullException("kreditinstituteVVP ist null");
             _kreditinstituteVVP = kreditinstituteVVP;
+            if (kreditinstituteVVVP == null) 
+                throw new ArgumentNullException("kreditinstituteVVVP ist null");
             _kreditinstituteVVVP = kreditinstituteVVVP;
+            if (par30 == null) 
+                throw new ArgumentNullException("par30 ist null");
             _par30 = par30;
+            if (volumenNeugeschäft == null) 
+                throw new ArgumentNullException("volumenNeugeschäft ist null");
             _volumenNeugeschäft = volumenNeugeschäft;
+            if (volumenNeugeschäftVP == null) 
+                throw new ArgumentNullException("volumenNeugeschäftVP ist null");
             _volumenNeugeschäftVP = volumenNeugeschäftVP;
+            if (volumenNeugeschäftVVP == null) 
+                throw new ArgumentNullException("volumenNeugeschäftVVP ist null");
             _volumenNeugeschäftVVP = volumenNeugeschäftVVP;
+            if (volumenNeugeschäftVVVP == null) 
+                throw new ArgumentNullException("volumenNeugeschäftVVVP ist null");
             _volumenNeugeschäftVVVP = volumenNeugeschäftVVVP;
+            if (volumenNeugeschäftVVVVP == null) 
+                throw new ArgumentNullException("volumenNeugeschäftVVVVP ist null");
             _volumenNeugeschäftVVVVP = volumenNeugeschäftVVVVP;
+            if (vorgabenAktuellePeriode == null) 
+                throw new ArgumentNullException("vorgabenAktuellePeriode ist null");
             _vorgabenAktuellePeriode = vorgabenAktuellePeriode;
         }
+        
 
 
         private double _calcAbschreibungenFilialenP1()
@@ -187,11 +214,8 @@ namespace EasyBankingBilanz.Datenverarbeitung
         {
             get
             {
-                
-                //TODO Muss ich die PassivaSummeOhneÜberziehungskredit berechnen und die Summe aktiva OHNE liq Mittel
-                Währung res = 0;
-                //TODO max aus 50mio und 
-                return Math.Max()
+                Währung res = decimal.Subtract(PassivaSummeOhneÜberziehungskredit, AktivaSummeOhneLiquideMittel);
+                return Math.Max(new decimal(50000000), res);
             }
         }
 
@@ -215,7 +239,7 @@ namespace EasyBankingBilanz.Datenverarbeitung
             get
             {
                 return addFour(PassivaGezeichnetesKapital, PassivaGewinnrücklageNachAusschüttung,
-                    PassivaVerlustvortrag,PassivaPeriodenüberschuss);
+                    PassivaVerlustvortrag, PassivaPeriodenüberschuss);
             }
         }
 
@@ -224,10 +248,7 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// </summary>
         public Währung PassivaGezeichnetesKapital
         {
-            get
-            {
-                return _vorgabenAktuellePeriode.GezeichnetesKapital;
-            }
+            get { return _vorgabenAktuellePeriode.GezeichnetesKapital; }
         }
 
         /// <summary>
@@ -235,18 +256,12 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// </summary>
         public Währung PassivaGewinnrücklageNachAusschüttung
         {
-            get
-            {
-                return decimal.Subtract(PassivaGewinnrücklageBrutto, PassivaDividendensumme);
-            }
+            get { return decimal.Subtract(PassivaGewinnrücklageBrutto, PassivaDividendensumme); }
         }
 
         public Währung PassivaDividendensumme
         {
-            get
-            {
-                return MultiplyConst(PassivaGewinnrücklageBrutto, _vorgabenAktuellePeriode.Dividende);
-            }
+            get { return MultiplyConst(PassivaGewinnrücklageBrutto, _vorgabenAktuellePeriode.Dividende); }
         }
 
         /// <summary>
@@ -257,11 +272,12 @@ namespace EasyBankingBilanz.Datenverarbeitung
             get
             {
                 return decimal.Add(_vorgabenAktuellePeriode.GewinnrücklageVorperiode,
-                    Math.Max(0, _vorgabenAktuellePeriode.Periodenüberschuss + _vorgabenAktuellePeriode.VerlustvortragVorperiode));
+                    Math.Max(0,
+                        decimal.Add(_vorgabenAktuellePeriode.PeriodenüberschussVorperiode,
+                            _vorgabenAktuellePeriode.VerlustvortragVorperiode)));
             }
         }
-        
-        
+
 
         public Währung PassivaVerlustvortrag
         {
@@ -274,10 +290,7 @@ namespace EasyBankingBilanz.Datenverarbeitung
 
         public Währung PassivaPeriodenüberschuss
         {
-            get
-            {
-                return _vorgabenAktuellePeriode.Periodenüberschuss;
-            }
+            get { return _vorgabenAktuellePeriode.Periodenüberschuss; }
         }
 
         /// <summary>
@@ -285,26 +298,17 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// </summary>
         public Währung PassivaVerbindlichkeitenGegenüberKunden
         {
-            get
-            {
-                return addThree(PassivaGirokonto, PassivaSpareinlage, PassivaTermingeld);
-            }
+            get { return addThree(PassivaGirokonto, PassivaSpareinlage, PassivaTermingeld); }
         }
 
         public Währung PassivaGirokonto
         {
-            get
-            {
-                return MultiplyConst(_volumenNeugeschäft.Girokonten, 1.001);
-            }
+            get { return MultiplyConst(_volumenNeugeschäft.Girokonten, 1.001); }
         }
 
         public Währung PassivaSpareinlage
         {
-            get
-            {
-                return MultiplyConst(_volumenNeugeschäft.Spareinlagen, 1.001);
-            }
+            get { return MultiplyConst(_volumenNeugeschäft.Spareinlagen, 1.01); }
         }
 
         public Währung PassivaTermingeld
@@ -322,7 +326,7 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// </summary>
         public Währung AktivaSumme
         {
-        //TODO Aktiva Liquide Mittel Implementieren
+            //TODO Aktiva Liquide Mittel Implementieren
             get
             {
                 Währung res = decimal.Add(AktivaSummeOhneLiquideMittel, AktivaLiquideMittel);
@@ -354,6 +358,23 @@ namespace EasyBankingBilanz.Datenverarbeitung
                     _kreditinstituteVVP.Verbindlichkeiten, _kreditinstituteVVVP.Verbindlichkeiten);
             }
         }
+
+        /// <summary>
+        /// Differenz aus Summe Aktiva abzüglich Summe Passiva ohne Überziehungskredit, falls positiv
+        /// </summary>
+        public Währung PassivaÜberziehungskredit
+        {
+            get { return Math.Max(decimal.Subtract(AktivaSumme, PassivaSummeOhneÜberziehungskredit), 0); }
+        }
+
+        /// <summary>
+        ///Summe Passiva ohne Überziehungskredit zzgl. Überziehungskredit
+        /// </summary>
+        public Währung PassivaSumme
+        {
+            get { return decimal.Add(PassivaSummeOhneÜberziehungskredit, PassivaÜberziehungskredit); }
+        }
+
 
         private decimal addThree(decimal s1, decimal s2, decimal s3)
         {

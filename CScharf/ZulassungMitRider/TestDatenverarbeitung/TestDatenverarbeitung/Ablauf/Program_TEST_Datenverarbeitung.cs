@@ -86,10 +86,10 @@ namespace EasyBankingBilanz.TestDatenverarbeitung.Ablauf
             PL(); CompareAndPrint(bilanz.PassivaPeriodenüberschuss.Betrag, 40000000.0M);
             PL(); CompareAndPrint(bilanz.PassivaEigenkapital.Betrag, 265000000.0M);
             PL(); CompareAndPrint(bilanz.PassivaSummeOhneÜberziehungskredit.Betrag, 6461450000.0M);
-            /*
+            
             PL(); CompareAndPrint(bilanz.PassivaÜberziehungskredit.Betrag, 0.0M);
             PL(); CompareAndPrint(bilanz.PassivaSumme.Betrag, 6461450000.0M);
-            */
+            
             
 
             #endregion
