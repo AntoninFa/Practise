@@ -1,10 +1,15 @@
-// @Autor Antonin Fahning faan1011 
+// @Author Antonin Fahning faan1011 
+
+//TODO Matrikelnummer mby?
 
 using EasyBankingBilanz.Datenhaltung.Transfer;
 
 
 namespace EasyBankingBilanz.Datenverarbeitung
 {
+    /// <summary>
+    /// Klasse zur Berechnung der Bilanz für die aktuelle Periode (P1) 
+    /// </summary>
     public class Bilanz
     {
         private readonly Infrastruktur _infrastruktur;
@@ -23,7 +28,8 @@ namespace EasyBankingBilanz.Datenverarbeitung
 
 
         /// <summary>
-        /// 
+        /// Methode zur Berechnung der Bilanz für die aktuelle Periode (P1)
+        /// Konstruktor der Bilanz Klasse
         /// </summary>
         /// <param name="infrastruktur">Zeile der Tabelle 'Infrastruktur' für die aktuelle Periode (P1)</param>
         /// <param name="infrastrukturVP">Zeile der Tabelle 'Infrastruktur' für die Vorperiode (P0)</param>
@@ -69,17 +75,6 @@ namespace EasyBankingBilanz.Datenverarbeitung
             _vorgabenAktuellePeriode = vorgabenAktuellePeriode ?? throw new ArgumentNullException(nameof(vorgabenAktuellePeriode), " ist null");
         }
         
-
-
-        private double _calcAbschreibungenFilialenP1()
-        {
-            return ((double)1 - _vorgabenAktuellePeriode.AbschreibungFilialen);
-        }
-
-        private double _calcAbschreibungenITP1()
-        {
-            return ((double)1 - _vorgabenAktuellePeriode.AbschreibungIT);
-        }
 
         /// <summary>
         /// Neugeschäft Autokredite in P1 zzgl. 50% Neugeschäft Autokredite in P0 zzgl. PAR30 Autokredite in P1
@@ -182,6 +177,9 @@ namespace EasyBankingBilanz.Datenverarbeitung
             }
         }
 
+        /// <summary>
+        /// Differenz aus Summe Passiva ohne Überziehungskredit und Summe Aktiva ohne liquide Mittel, mindestens jedoch 50 Mio€
+        /// </summary>
         public Währung AktivaLiquideMittel
         {
             get
@@ -195,14 +193,14 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// Summe aus Verbindlichkeiten gegenüber Kreditinstituten, Verbindlichkeiten gegenüber Kunden und Eigenkapital
         /// </summary>
         public Währung PassivaSummeOhneÜberziehungskredit =>
-            addThree(PassivaVerbindlichkeitenGegenüberKreditinstituten,
+            AddThreeDec(PassivaVerbindlichkeitenGegenüberKreditinstituten,
                 PassivaVerbindlichkeitenGegenüberKunden, PassivaEigenkapital);
 
         /// <summary>
         /// Summe aus gezeichnetem Kapital, Gewinnrücklage nach Ausschüttung, Verlustvortrag und Periodenüberschuss
         /// </summary>
         public Währung PassivaEigenkapital =>
-            addFour(PassivaGezeichnetesKapital, PassivaGewinnrücklageNachAusschüttung,
+            AddFourDec(PassivaGezeichnetesKapital, PassivaGewinnrücklageNachAusschüttung,
                 PassivaVerlustvortrag, PassivaPeriodenüberschuss);
 
         /// <summary>
@@ -215,6 +213,9 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// </summary>
         public Währung PassivaGewinnrücklageNachAusschüttung => decimal.Subtract(PassivaGewinnrücklageBrutto, PassivaDividendensumme);
 
+        /// <summary>
+        /// prozentualer Anteil (Dividende in P1) an der Brutto-Gewinnrücklage
+        /// </summary>
         public Währung PassivaDividendensumme => MultiplyConst(PassivaGewinnrücklageBrutto, _vorgabenAktuellePeriode.Dividende);
 
         /// <summary>
@@ -241,7 +242,7 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// <summary>
         /// Summe der Passiva Girokonten, Spareinlagen und Termingelder
         /// </summary>
-        public Währung PassivaVerbindlichkeitenGegenüberKunden => addThree(PassivaGirokonto, PassivaSpareinlage, PassivaTermingeld);
+        public Währung PassivaVerbindlichkeitenGegenüberKunden => AddThreeDec(PassivaGirokonto, PassivaSpareinlage, PassivaTermingeld);
 
         /// <summary>
         /// Neuvolumen Girokonten in P1 zzgl. Zinsen
@@ -277,7 +278,7 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// Summe aus Forderung an Kreditinstitute,Forderung an Kunden netto,Filialen IT
         /// </summary>
         public Währung AktivaSummeOhneLiquideMittel =>
-            addFour(AktivaForderungAnKreditinstitute, AktivaForderungenAnKundenNetto, AktivaFilialen,
+            AddFourDec(AktivaForderungAnKreditinstitute, AktivaForderungenAnKundenNetto, AktivaFilialen,
                 AktivaIT);
 
         /// <summary>
@@ -290,7 +291,7 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// Summe der Verbindlichkeiten gegenüber anderen Kreditinstituten über P1 bis P-2 
         /// </summary>
         public Währung PassivaVerbindlichkeitenGegenüberKreditinstituten =>
-            addFour(_kreditinstitute.Verbindlichkeiten, _kreditinstituteVP.Verbindlichkeiten,
+            AddFourDec(_kreditinstitute.Verbindlichkeiten, _kreditinstituteVP.Verbindlichkeiten,
                 _kreditinstituteVVP.Verbindlichkeiten, _kreditinstituteVVVP.Verbindlichkeiten);
 
         /// <summary>
@@ -303,18 +304,27 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// </summary>
         public Währung PassivaSumme => decimal.Add(PassivaSummeOhneÜberziehungskredit, PassivaÜberziehungskredit);
 
+        private double _calcAbschreibungenFilialenP1()
+        {
+            return ((double)1 - _vorgabenAktuellePeriode.AbschreibungFilialen);
+        }
 
-        private decimal addThree(decimal s1, decimal s2, decimal s3)
+        private double _calcAbschreibungenITP1()
+        {
+            return ((double)1 - _vorgabenAktuellePeriode.AbschreibungIT);
+        }
+        
+        private static decimal AddThreeDec(decimal s1, decimal s2, decimal s3)
         {
             return decimal.Add(s1, decimal.Add(s2, s3));
         }
 
-        private decimal addFour(decimal s1, decimal s2, decimal s3, decimal s4)
+        private static decimal AddFourDec(decimal s1, decimal s2, decimal s3, decimal s4)
         {
-            return addThree(s1, s2, decimal.Add(s3, s4));
+            return AddThreeDec(s1, s2, decimal.Add(s3, s4));
         }
 
-        private decimal MultiplyConst(decimal value, double c)
+        private static decimal MultiplyConst(decimal value, double c)
         {
             return decimal.Multiply(new decimal(c), value);
         }
