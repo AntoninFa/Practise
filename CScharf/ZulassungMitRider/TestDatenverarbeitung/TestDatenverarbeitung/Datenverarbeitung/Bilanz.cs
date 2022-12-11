@@ -7,19 +7,19 @@ namespace EasyBankingBilanz.Datenverarbeitung
 {
     public class Bilanz
     {
-        private Infrastruktur _infrastruktur;
-        private Infrastruktur _infrastrukturVP;
-        private Kreditinstitute _kreditinstitute;
-        private Kreditinstitute _kreditinstituteVP;
-        private Kreditinstitute _kreditinstituteVVP;
-        private Kreditinstitute _kreditinstituteVVVP;
-        private PAR30 _par30;
-        private VolumenNeugeschäft _volumenNeugeschäft;
-        private VolumenNeugeschäft _volumenNeugeschäftVP;
-        private VolumenNeugeschäft _volumenNeugeschäftVVP;
-        private VolumenNeugeschäft _volumenNeugeschäftVVVP;
-        private VolumenNeugeschäft _volumenNeugeschäftVVVVP;
-        private VorgabenAktuellePeriode _vorgabenAktuellePeriode;
+        private readonly Infrastruktur _infrastruktur;
+        private readonly Infrastruktur _infrastrukturVP;
+        private readonly Kreditinstitute _kreditinstitute;
+        private readonly Kreditinstitute _kreditinstituteVP;
+        private readonly Kreditinstitute _kreditinstituteVVP;
+        private readonly Kreditinstitute _kreditinstituteVVVP;
+        private readonly PAR30 _par30;
+        private readonly VolumenNeugeschäft _volumenNeugeschäft;
+        private readonly VolumenNeugeschäft _volumenNeugeschäftVP;
+        private readonly VolumenNeugeschäft _volumenNeugeschäftVVP;
+        private readonly VolumenNeugeschäft _volumenNeugeschäftVVVP;
+        private readonly VolumenNeugeschäft _volumenNeugeschäftVVVVP;
+        private readonly VorgabenAktuellePeriode _vorgabenAktuellePeriode;
 
 
         /// <summary>
@@ -54,46 +54,19 @@ namespace EasyBankingBilanz.Datenverarbeitung
             VorgabenAktuellePeriode vorgabenAktuellePeriode
         )
         {
-            if (infrastruktur == null) 
-                throw new ArgumentNullException("infrastruktur ist null");
-            _infrastruktur = infrastruktur;
-            if (infrastrukturVP == null) 
-                throw new ArgumentNullException("infrastrukturVP ist null");
-            _infrastrukturVP = infrastrukturVP;
-            if (kreditinstitute == null) 
-                throw new ArgumentNullException("kreditinstitute ist null");
-            _kreditinstitute = kreditinstitute;
-            //TODO PLAUSIII 
-            if (kreditinstituteVP == null) 
-                throw new ArgumentNullException("kreditinstituteVP ist null");
-            _kreditinstituteVP = kreditinstituteVP;
-            if (kreditinstituteVVP == null) 
-                throw new ArgumentNullException("kreditinstituteVVP ist null");
-            _kreditinstituteVVP = kreditinstituteVVP;
-            if (kreditinstituteVVVP == null) 
-                throw new ArgumentNullException("kreditinstituteVVVP ist null");
-            _kreditinstituteVVVP = kreditinstituteVVVP;
-            if (par30 == null) 
-                throw new ArgumentNullException("par30 ist null");
-            _par30 = par30;
-            if (volumenNeugeschäft == null) 
-                throw new ArgumentNullException("volumenNeugeschäft ist null");
-            _volumenNeugeschäft = volumenNeugeschäft;
-            if (volumenNeugeschäftVP == null) 
-                throw new ArgumentNullException("volumenNeugeschäftVP ist null");
-            _volumenNeugeschäftVP = volumenNeugeschäftVP;
-            if (volumenNeugeschäftVVP == null) 
-                throw new ArgumentNullException("volumenNeugeschäftVVP ist null");
-            _volumenNeugeschäftVVP = volumenNeugeschäftVVP;
-            if (volumenNeugeschäftVVVP == null) 
-                throw new ArgumentNullException("volumenNeugeschäftVVVP ist null");
-            _volumenNeugeschäftVVVP = volumenNeugeschäftVVVP;
-            if (volumenNeugeschäftVVVVP == null) 
-                throw new ArgumentNullException("volumenNeugeschäftVVVVP ist null");
-            _volumenNeugeschäftVVVVP = volumenNeugeschäftVVVVP;
-            if (vorgabenAktuellePeriode == null) 
-                throw new ArgumentNullException("vorgabenAktuellePeriode ist null");
-            _vorgabenAktuellePeriode = vorgabenAktuellePeriode;
+            _infrastruktur = infrastruktur ?? throw new ArgumentNullException(nameof(infrastruktur), "ist null");
+            _infrastrukturVP = infrastrukturVP ?? throw new ArgumentNullException(nameof(infrastrukturVP)," ist null");
+            _kreditinstitute = kreditinstitute ?? throw new ArgumentNullException(nameof(kreditinstitute), " ist null");
+            _kreditinstituteVP = kreditinstituteVP ?? throw new ArgumentNullException(nameof(kreditinstituteVP), " ist null");
+            _kreditinstituteVVP = kreditinstituteVVP ?? throw new ArgumentNullException(nameof(kreditinstituteVVP), " ist null");
+            _kreditinstituteVVVP = kreditinstituteVVVP ?? throw new ArgumentNullException(nameof(kreditinstituteVVVP), " ist null");
+            _par30 = par30 ?? throw new ArgumentNullException(nameof(par30), " ist null");
+            _volumenNeugeschäft = volumenNeugeschäft ?? throw new ArgumentNullException(nameof(volumenNeugeschäft), " ist null");
+            _volumenNeugeschäftVP = volumenNeugeschäftVP ?? throw new ArgumentNullException(nameof(volumenNeugeschäftVP), " ist null");
+            _volumenNeugeschäftVVP = volumenNeugeschäftVVP ?? throw new ArgumentNullException(nameof(volumenNeugeschäftVVP), " ist null");
+            _volumenNeugeschäftVVVP = volumenNeugeschäftVVVP ?? throw new ArgumentNullException(nameof(volumenNeugeschäftVVVP), " ist null");
+            _volumenNeugeschäftVVVVP = volumenNeugeschäftVVVVP ?? throw new ArgumentNullException(nameof(volumenNeugeschäftVVVVP), " ist null");
+            _vorgabenAktuellePeriode = vorgabenAktuellePeriode ?? throw new ArgumentNullException(nameof(vorgabenAktuellePeriode), " ist null");
         }
         
 
@@ -118,7 +91,6 @@ namespace EasyBankingBilanz.Datenverarbeitung
             {
                 Währung p0AutoKrediteFityPercent = MultiplyConst(_volumenNeugeschäftVP.Autokredite, 0.5);
                 Währung autoKred = decimal.Add(_volumenNeugeschäft.Autokredite, p0AutoKrediteFityPercent);
-                //TODO Hab hier nur eine Bekommen, why?
                 Währung par30Ak = decimal.Add(1, _par30.Autokredite);
                 Währung res = decimal.Multiply(autoKred, par30Ak);
                 return res;
@@ -222,111 +194,78 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// <summary>
         /// Summe aus Verbindlichkeiten gegenüber Kreditinstituten, Verbindlichkeiten gegenüber Kunden und Eigenkapital
         /// </summary>
-        public Währung PassivaSummeOhneÜberziehungskredit
-        {
-            get
-            {
-                return addThree(PassivaVerbindlichkeitenGegenüberKreditinstituten,
-                    PassivaVerbindlichkeitenGegenüberKunden, PassivaEigenkapital);
-            }
-        }
+        public Währung PassivaSummeOhneÜberziehungskredit =>
+            addThree(PassivaVerbindlichkeitenGegenüberKreditinstituten,
+                PassivaVerbindlichkeitenGegenüberKunden, PassivaEigenkapital);
 
         /// <summary>
         /// Summe aus gezeichnetem Kapital, Gewinnrücklage nach Ausschüttung, Verlustvortrag und Periodenüberschuss
         /// </summary>
-        public Währung PassivaEigenkapital
-        {
-            get
-            {
-                return addFour(PassivaGezeichnetesKapital, PassivaGewinnrücklageNachAusschüttung,
-                    PassivaVerlustvortrag, PassivaPeriodenüberschuss);
-            }
-        }
+        public Währung PassivaEigenkapital =>
+            addFour(PassivaGezeichnetesKapital, PassivaGewinnrücklageNachAusschüttung,
+                PassivaVerlustvortrag, PassivaPeriodenüberschuss);
 
         /// <summary>
         /// gezeichnetes Kapital in P1 aus Vorgaben Klasse
         /// </summary>
-        public Währung PassivaGezeichnetesKapital
-        {
-            get { return _vorgabenAktuellePeriode.GezeichnetesKapital; }
-        }
+        public Währung PassivaGezeichnetesKapital => _vorgabenAktuellePeriode.GezeichnetesKapital;
 
         /// <summary>
         /// Gewinnrücklage brutto abzüglich Dividendensumme
         /// </summary>
-        public Währung PassivaGewinnrücklageNachAusschüttung
-        {
-            get { return decimal.Subtract(PassivaGewinnrücklageBrutto, PassivaDividendensumme); }
-        }
+        public Währung PassivaGewinnrücklageNachAusschüttung => decimal.Subtract(PassivaGewinnrücklageBrutto, PassivaDividendensumme);
 
-        public Währung PassivaDividendensumme
-        {
-            get { return MultiplyConst(PassivaGewinnrücklageBrutto, _vorgabenAktuellePeriode.Dividende); }
-        }
+        public Währung PassivaDividendensumme => MultiplyConst(PassivaGewinnrücklageBrutto, _vorgabenAktuellePeriode.Dividende);
 
         /// <summary>
         ///  Gewinnrücklage aus P0 zzgl. Periodenüberschuss und Verlustvortrag aus P0, falls in Summe positiv
         /// </summary>
-        public Währung PassivaGewinnrücklageBrutto
-        {
-            get
-            {
-                return decimal.Add(_vorgabenAktuellePeriode.GewinnrücklageVorperiode,
-                    Math.Max(0,
-                        decimal.Add(_vorgabenAktuellePeriode.PeriodenüberschussVorperiode,
-                            _vorgabenAktuellePeriode.VerlustvortragVorperiode)));
-            }
-        }
+        public Währung PassivaGewinnrücklageBrutto =>
+            decimal.Add(_vorgabenAktuellePeriode.GewinnrücklageVorperiode,
+                Math.Max(0,
+                    decimal.Add(_vorgabenAktuellePeriode.PeriodenüberschussVorperiode,
+                        _vorgabenAktuellePeriode.VerlustvortragVorperiode)));
 
+        /// <summary>
+        ///  Summe aus Periodenüberschuss und Verlustvortrag aus P0, falls negativ, sonst 0
+        /// </summary>
+        public Währung PassivaVerlustvortrag =>
+            Math.Min(0,
+                _vorgabenAktuellePeriode.Periodenüberschuss + _vorgabenAktuellePeriode.VerlustvortragVorperiode);
 
-        public Währung PassivaVerlustvortrag
-        {
-            get
-            {
-                return Math.Min(0,
-                    _vorgabenAktuellePeriode.Periodenüberschuss + _vorgabenAktuellePeriode.VerlustvortragVorperiode);
-            }
-        }
-
-        public Währung PassivaPeriodenüberschuss
-        {
-            get { return _vorgabenAktuellePeriode.Periodenüberschuss; }
-        }
+        /// <summary>
+        ///  Periodenüberschuss aus P1
+        /// </summary>
+        public Währung PassivaPeriodenüberschuss => _vorgabenAktuellePeriode.Periodenüberschuss;
 
         /// <summary>
         /// Summe der Passiva Girokonten, Spareinlagen und Termingelder
         /// </summary>
-        public Währung PassivaVerbindlichkeitenGegenüberKunden
-        {
-            get { return addThree(PassivaGirokonto, PassivaSpareinlage, PassivaTermingeld); }
-        }
+        public Währung PassivaVerbindlichkeitenGegenüberKunden => addThree(PassivaGirokonto, PassivaSpareinlage, PassivaTermingeld);
 
-        public Währung PassivaGirokonto
-        {
-            get { return MultiplyConst(_volumenNeugeschäft.Girokonten, 1.001); }
-        }
+        /// <summary>
+        /// Neuvolumen Girokonten in P1 zzgl. Zinsen
+        /// </summary>
+        public Währung PassivaGirokonto => MultiplyConst(_volumenNeugeschäft.Girokonten, 1.001);
 
-        public Währung PassivaSpareinlage
-        {
-            get { return MultiplyConst(_volumenNeugeschäft.Spareinlagen, 1.01); }
-        }
+        /// <summary>
+        /// Neuvolumen Spareinlagen in P1 zzgl. Zinsen
+        /// </summary>
+        public Währung PassivaSpareinlage => MultiplyConst(_volumenNeugeschäft.Spareinlagen, 1.01);
 
-        public Währung PassivaTermingeld
-        {
-            get
-            {
-                return MultiplyConst(
-                    Decimal.Add(_volumenNeugeschäft.Termingelder,
-                        MultiplyConst(_volumenNeugeschäftVP.Termingelder, 1.02)), 1.015);
-            }
-        }
+        /// <summary>
+        /// Neuvolumina Termingelder aus P1 und P0 zzgl. Zinsen
+        /// </summary>
+        public Währung PassivaTermingeld =>
+            MultiplyConst(
+                Decimal.Add(_volumenNeugeschäft.Termingelder,
+                    MultiplyConst(_volumenNeugeschäftVP.Termingelder, 1.02)), 1.015);
 
         /// <summary>
         /// Summe Aktiva ohne liquide Mittel zzgl. liquide Mittel
         /// </summary>
         public Währung AktivaSumme
         {
-            //TODO Aktiva Liquide Mittel Implementieren
             get
             {
                 Währung res = decimal.Add(AktivaSummeOhneLiquideMittel, AktivaLiquideMittel);
@@ -350,30 +289,19 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// <summary>
         /// Summe der Verbindlichkeiten gegenüber anderen Kreditinstituten über P1 bis P-2 
         /// </summary>
-        public Währung PassivaVerbindlichkeitenGegenüberKreditinstituten
-        {
-            get
-            {
-                return addFour(_kreditinstitute.Verbindlichkeiten, _kreditinstituteVP.Verbindlichkeiten,
-                    _kreditinstituteVVP.Verbindlichkeiten, _kreditinstituteVVVP.Verbindlichkeiten);
-            }
-        }
+        public Währung PassivaVerbindlichkeitenGegenüberKreditinstituten =>
+            addFour(_kreditinstitute.Verbindlichkeiten, _kreditinstituteVP.Verbindlichkeiten,
+                _kreditinstituteVVP.Verbindlichkeiten, _kreditinstituteVVVP.Verbindlichkeiten);
 
         /// <summary>
         /// Differenz aus Summe Aktiva abzüglich Summe Passiva ohne Überziehungskredit, falls positiv
         /// </summary>
-        public Währung PassivaÜberziehungskredit
-        {
-            get { return Math.Max(decimal.Subtract(AktivaSumme, PassivaSummeOhneÜberziehungskredit), 0); }
-        }
+        public Währung PassivaÜberziehungskredit => Math.Max(decimal.Subtract(AktivaSumme, PassivaSummeOhneÜberziehungskredit), 0);
 
         /// <summary>
         ///Summe Passiva ohne Überziehungskredit zzgl. Überziehungskredit
         /// </summary>
-        public Währung PassivaSumme
-        {
-            get { return decimal.Add(PassivaSummeOhneÜberziehungskredit, PassivaÜberziehungskredit); }
-        }
+        public Währung PassivaSumme => decimal.Add(PassivaSummeOhneÜberziehungskredit, PassivaÜberziehungskredit);
 
 
         private decimal addThree(decimal s1, decimal s2, decimal s3)
