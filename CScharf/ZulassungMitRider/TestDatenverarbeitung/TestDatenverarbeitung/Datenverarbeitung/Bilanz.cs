@@ -1,6 +1,5 @@
 // @Author Antonin Fahning faan1011 
-
-//TODO Matrikelnummer mby?
+// Matrikelnummer: 85560
 
 using EasyBankingBilanz.Datenhaltung.Transfer;
 
