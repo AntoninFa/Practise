@@ -29,6 +29,7 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// <summary>
         /// Methode zur Berechnung der Bilanz für die aktuelle Periode (P1)
         /// Konstruktor der Bilanz Klasse
+        /// Wirft ArgumentNullException, falls einer der übergebenen Parametern Null ist
         /// </summary>
         /// <param name="infrastruktur">Zeile der Tabelle 'Infrastruktur' für die aktuelle Periode (P1)</param>
         /// <param name="infrastrukturVP">Zeile der Tabelle 'Infrastruktur' für die Vorperiode (P0)</param>
@@ -43,6 +44,7 @@ namespace EasyBankingBilanz.Datenverarbeitung
         /// <param name="volumenNeugeschäftVVVP">Zeile der Tabelle 'VolumenNeugeschäft' für die Vorvorvorperiode (P-2)</param>
         /// <param name="volumenNeugeschäftVVVVP">Zeile der Tabelle 'VolumenNeugeschäft' für die Vorvorvorvorperiode (P-3)</param>
         /// <param name="vorgabenAktuellePeriode">Vorgaben für die aktuelle Periode (P1)</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public Bilanz(
             Infrastruktur infrastruktur,
             Infrastruktur infrastrukturVP,
