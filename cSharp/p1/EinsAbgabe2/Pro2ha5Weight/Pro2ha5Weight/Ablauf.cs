@@ -124,7 +124,8 @@ namespace Ablauf
         /// <summary>
         /// Hauptablauffaden
         /// </summary>
-        static void Main()
+        /// TEST weil wollte Main frei haben
+        static void MainTEST()
         {
             Console.WriteLine("\n--- class Batterie ---\n");
 

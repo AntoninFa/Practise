@@ -14,10 +14,10 @@ namespace Daten
 
     public class Batterie : ILast
     {
-        private readonly double _gewicht;
         public double Gewicht
         {
-             get => _gewicht;
+            get;
+            private set;
         }
         private readonly double _spannung;
 
@@ -30,26 +30,31 @@ namespace Daten
         {
             if (gewicht <= 0)
                 throw new Exception();
-            this._gewicht = gewicht;
+            Gewicht = gewicht;
             if (spannung <= 0)
                 throw new Exception();
             this._spannung = spannung;
         }
+
+        public void Schmier()
+        {
+            Gewicht = 45;
+        }
         
         public override string ToString()
         {
-            return $"Batterie, Gewicht: {_gewicht}, Spannung: {_spannung}";
+            return $"Batterie, Gewicht: {Gewicht}, Spannung: {_spannung}";
         }
 
         public override int GetHashCode()
         {
-            return _gewicht.GetHashCode() ^ _spannung.GetHashCode();
+            return Gewicht.GetHashCode() ^ _spannung.GetHashCode();
         }
 
         public override bool Equals(object? obj)
         {
             var b = obj as Batterie;
-            return b != null && _gewicht.Equals(b._gewicht) && _spannung.Equals(b._spannung);
+            return b != null && Gewicht.Equals(b.Gewicht) && _spannung.Equals(b._spannung);
         }
         
     }
