@@ -14,16 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.acme.kunde;
+package com.acme.song;
 
-import com.acme.kunde.dev.DevConfig;
+// 422
+//import com.acme.song.dev.DevConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import static com.acme.kunde.Banner.TEXT;
+// 422
+import static com.acme.song.Banner.TEXT;
 import static org.springframework.hateoas.config.EnableHypermediaSupport.HypermediaType.HAL;
 import static org.springframework.hateoas.support.WebStack.WEBMVC;
 
@@ -33,7 +35,8 @@ import static org.springframework.hateoas.support.WebStack.WEBMVC;
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
 @SpringBootApplication(proxyBeanMethods = false)
-@Import({ApplicationConfig.class, DevConfig.class})
+//422
+//@Import({ApplicationConfig.class, DevConfig.class})
 @EnableHypermediaSupport(type = HAL, stacks = WEBMVC)
 @EnableWebSecurity
 @EnableMethodSecurity

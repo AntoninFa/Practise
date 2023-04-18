@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.acme.kunde;
+package com.acme.song;
 
 import java.util.List;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
@@ -26,11 +26,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import static com.acme.kunde.rest.KundeGetController.NACHNAME_PATH;
-import static com.acme.kunde.rest.KundeGetController.REST_PATH;
-import static com.acme.kunde.security.Rolle.ACTUATOR;
-import static com.acme.kunde.security.Rolle.ADMIN;
-import static com.acme.kunde.security.Rolle.KUNDE;
+import static com.acme.song.rest.KundeGetController.NACHNAME_PATH;
+import static com.acme.song.rest.KundeGetController.REST_PATH;
+import static com.acme.song.security.Rolle.ACTUATOR;
+import static com.acme.song.security.Rolle.ADMIN;
+import static com.acme.song.security.Rolle.KUNDE;
 import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.PATCH;
