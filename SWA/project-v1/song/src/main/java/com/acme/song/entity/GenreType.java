@@ -7,12 +7,7 @@ public enum GenreType {
     /**
      * Pop-Musik
      */
-
     POP,
-    /**
-     * HipHop-Musik
-     */
-    HIPHOP,
 
     /**
      * Rock-Musik
@@ -28,8 +23,8 @@ public enum GenreType {
 
     ELEKTRONIC,
 
-    BLUES,
+    KINDERMUSIK,
 
-    KINDERMUSIK;
+    KLASSISCH;
 
 }
