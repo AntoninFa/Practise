@@ -3,6 +3,7 @@ package com.acme.song.rest;
 import com.acme.song.entity.Song;
 import com.acme.song.service.NotFoundException;
 import com.acme.song.service.SongReadService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.weaver.ast.Not;
@@ -41,10 +42,11 @@ public class SongGetController {
         "[\\dA-Fa-f]{8}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{12}";
 
 
+    @ApiResponse(responseCode = "200", description = "Kunde gefunden")
     @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<Song> findById(@PathVariable final UUID id) {
+    Song findById(@PathVariable final UUID id) {
         log.debug("findById: id={}", id);
         final var song = service.findById(id);
-        return ok(song);
+        return song;
     }
 }
