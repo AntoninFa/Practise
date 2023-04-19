@@ -34,6 +34,7 @@ public final class SongReadService {
         final var song = repo.findById(id)
             .orElseThrow();
         log.debug("findById: {}", song);
+        System.out.println("Haslkdfjlsjfllloooo ");
         return song;
     }
 

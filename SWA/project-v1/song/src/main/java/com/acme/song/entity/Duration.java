@@ -1,6 +1,7 @@
 package com.acme.song.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +19,16 @@ public class Duration {
     private int minutes;
     private int second;
 
+
+    /**
+     * Der zugehörige Song.
+     * @param song Der Song.
+     * @return Der Song.
+     */
+    @JsonIgnore
+    @ToString.Exclude
+    // Darf nicht @NotNull sein, weil beim Anlegen ueber REST der Rueckwaertsverweis noch nicht existiert
+    private Song song;
 
 }
 

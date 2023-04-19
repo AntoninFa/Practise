@@ -37,7 +37,7 @@ public class DB {
                 .erscheinungsDatum(WATCHMEDATE)
                 .genre(List.of(GenreType.RAP))
                 .musikLabel("Capitol Records")
-                    .duration(Duration.builder().hours(0).minutes(0).second(0).build()).build(),
+                    .duration(Duration.builder().hours(0).minutes(3).second(5).build()).build(),
             Song.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000001"))
                 .titel("Gimme! Gimme! Gimme!")
