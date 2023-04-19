@@ -13,8 +13,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-//TODO Glaub ich mach die Warnings hier noch weg
-@SuppressWarnings({"ClassFanOutComplexity", "JavadocDeclaration", "RequireEmptyLineBeforeBlockTagGroup"})
 public class Song {
 
 
@@ -46,6 +44,8 @@ public class Song {
 
 
     private String musikLabel;
+
+    private Duration duration;
 
 
 }
