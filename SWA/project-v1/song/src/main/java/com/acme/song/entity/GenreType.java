@@ -9,6 +9,8 @@ public enum GenreType {
      */
     POP,
 
+    DANCEPOP,
+
     /**
      * Rock-Musik
      */
@@ -25,6 +27,8 @@ public enum GenreType {
 
     KINDERMUSIK,
 
-    KLASSISCH;
+    KLASSISCH,
+
+    RAP;
 
 }

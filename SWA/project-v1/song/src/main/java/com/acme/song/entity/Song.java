@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Past;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+//TODO Glaub ich mach die Warnings hier noch weg
 @SuppressWarnings({"ClassFanOutComplexity", "JavadocDeclaration", "RequireEmptyLineBeforeBlockTagGroup"})
 public class Song {
 
@@ -40,16 +42,10 @@ public class Song {
     private LocalDate erscheinungsDatum;
 
 
-    private GenreType genre;
+    private List<GenreType> genre;
 
 
     private String musikLabel;
-    //TODO Vielleicht Noch ErscheinungsOrt als Klasse?
-
-
-
-
-
 
 
 }

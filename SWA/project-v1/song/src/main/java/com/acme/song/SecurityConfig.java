@@ -16,6 +16,7 @@
  */
 package com.acme.song;
 
+//TODO Security... Glaub ich muss hier das Admin Zeugs loswerden
 import java.util.List;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.actuate.health.HealthEndpoint;
@@ -26,11 +27,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import static com.acme.song.rest.KundeGetController.NACHNAME_PATH;
-import static com.acme.song.rest.KundeGetController.REST_PATH;
-import static com.acme.song.security.Rolle.ACTUATOR;
-import static com.acme.song.security.Rolle.ADMIN;
-import static com.acme.song.security.Rolle.KUNDE;
+//import static com.acme.song.rest.SongGetController.NACHNAME_PATH;
+import static com.acme.song.rest.SongGetController.REST_PATH;
+//import static com.acme.song.security.Rolle.ACTUATOR;
+//import static com.acme.song.security.Rolle.ADMIN;
+//import static com.acme.song.security.Rolle.KUNDE;
 import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.PATCH;
@@ -59,6 +60,7 @@ interface SecurityConfig {
             .authorizeHttpRequests(authorize -> {
                 final var restPathKundeId = REST_PATH + "/*";
                 authorize
+                    /*
                     // https://spring.io/blog/2020/06/30/url-matching-with-pathpattern-in-spring-mvc
                     // https://docs.spring.io/spring-security/reference/6.0.1/servlet/integrations/mvc.html
                     .requestMatchers(GET, REST_PATH).hasRole(ADMIN.name())
@@ -79,7 +81,9 @@ interface SecurityConfig {
                     .requestMatchers("/h2-console", "/h2-console/*").permitAll()
                     .requestMatchers("/error").permitAll()
 
-                    .anyRequest().authenticated();
+                     */
+
+                    .anyRequest().permitAll();
             })
             .httpBasic()
             .and()
@@ -115,11 +119,11 @@ interface SecurityConfig {
         final var users = List.of(
             User.withUsername("admin")
                 .password(password)
-                .roles(ADMIN.name(), KUNDE.name(), ACTUATOR.name())
+                .roles("ADMIN", "KUNDE", "ACTUATOR")
                 .build(),
             User.withUsername("alpha")
                 .password(password)
-                .roles(KUNDE.name())
+                .roles("KUNDE")
                 .build()
         );
 

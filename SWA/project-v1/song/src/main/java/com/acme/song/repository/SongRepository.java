@@ -20,12 +20,12 @@ public class SongRepository {
      * Einen Song anhand seiner ID suchen.
      *
      * @param id Die Id des gesuchten Songs.
-     * @return Optional leer oder mit dem gefundenen Kunden.
+     * @return Optional leer oder mit dem gefundenen Song.
      */
     public Optional<Song> findById(final UUID id) {
         log.debug("findById: id={}", id);
         final var result = SONGS.stream()
-            .filter(kunde -> Objects.equals(kunde.getId(), id))
+            .filter(song -> Objects.equals(song.getId(), id))
             .findFirst();
         log.debug("findById: {}", result);
         return result;

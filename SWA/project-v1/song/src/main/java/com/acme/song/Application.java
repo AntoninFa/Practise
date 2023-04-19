@@ -35,9 +35,10 @@ import static org.springframework.hateoas.support.WebStack.WEBMVC;
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
 @SpringBootApplication(proxyBeanMethods = false)
+//TODO die ganze 422er und was ist mit dem ganzen dev-Ordner? Müssen wir das machen
 //422
-//@Import({ApplicationConfig.class, DevConfig.class})
-@EnableHypermediaSupport(type = HAL, stacks = WEBMVC)
+@Import(com.acme.song.ApplicationConfig.class)
+//@EnableHypermediaSupport(type = HAL, stacks = WEBMVC)
 @EnableWebSecurity
 @EnableMethodSecurity
 @SuppressWarnings({"ImplicitSubclassInspection", "ClassUnconnectedToPackage"})

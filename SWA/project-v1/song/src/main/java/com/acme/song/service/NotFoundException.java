@@ -1,10 +1,13 @@
 package com.acme.song.service;
 
+import lombok.Getter;
+
 import java.util.UUID;
 
 /**
  * Exception die geworfen wird, falls kein Song gefunden wurde
  */
+@Getter
 public class NotFoundException extends Exception {
 
     /**
@@ -17,7 +20,6 @@ public class NotFoundException extends Exception {
     public NotFoundException(final UUID id){
         super(NOTFOUNDERRORMESSAGE + id);
         this.id = id;
-
     }
 
 }
