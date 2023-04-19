@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import static com.acme.song.rest.SongGetController.REST_PATH;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -21,6 +22,7 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @Controller
 @RequestMapping(REST_PATH)
+@ResponseBody
 //TODO ?? Kann ziemlich save weg
 //@OpenAPIDefinition(info = @Info(title = "Kunde API", version = "v1"))
 @RequiredArgsConstructor
@@ -47,6 +49,7 @@ public class SongGetController {
     Song findById(@PathVariable final UUID id) {
         log.debug("findById: id={}", id);
         final var song = service.findById(id);
+        System.out.println("find ID by SOng Get Controller, ID: " + song.getId());
         return song;
     }
 }
