@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
-import com.acme.song.rest.CommonExceptionHandler;
 
 import java.util.UUID;
 
@@ -18,7 +17,7 @@ public final class SongReadService {
 
 
     /**
-     * Repository für den DB-Zugriff
+     * Repository für den DB-Zugriff.
      */
     private final SongRepository repo;
 
@@ -26,16 +25,14 @@ public final class SongReadService {
     /**
      * Einen Song anhand seiner ID suchen.
      *
-     * @param id Die Id des gesuchten Songs
+     * @param id Die Id des gesuchten Songs.
      * @return Den gefundene Song.
-     * @throws NotFoundException Falls kein Song gefunden wurde
+     * @throws NotFoundException Falls kein Song gefunden wurde.
      */
-
-    //TODO sollte eig. auch ohne throws laufen???
     public @NonNull Song findById(final UUID id) {
         log.debug("findById: id={}", id);
         final var song = repo.findById(id)
-            .orElseThrow(() -> new NotFoundException(id));
+            .orElseThrow();
         log.debug("findById: {}", song);
         return song;
     }

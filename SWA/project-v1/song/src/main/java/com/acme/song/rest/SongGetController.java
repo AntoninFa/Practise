@@ -41,9 +41,8 @@ public class SongGetController {
         "[\\dA-Fa-f]{8}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{12}";
 
 
-    //TODO Muss eig. auch ohne throws gehen
     @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<Song> findById(@PathVariable final UUID id) throws NotFoundException {
+    ResponseEntity<Song> findById(@PathVariable final UUID id) {
         log.debug("findById: id={}", id);
         final var song = service.findById(id);
         return ok(song);

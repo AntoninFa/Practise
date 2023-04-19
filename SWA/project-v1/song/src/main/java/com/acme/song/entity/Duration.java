@@ -7,4 +7,6 @@ public class Duration {
 
     private int second;
 
+}
+
 
