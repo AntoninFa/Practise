@@ -17,9 +17,9 @@ public enum GenreType {
     ROCK,
 
     /**
-     * Reggae Musik
+     * Punkrock
      */
-    REGGAE,
+    PUNKROCK,
 
     SCHLAGER,
 
@@ -29,6 +29,8 @@ public enum GenreType {
 
     KLASSISCH,
 
-    RAP;
+    RAP,
+
+    FOLK;
 
 }

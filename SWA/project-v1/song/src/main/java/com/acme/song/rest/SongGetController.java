@@ -1,13 +1,10 @@
 package com.acme.song.rest;
 
 import com.acme.song.entity.Song;
-import com.acme.song.service.NotFoundException;
 import com.acme.song.service.SongReadService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Not;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +15,6 @@ import static com.acme.song.rest.SongGetController.REST_PATH;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.UUID;
-import static org.springframework.http.ResponseEntity.ok;
 
 @Controller
 @RequestMapping(REST_PATH)
@@ -49,7 +45,7 @@ public class SongGetController {
     Song findById(@PathVariable final UUID id) {
         log.debug("findById: id={}", id);
         final var song = service.findById(id);
-        System.out.println("find ID by SOng Get Controller, ID: " + song.getId());
+        System.out.println("hi");
         return song;
     }
 }

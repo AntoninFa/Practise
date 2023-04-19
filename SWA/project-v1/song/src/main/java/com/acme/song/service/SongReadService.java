@@ -5,7 +5,6 @@ import com.acme.song.repository.SongRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -27,14 +26,12 @@ public final class SongReadService {
      *
      * @param id Die Id des gesuchten Songs.
      * @return Den gefundene Song.
-     * @throws NotFoundException Falls kein Song gefunden wurde.
      */
     public @NonNull Song findById(final UUID id) {
         log.debug("findById: id={}", id);
         final var song = repo.findById(id)
             .orElseThrow();
         log.debug("findById: {}", song);
-        System.out.println("Haslkdfjlsjfllloooo ");
         return song;
     }
 

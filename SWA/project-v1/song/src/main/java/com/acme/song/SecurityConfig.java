@@ -18,8 +18,7 @@ package com.acme.song;
 
 //TODO Security... Glaub ich muss hier das Admin Zeugs loswerden
 import java.util.List;
-import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
-import org.springframework.boot.actuate.health.HealthEndpoint;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -28,15 +27,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 //import static com.acme.song.rest.SongGetController.NACHNAME_PATH;
-import static com.acme.song.rest.SongGetController.REST_PATH;
 //import static com.acme.song.security.Rolle.ACTUATOR;
 //import static com.acme.song.security.Rolle.ADMIN;
 //import static com.acme.song.security.Rolle.KUNDE;
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.PATCH;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.security.crypto.factory.PasswordEncoderFactories.createDelegatingPasswordEncoder;
 
 /**
@@ -58,7 +51,7 @@ interface SecurityConfig {
     default SecurityFilterChain securityFilterChainFn(final HttpSecurity http) throws Exception {
         return http
             .authorizeHttpRequests(authorize -> {
-                final var restPathKundeId = REST_PATH + "/*";
+                //final var restPathKundeId = REST_PATH + "/*";
                 authorize
                     /*
                     // https://spring.io/blog/2020/06/30/url-matching-with-pathpattern-in-spring-mvc
