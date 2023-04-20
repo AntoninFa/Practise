@@ -16,14 +16,11 @@
  */
 package com.acme.song;
 
-// 422
-//import com.acme.song.dev.DevConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-// 422
 import static com.acme.song.Banner.TEXT;
 
 /**
@@ -33,12 +30,14 @@ import static com.acme.song.Banner.TEXT;
  */
 @SpringBootApplication(proxyBeanMethods = false)
 @Import(com.acme.song.ApplicationConfig.class)
+//TODO glaub die 3 können auch noch weg
 @EnableWebSecurity
 @EnableMethodSecurity
 @SuppressWarnings({"ImplicitSubclassInspection", "ClassUnconnectedToPackage"})
 public final class Application {
     private Application() {
     }
+
 
     /**
      * Hauptprogramm, um den Microservice zu starten.

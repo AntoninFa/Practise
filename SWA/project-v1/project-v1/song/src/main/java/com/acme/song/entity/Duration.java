@@ -28,6 +28,7 @@ public class Duration {
      * @return Der Song.
      */
     @JsonIgnore
+    @ToString.Exclude
     // Darf nicht @NotNull sein, weil beim Anlegen ueber REST der Rueckwaertsverweis noch nicht existiert
     private Song song;
 

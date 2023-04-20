@@ -47,7 +47,6 @@ public class SongGetController {
     Song findById(@PathVariable final UUID id) {
         log.debug("findById: id={}", id);
         final var song = service.findById(id);
-        System.out.println("hi");
         return song;
     }
 }
