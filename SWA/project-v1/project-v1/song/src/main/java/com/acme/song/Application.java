@@ -30,14 +30,10 @@ import static com.acme.song.Banner.TEXT;
  */
 @SpringBootApplication(proxyBeanMethods = false)
 @Import(com.acme.song.ApplicationConfig.class)
-//TODO glaub die 3 können auch noch weg
-@EnableWebSecurity
-@EnableMethodSecurity
 @SuppressWarnings({"ImplicitSubclassInspection", "ClassUnconnectedToPackage"})
 public final class Application {
     private Application() {
     }
-
 
     /**
      * Hauptprogramm, um den Microservice zu starten.
