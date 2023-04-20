@@ -27,7 +27,7 @@ public class Song {
     /**
      * Titel des Songs.
      * @param titel Der Titel.
-     * @return Den Titel
+     * @return Den Titel.
      */
     private String titel;
 

@@ -1,23 +1,22 @@
 package com.acme.song.entity;
 
 public enum GenreType {
-
-    //TODO Java Docs
+    //TODO Genres
 
     /**
-     * Pop-Musik
+     * Pop-Musik.
      */
     POP,
 
     DANCEPOP,
 
     /**
-     * Rock-Musik
+     * Rock-Musik.
      */
     ROCK,
 
     /**
-     * Punkrock
+     * Punkrock.
      */
     PUNKROCK,
 

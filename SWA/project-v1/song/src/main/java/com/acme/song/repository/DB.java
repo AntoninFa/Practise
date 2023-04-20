@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 public class DB {
 
     /**
-     * Liste der Songs
+     * Liste der Songs.
      */
     @SuppressWarnings("StaticCollection")
     static final List<Song> SONGS = getSongs();
@@ -29,13 +29,11 @@ public class DB {
     }
 
     /**
-     * Liste der Inhalte unserer Datenbank
+     * Liste der Inhalte unserer Datenbank.
      *
-     * @return diese Liste der Songs
+     * @return diese Liste der Songs.
      */
-    private static List<Song> getSongs() {
-        //TODO nochn paar mehr Einträge in die DB
-        final List<Song> songs = Stream.of(
+    private static List<Song> getSongs() {final List<Song> songs = Stream.of(
                 Song.builder()
                     .id(UUID.fromString("00000000-0000-0000-0000-000000000000"))
                     .titel("Watch Me")

@@ -34,7 +34,7 @@ public class SongRepository {
     /**
      * Alle Songs als Collection aus DB.
      *
-     * @return Alle Songs
+     * @return Alle Songs.
      */
     public @NonNull Collection<Song> findAll() {
         return SONGS;

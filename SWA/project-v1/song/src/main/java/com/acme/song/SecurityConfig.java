@@ -16,7 +16,6 @@
  */
 package com.acme.song;
 
-//TODO Security... Glaub ich muss hier das Admin Zeugs loswerden
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;

@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Klasse Speichert eine Zeitdauer.
+ * In Stunden:Minuten:Sekunden.
+ */
 @Builder
 @Getter
 @Setter
@@ -21,6 +25,7 @@ public class Duration {
 
     /**
      * Der zugehörige Song.
+     *
      * @param song Der Song.
      * @return Der Song.
      */

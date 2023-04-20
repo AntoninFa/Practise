@@ -19,8 +19,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping(REST_PATH)
 @ResponseBody
-//TODO ?? Kann ziemlich save weg
-//@OpenAPIDefinition(info = @Info(title = "Kunde API", version = "v1"))
+//@OpenAPIDefinition(info = @Info(title = "Song API", version = "v1"))
 @RequiredArgsConstructor
 @Slf4j
 public class SongGetController {
@@ -40,7 +39,7 @@ public class SongGetController {
         "[\\dA-Fa-f]{8}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{12}";
 
 
-    @ApiResponse(responseCode = "200", description = "Kunde gefunden")
+    @ApiResponse(responseCode = "200", description = "Song gefunden")
     @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = APPLICATION_JSON_VALUE)
     Song findById(@PathVariable final UUID id) {
         log.debug("findById: id={}", id);
