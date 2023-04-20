@@ -20,34 +20,46 @@ public final class DB {
     static final List<Song> SONGS = getSongs();
 
 
-    static final int WATCHMEDURH = 0;
-    static final int WATCHMEDURM = 3;
-    static final int WATCHMEDURS = 5;
+    private static final int WATCHMERY = 2015;
+    private static final int WATCHMERD = 5;
+    private static final int WATCHMEDURH = 0;
+    private static final int WATCHMEDURM = 3;
+    private static final int WATCHMEDURS = 5;
 
 
-    static final int GIMMEDURH = 0;
-    static final int GIMMEDURM = 4;
-    static final int GIMMEDURS = 53;
+    private static final int GIMMERY = 1979;
+    private static final int GIMMERD = 12;
+    private static final int GIMMEDURH = 0;
+    private static final int GIMMEDURM = 4;
+    private static final int GIMMEDURS = 53;
 
 
-    static final int SNLIEBEDURH = 0;
-    static final int SNLIEBEDURM = 4;
-    static final int SNLIEBEDURS = 13;
+    private static final int SNLIEBERY = 1993;
+    private static final int SNLIEBERD = 10;
+    private static final int SNLIEBEDURH = 0;
+    private static final int SNLIEBEDURM = 4;
+    private static final int SNLIEBEDURS = 13;
 
 
-    static final int LAMOURDURH = 0;
-    static final int LAMOURDURM = 2;
-    static final int LAMOURDURS = 25;
+    private static final int LAMOURDURRY = 1962;
+    private static final int LAMOURDUURD = 1;
+    private static final int LAMOURDURH = 0;
+    private static final int LAMOURDURM = 2;
+    private static final int LAMOURDURS = 25;
 
 
-    static final int GOLDRDURH = 0;
-    static final int GOLDRDURM = 4;
-    static final int GOLDRDURS = 30;
+    private static final int GOLDRRY = 1981;
+    private static final int GOLDRRD = 1;
+    private static final int GOLDRDURH = 0;
+    private static final int GOLDRDURM = 4;
+    private static final int GOLDRDURS = 30;
 
 
-    static final int SCHNAPPIDURH = 0;
-    static final int SCHNAPPIDURM = 2;
-    static final int SCHNAPPIDURS = 0;
+    private static final int SCHNAPPIRY = 2004;
+    private static final int SCHNAPPIRD = 6;
+    private static final int SCHNAPPIDURH = 0;
+    private static final int SCHNAPPIDURM = 2;
+    private static final int SCHNAPPIDURS = 0;
 
     private DB() {
     }
@@ -62,7 +74,7 @@ public final class DB {
                 Song.builder()
                     .id(UUID.fromString("00000000-0000-0000-0000-000000000000"))
                     .titel("Watch Me")
-                    .erscheinungsDatum(LocalDate.of(2015, Month.MAY, 5))
+                    .erscheinungsDatum(LocalDate.of(WATCHMERY, Month.MAY, WATCHMERD))
                     .genre(List.of(GenreType.RAP))
                     .musikLabel("Capitol Records")
                     .duration(Duration.builder().hours(WATCHMEDURH)
@@ -70,7 +82,7 @@ public final class DB {
                 Song.builder()
                     .id(UUID.fromString("00000000-0000-0000-0000-000000000001"))
                     .titel("Gimme! Gimme! Gimme!")
-                    .erscheinungsDatum(LocalDate.of(1979, Month.OCTOBER, 12))
+                    .erscheinungsDatum(LocalDate.of(GIMMERY, Month.OCTOBER, GIMMERD))
                     .genre(List.of(GenreType.POP, GenreType.DANCEPOP))
                     .musikLabel("Polar Music")
                     .duration(Duration.builder().hours(GIMMEDURH)
@@ -78,7 +90,7 @@ public final class DB {
                 Song.builder()
                     .id(UUID.fromString("00000000-0000-0000-0000-000000000002"))
                     .titel("Schrei nach Liebe")
-                    .erscheinungsDatum(LocalDate.of(1993, Month.SEPTEMBER, 10))
+                    .erscheinungsDatum(LocalDate.of(SNLIEBERY, Month.SEPTEMBER, SNLIEBERD))
                     .genre(List.of(GenreType.PUNKROCK))
                     .musikLabel("Columbia Records")
                     .duration(Duration.builder().hours(SNLIEBEDURH)
@@ -86,7 +98,7 @@ public final class DB {
                 Song.builder()
                     .id(UUID.fromString("00000000-0000-0000-0000-000000000003"))
                     .titel("Le Temps De L'Amour")
-                    .erscheinungsDatum(LocalDate.of(1962, Month.NOVEMBER, 1))
+                    .erscheinungsDatum(LocalDate.of(LAMOURDURRY, Month.NOVEMBER, LAMOURDUURD))
                     .genre(List.of(GenreType.FOLK))
                     .musikLabel("Northern Music Group")
                     .duration(Duration.builder().hours(LAMOURDURH)
@@ -94,7 +106,7 @@ public final class DB {
                 Song.builder()
                     .id(UUID.fromString("00000000-0000-0000-0000-000000000004"))
                     .titel("Goldener Reiter")
-                    .erscheinungsDatum(LocalDate.of(1981, Month.MAY, 1))
+                    .erscheinungsDatum(LocalDate.of(GOLDRRY, Month.MAY, GOLDRRD))
                     .genre(List.of(GenreType.NEUEDEUTSCHEWELLE, GenreType.POP))
                     .musikLabel("Northern Music Group")
                     .duration(Duration.builder().hours(GOLDRDURH)
@@ -102,7 +114,7 @@ public final class DB {
                 Song.builder()
                     .id(UUID.fromString("00000000-0000-0000-0000-000000000005"))
                     .titel("Schnappi, das kleine Krokodil")
-                    .erscheinungsDatum(LocalDate.of(2004, Month.DECEMBER, 6))
+                    .erscheinungsDatum(LocalDate.of(SCHNAPPIRY, Month.DECEMBER, SCHNAPPIRD))
                     .genre(List.of(GenreType.KINDERMUSIK))
                     .musikLabel("Polydor Records")
                     .duration(Duration.builder().hours(SCHNAPPIDURH)

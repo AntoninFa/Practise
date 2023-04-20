@@ -1,7 +1,7 @@
 package com.acme.song.entity;
 
 /**
- * Enum für die Verschiedenen Musik Genres
+ * Enum für die Verschiedenen Musik Genres.
  */
 public enum GenreType {
 
