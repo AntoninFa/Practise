@@ -25,6 +25,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
+import static org.springframework.security.config.Customizer.withDefaults;
 //import static com.acme.song.rest.SongGetController.NACHNAME_PATH;
 //import static com.acme.song.security.Rolle.ACTUATOR;
 //import static com.acme.song.security.Rolle.ADMIN;
@@ -77,12 +80,10 @@ interface SecurityConfig {
 
                     .anyRequest().permitAll();
             })
-            .httpBasic()
-            .and()
-            .formLogin().disable()
-            .csrf().disable()
-            .headers().frameOptions().sameOrigin()
-            .and()
+            .httpBasic(withDefaults())
+            .formLogin(AbstractHttpConfigurer::disable)
+            .csrf(AbstractHttpConfigurer::disable)
+            .headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
             .build();
     }
 
