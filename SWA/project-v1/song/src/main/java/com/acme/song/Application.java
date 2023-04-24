@@ -16,14 +16,9 @@
  */
 package com.acme.song;
 
-// 422
-//import com.acme.song.dev.DevConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-// 422
 import static com.acme.song.Banner.TEXT;
 
 /**
@@ -32,12 +27,7 @@ import static com.acme.song.Banner.TEXT;
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
 @SpringBootApplication(proxyBeanMethods = false)
-//TODO die ganze 422er und was ist mit dem ganzen dev-Ordner? Müssen wir das machen
-//422
 @Import(com.acme.song.ApplicationConfig.class)
-//@EnableHypermediaSupport(type = HAL, stacks = WEBMVC)
-@EnableWebSecurity
-@EnableMethodSecurity
 @SuppressWarnings({"ImplicitSubclassInspection", "ClassUnconnectedToPackage"})
 public final class Application {
     private Application() {

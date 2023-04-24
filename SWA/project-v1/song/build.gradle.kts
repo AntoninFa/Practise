@@ -75,7 +75,7 @@
 //
 //  13) Initialisierung des Gradle Wrappers in der richtigen Version
 //      dazu ist ggf. eine Internetverbindung erforderlich
-//        gradle wrapper --gradle-version=8.1 --distribution-type=bin
+//        gradle wrapper --gradle-version=8.1.1 --distribution-type=bin
 
 // https://github.com/gradle/kotlin-dsl/tree/master/samples
 // https://docs.gradle.org/current/userguide/kotlin_dsl.html
@@ -161,10 +161,10 @@ group = "com.acme"
 version = "2023.1.0"
 
 sweeney {
-    enforce(mapOf("type" to "gradle", "expect" to "[8.1.0,8.1.0]"))
+    enforce(mapOf("type" to "gradle", "expect" to "[8.1.1,8.1.1]"))
     // https://www.java.com/releases
     // https://devcenter.heroku.com/articles/java-support#specifying-a-java-version
-    enforce(mapOf("type" to "jdk", "expect" to "[19.0.2,21]"))
+    enforce(mapOf("type" to "jdk", "expect" to "[20.0.1,21]"))
     validate()
 }
 
@@ -186,13 +186,13 @@ repositories {
     // https://github.com/spring-projects/spring-framework/wiki/Release-Process
     maven("https://repo.spring.io/milestone") { mavenContent { releasesOnly() } }
 
-    // Snapshots von Spring (auch fuer Snapshots von springdoc-openapi)
+    // Snapshots von Spring Framework, Spring Boot, Spring Data, Spring Security, Spring for GraphQL, ...
     // maven("https://repo.spring.io/snapshot") { mavenContent { snapshotsOnly() } }
 
     // Snapshots von springdoc-openapi
     // maven("https://s01.oss.sonatype.org/content/repositories/snapshots") { mavenContent { snapshotsOnly() } }
 
-    // Snapshots von JaCoCo fuer Java 20
+    // Snapshots von JaCoCo
     // maven("https://oss.sonatype.org/content/repositories/snapshots") {
     //     mavenContent { snapshotsOnly() }
     //     // https://docs.gradle.org/current/userguide/jacoco_plugin.html#sec:jacoco_dependency_management
@@ -210,10 +210,10 @@ configurations {
 @Suppress("CommentSpacing")
 // https://docs.gradle.org/current/userguide/java_library_plugin.html#sec:java_library_separation
 dependencies {
-    implementation(platform(libs.micrometerBom))
-    implementation(platform(libs.jacksonBom))
-    implementation(platform(libs.nettyBom))
-    implementation(platform(libs.reactorBom))
+    //implementation(platform(libs.micrometerBom))
+    //implementation(platform(libs.jacksonBom))
+    //implementation(platform(libs.nettyBom))
+    //implementation(platform(libs.reactorBom))
     //implementation(platform(libs.springBom))
     //implementation(platform(libs.querydslBom))
     //implementation(platform(libs.springDataBom))
@@ -241,7 +241,7 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-json")
-    //implementation("org.springframework.boot:spring-boot-starter-graphql")
+    implementation("org.springframework.boot:spring-boot-starter-graphql")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -322,13 +322,14 @@ dependencies {
         //implementation(libs.hibernateValidator)
         //implementation(libs.bundles.tomcat)
         //implementation(libs.bundles.graphqlJavaBundle)
-        implementation(libs.graphqlJava)
+        //implementation(libs.graphqlJava)
         //implementation(libs.graphqlJavaDataloader)
         implementation(libs.angusMail)
         //implementation(libs.bundles.slf4jBundle)
         //implementation(libs.logback)
         //implementation(libs.bundles.log4j)
         //implementation(libs.springSecurityRsa)
+        testImplementation(libs.mockitoInline)
     }
 }
 /* ktlint-enable comment-spacing */

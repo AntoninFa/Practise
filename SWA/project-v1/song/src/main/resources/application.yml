@@ -22,18 +22,7 @@ server:
     min-response-size: 2KB
   error.whitelabel.enabled: false
   http2.enabled: true
-  ssl:
-    enabled: true
-    enabled-protocols: TLSv1.3
-    key-alias: microservice
-    key-password: zimmermann
-    key-store: classpath:keystore.p12
-    key-store-password: zimmermann
-    key-store-type: PKCS12
-    protocol: TLS
-    trust-store: classpath:truststore.p12
-    trust-store-password: zimmermann
-    trust-store-type: PKCS12
+  ssl.bundle: microservice
   shutdown: graceful
 
 spring:
@@ -87,6 +76,17 @@ spring:
   native.remove-unused-autoconfig: true
   security.user.password: p
   spel.ignore: true
+  ssl.bundle.jks.microservice:
+    key:
+      alias: microservice
+    keystore:
+      location: classpath:keystore.p12
+      password: zimmermann
+      type: PKCS12
+    truststore:
+      location: classpath:truststore.p12
+      password: zimmermann
+      type: PKCS12
 
 management:
   endpoints.web.exposure.include: "*"
