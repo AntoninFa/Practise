@@ -10,14 +10,13 @@ import java.util.UUID;
 @Getter
 public class NotFoundException extends Exception {
 
-    /**
-     * UUID zu der kein Kunde gefunden wurde.
-     */
-    private UUID id;
     private static final String NOTFOUNDERRORMESSAGE = "Kein Song gefunden mit ID: ";
+    /**
+     * UUID zu der kein Song gefunden wurde.
+     */
+    private final UUID id;
 
-
-    public NotFoundException(final UUID id){
+    NotFoundException(final UUID id) {
         super(NOTFOUNDERRORMESSAGE + id);
         this.id = id;
     }

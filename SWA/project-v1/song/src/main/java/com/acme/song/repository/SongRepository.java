@@ -1,17 +1,17 @@
 package com.acme.song.repository;
-
 import com.acme.song.entity.Song;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-
 import static com.acme.song.repository.DB.SONGS;
 
+/**
+ * Repository für den DB-Zugriff.
+ */
 @Repository
 @Slf4j
 public class SongRepository {

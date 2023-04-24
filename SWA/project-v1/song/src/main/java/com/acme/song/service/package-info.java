@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2022 - present Juergen Zimmermann, Hochschule Karlsruhe
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +15,6 @@
  */
 
 /**
- * Microservice "song".
+ * Klassen für den Anwendungskern.
  */
-package com.acme.song;
+package com.acme.song.service;

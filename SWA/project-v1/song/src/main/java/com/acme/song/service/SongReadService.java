@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+/**
+ * Anwendungslogik für Songs.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j

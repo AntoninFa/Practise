@@ -1,35 +1,43 @@
 package com.acme.song.entity;
 
+/**
+ * Enum für die Verschiedenen Musik Genres.
+ */
 public enum GenreType {
-    //TODO Genres
 
     /**
-     * Pop-Musik.
+     * Pop-Musik Genre.
      */
     POP,
 
+    /**
+     * Dance-Pop Genre.
+     */
     DANCEPOP,
 
-    /**
-     * Rock-Musik.
-     */
-    ROCK,
 
     /**
-     * Punkrock.
+     * Punkrock Genre.
      */
     PUNKROCK,
 
-    SCHLAGER,
+    /**
+     * Neue Deutsche Welle Genre.
+     */
+    NEUEDEUTSCHEWELLE,
 
-    ELEKTRONIC,
-
+    /**
+     * Kindermusik Genre.
+     */
     KINDERMUSIK,
 
-    KLASSISCH,
-
+    /**
+     * Rap Genre.
+     */
     RAP,
 
-    FOLK;
-
+    /**
+     * Folk Genre.
+     */
+    FOLK
 }
