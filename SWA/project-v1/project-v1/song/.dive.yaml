@@ -1,8 +1,0 @@
-# https://github.com/wagoodman/dive#ui-configuration
-diff:
-  hide:
-    - removed
-    - modified
-    - unmodified
-#filetree:
-#  show-attributes: false
