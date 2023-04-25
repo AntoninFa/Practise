@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.UUID;
 
 /**
@@ -38,4 +39,14 @@ public final class SongReadService {
         return song;
     }
 
+    /**
+     * Sucht alle Songs
+     *
+     * @return Alle Songs
+     */
+    public @NonNull Collection<Song> findAll() {
+        final var songs = repo.findAll();
+        log.debug("findAll: {}", songs);
+        return songs;
+    }
 }
