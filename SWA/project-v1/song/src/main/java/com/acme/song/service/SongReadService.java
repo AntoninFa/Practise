@@ -40,7 +40,7 @@ public final class SongReadService {
     }
 
     /**
-     * Sucht alle Songs
+     * Sucht alle Songs.
      *
      * @return Alle Songs
      */

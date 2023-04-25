@@ -4,7 +4,6 @@ import com.acme.song.service.SongReadService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import static com.acme.song.rest.SongGetController.REST_PATH;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.ResponseEntity.ok;
-
 import java.util.Collection;
 import java.util.UUID;
 
@@ -54,7 +51,7 @@ public class SongGetController {
     }
 
     /**
-     * Sucht alle Songs
+     * Sucht alle Songs.
      *
      * @return Response mit allen Songs und Statuscode 200
      */
