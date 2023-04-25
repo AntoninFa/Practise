@@ -17,7 +17,7 @@ public class Duration {
 
     private int hours;
     private int minutes;
-    private int second;
+    private int seconds;
 
     /**
      * Der zugehörige Song.

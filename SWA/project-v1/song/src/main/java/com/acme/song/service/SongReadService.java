@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 /**
- * Anwendungslogik für Songs.
+ * Anwendungslogik fürs Lesen der Song-DB.
  */
 @Service
 @RequiredArgsConstructor

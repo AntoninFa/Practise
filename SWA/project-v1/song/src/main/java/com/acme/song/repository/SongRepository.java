@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import static com.acme.song.repository.DB.SONGS;
+import static java.util.UUID.randomUUID;
 
 /**
  * Repository für den DB-Zugriff.
@@ -38,5 +39,20 @@ public class SongRepository {
      */
     public @NonNull Collection<Song> findAll() {
         return SONGS;
+    }
+
+
+    /**
+     * Einen neuen Song anlegen.
+     *
+     * @param song Der anzulegende Song.
+     * @return Den Song.
+     */
+    public @NonNull Song create(final @NonNull Song song) {
+        log.debug("create: {}", song);
+        song.setId(randomUUID());
+        SONGS.add(song);
+        log.debug("create: {}", song);
+        return song;
     }
 }

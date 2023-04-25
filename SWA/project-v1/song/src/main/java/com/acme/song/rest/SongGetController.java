@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 /**
- * REST- Schnittstelle.
+ * REST-Schnittstelle fürs Lesen.
  */
 @Controller
 @RequestMapping(REST_PATH)

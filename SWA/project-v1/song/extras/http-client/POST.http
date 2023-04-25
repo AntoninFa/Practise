@@ -1,0 +1,5 @@
+### Einen neuen Song anlegen
+POST {{restUrl}}
+Content-Type: application/json
+
+< data/song-neu.json
