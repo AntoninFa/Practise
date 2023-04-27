@@ -103,7 +103,7 @@ public final class DB {
                 .titel("Goldener Reiter")
                 .erscheinungsDatum(LocalDate.of(GOLDRRY, Month.MAY, GOLDRRD))
                 .genre(List.of(GenreType.NEUEDEUTSCHEWELLE, GenreType.POP))
-                .musikLabel("Northern Music Group")
+                .musikLabel("WEA Records")
                 .duration(Duration.builder().hours(GOLDRDURH)
                     .minutes(GOLDRDURM).seconds(GOLDRDURS).build()).build()
         ).collect(Collectors.toList());

@@ -29,8 +29,8 @@ if ($versionMinimum -gt $versionCurrent) {
 $host.ui.RawUI.WindowTitle = 'pluto'
 
 $release = 'song'
-Set-Location ..\$release
+Set-Location C:\Users\Student\IdeaProjects\song-v1\song\extras\kubernetes\song
 helm template $release . -f values.yaml -f dev.yaml > ${env:TEMP}\$release.yaml
 C:\Zimmermann\pluto\pluto.exe detect ${env:TEMP}\$release.yaml
-Set-Location ..\kubernetes
+Set-Location C:\Users\Student\IdeaProjects\song-v1\song\extras\kubernetes
 Remove-Item -Force ${env:TEMP}\$release.yaml
