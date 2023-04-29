@@ -18,7 +18,9 @@ package com.acme.song;
 
 import java.util.List;
 
+import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.context.annotation.Bean;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,6 +29,10 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
+
+import static com.acme.song.rest.SongGetController.REST_PATH;
+import static com.acme.song.security.Rolle.*;
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.Customizer.withDefaults;
 //import static com.acme.song.rest.SongGetController.NACHNAME_PATH;
 //import static com.acme.song.security.Rolle.ACTUATOR;
@@ -53,13 +59,14 @@ interface SecurityConfig {
     default SecurityFilterChain securityFilterChainFn(final HttpSecurity http) throws Exception {
         return http
             .authorizeHttpRequests(authorize -> {
-                //final var restPathKundeId = REST_PATH + "/*";
+                final var restPathKundeId = REST_PATH + "/*";
                 authorize
-                    /*
+
                     // https://spring.io/blog/2020/06/30/url-matching-with-pathpattern-in-spring-mvc
                     // https://docs.spring.io/spring-security/reference/6.0.1/servlet/integrations/mvc.html
                     .requestMatchers(GET, REST_PATH).hasRole(ADMIN.name())
-                    .requestMatchers(GET, REST_PATH + NACHNAME_PATH + "/*").hasRole(ADMIN.name())
+                    //TODO war path um nachname zu finden, könnte bei mir dann irnen Attribut werden
+                    //.requestMatchers(GET, REST_PATH + NACHNAME_PATH + "/*").hasRole(ADMIN.name())
                     .requestMatchers(GET, restPathKundeId).hasAnyRole(ADMIN.name(), KUNDE.name())
                     .requestMatchers(PUT, restPathKundeId).hasRole(ADMIN.name())
                     .requestMatchers(PATCH, restPathKundeId).hasRole(ADMIN.name())
@@ -75,10 +82,8 @@ interface SecurityConfig {
                     .requestMatchers(GET, "/graphiql").permitAll()
                     .requestMatchers("/h2-console", "/h2-console/*").permitAll()
                     .requestMatchers("/error").permitAll()
-
-                     */
-
-                    .anyRequest().permitAll();
+                    // TODO richtig, dass ich hier authi anstatt perimitAll() gemacht habe?
+                    .anyRequest().authenticated();
             })
             .httpBasic(withDefaults())
             .formLogin(AbstractHttpConfigurer::disable)
