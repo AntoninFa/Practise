@@ -1,5 +1,6 @@
 ### Einen neuen Song anlegen
 POST {{restUrl}}
 Content-Type: application/json
+Authorization: Basic {{userAdmin}} {{password}}
 
 < data/song-neu.json

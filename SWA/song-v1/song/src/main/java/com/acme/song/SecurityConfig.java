@@ -33,10 +33,10 @@ import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.Customizer.withDefaults;
 //import static com.acme.song.rest.SongGetController.NACHNAME_PATH;
 import static org.springframework.security.crypto.factory.PasswordEncoderFactories.createDelegatingPasswordEncoder;
-import static com.acme.song.security.Rolle.ACTUATOR;
 import static com.acme.song.security.Rolle.ADMIN;
 import static com.acme.song.rest.SongGetController.REST_PATH;
-import static com.acme.song.security.Rolle.KUNDE;
+
+
 /**
  * Security-Konfiguration.
  *
@@ -64,13 +64,13 @@ interface SecurityConfig {
                     .requestMatchers(GET, REST_PATH).hasRole(ADMIN.name())
                     //TODO war path um nachname zu finden, könnte bei mir dann irnen Attribut werden !! Import
                     //.requestMatchers(GET, REST_PATH + NACHNAME_PATH + "/*").hasRole(ADMIN.name())
-                    .requestMatchers(GET, restPathKundeId).hasAnyRole(ADMIN.name(), KUNDE.name())
+                    //.requestMatchers(GET, restPathKundeId).hasAnyRole(ADMIN.name(), KUNDE.name())
                     .requestMatchers(PUT, restPathKundeId).hasRole(ADMIN.name())
                     .requestMatchers(PATCH, restPathKundeId).hasRole(ADMIN.name())
                     .requestMatchers(DELETE, restPathKundeId).hasRole(ADMIN.name())
 
                     .requestMatchers(EndpointRequest.to(HealthEndpoint.class)).permitAll()
-                    .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole(ACTUATOR.name())
+                    //.requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole(ACTUATOR.name())
 
                     .requestMatchers(POST, REST_PATH).permitAll()
                     .requestMatchers(POST, "/graphql").permitAll()
@@ -115,11 +115,14 @@ interface SecurityConfig {
             User.withUsername("admin")
                 .password(password)
                 .roles("ADMIN", "KUNDE", "ACTUATOR")
-                .build(),
+                .build()
+            //, (nach build)
+            /*
             User.withUsername("alpha")
                 .password(password)
                 .roles("KUNDE")
                 .build()
+             */
         );
 
         return new InMemoryUserDetailsManager(users);

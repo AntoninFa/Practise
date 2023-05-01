@@ -5,8 +5,9 @@ import com.acme.song.repository.SongRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.UUID;
+import jakarta.validation.Validator;
+
 
 /**
  * Anwendungslogik fürs Schreiben der Song-DB.
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Slf4j
 public class SongWriteService {
     private final SongRepository repo;
+    private final Validator validator;
 
     /**
      * Einen neuen Song anlegen.
@@ -31,20 +33,29 @@ public class SongWriteService {
         return songDB;
     }
 
+
+    /**
+     * Aktualisieren eines bereits vorhandenen Songs.
+     *
+     * @param song das Songobjekt mit den neuen Daten
+     * @param id ID des Songs der Aktualisiert werden soll
+     * @throws NotFoundException Kein Song zur ID vorhanden.
+     */
     public void update(final Song song, final UUID id) {
         log.debug("update: {}", song);
         log.debug("update: id={}", id);
 
-        //TODO Validation
-        final var songOptional = repo.findById(id);
-        if (songOptional.isEmpty()) {
-            //TODO Exception Handling
-            //throw new NotFoundException(id);
-
-            song.setId(id);
-            repo.update(song);
+        final var violations = validator.validate(song);
+        if (!violations.isEmpty()) {
+            log.debug("update: violations={}", violations);
+            throw new ConstraintViolationsException(violations);
         }
 
-    }
+        if (repo.findById(id).isEmpty()) {
+            throw new NotFoundException(id);
+        }
 
+        song.setId(id);
+        repo.update(song);
+    }
 }

@@ -1,5 +1,6 @@
 package com.acme.song.repository;
 import com.acme.song.entity.Song;
+import com.acme.song.entity.GenreType;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -8,6 +9,7 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 import static com.acme.song.repository.DB.SONGS;
+import static java.util.Collections.emptyList;
 import static java.util.UUID.randomUUID;
 
 /**
@@ -69,9 +71,46 @@ public class SongRepository {
             .findFirst();
         log.trace("update: index={}", index);
         if (index.isEmpty()) {
+            //TODO deleto
+            System.out.println("TRACE is EMpty");
             return;
         }
         SONGS.set(index.getAsInt(), song);
+        //TODO deleto
+        System.out.println("Index: "+ index.getAsInt() + "song den wir reinSetz:"+ song);
         log.debug("update: {}", song);
     }
+
+    public @NonNull Collection<Song> findByTitel(final CharSequence titel) {
+        log.debug("findByTitel: titel={}", titel);
+
+        final var songs = SONGS.stream()
+            .filter(song -> song.getTitel().contains(titel))
+            .toList();
+        log.debug("findByTitel: titel={}", titel);
+        return songs;
+    }
+
+    public @NonNull Collection<Song> findByGenre(final Collection<String> genreString) {
+        //TODO Methode müsste so passen, aber hab nicht so mega viel zeit Investiert,
+        //TODO als nächstes find hier in repo implementieren
+        log.debug("findByGenre: genreString={}", genreString);
+        final var genres = genreString
+            .stream()
+            .map(genre -> GenreType.of(genre).orElse(null))
+            .toList();
+        if (genres.contains(null)) {
+            return emptyList();
+        }
+        final var songs = SONGS.stream()
+            .filter(song -> {
+                @SuppressWarnings("SetReplaceableByEnumSet")
+                final Collection<GenreType> songGenre = new HashSet<>(song.getGenre());
+                return songGenre.containsAll(genres);
+            })
+            .toList();
+        log.debug("findByGenre: songs={}", songs);
+        return songs;
+    }
+
 }
