@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * Anwendungslogik fürs Schreiben der Song-DB.
  */
@@ -28,4 +30,21 @@ public class SongWriteService {
         log.debug("create: {}", songDB);
         return songDB;
     }
+
+    public void update(final Song song, final UUID id) {
+        log.debug("update: {}", song);
+        log.debug("update: id={}", id);
+
+        //TODO Validation
+        final var songOptional = repo.findById(id);
+        if (songOptional.isEmpty()) {
+            //TODO Exception Handling
+            //throw new NotFoundException(id);
+
+            song.setId(id);
+            repo.update(song);
+        }
+
+    }
+
 }

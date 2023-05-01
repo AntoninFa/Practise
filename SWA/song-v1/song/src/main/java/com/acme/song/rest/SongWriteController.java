@@ -8,13 +8,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.UUID;
 
+import static com.acme.song.rest.SongGetController.ID_PATTERN;
 import static com.acme.song.rest.SongGetController.REST_PATH;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.created;
 
@@ -46,5 +47,26 @@ class SongWriteController {
         final var baseUri = uriHelper.getBaseUri(request).toString();
         final var location = URI.create(baseUri + '/' + song.getId());
         return created(location).build();
+    }
+
+    /**
+     * Einen vorhandenen Song-Datensatz überschreiben.
+     *
+     * @param id       ID des Songs, welcher Überschrieben werden soll.
+     * @param songDTO as Song DataTransferObject aus dem eingegangenen Request-Body.
+     */
+    @PutMapping(path = "{id:" + ID_PATTERN + "}", consumes = APPLICATION_JSON_VALUE)
+    @ResponseStatus(NO_CONTENT)
+    @Operation(summary = "Einen Song mit neuen Werten aktualisieren", tags = "Aktualisieren")
+    @ApiResponse(responseCode = "204", description = "Aktualisiert")
+    @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
+    @ApiResponse(responseCode = "404", description = "Song nicht in der Datenbank")
+    @ApiResponse(responseCode = "422", description = "Ungültige Werte")
+    void update(@PathVariable final UUID id, @RequestBody final SongDTO songDTO
+    ) {
+        log.debug("update: id={}, {}", id, songDTO);
+        final var song = songDTO.toSong();
+        //TODO konnte hier nicht direkt songDTO.toSong() in der Klammer machen, why?
+        writeService.update(song, id);
     }
 }
