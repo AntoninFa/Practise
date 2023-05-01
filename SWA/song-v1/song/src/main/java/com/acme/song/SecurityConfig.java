@@ -29,17 +29,14 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
-
-import static com.acme.song.rest.SongGetController.REST_PATH;
-import static com.acme.song.security.Rolle.*;
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.Customizer.withDefaults;
 //import static com.acme.song.rest.SongGetController.NACHNAME_PATH;
-//import static com.acme.song.security.Rolle.ACTUATOR;
-//import static com.acme.song.security.Rolle.ADMIN;
-//import static com.acme.song.security.Rolle.KUNDE;
 import static org.springframework.security.crypto.factory.PasswordEncoderFactories.createDelegatingPasswordEncoder;
-
+import static com.acme.song.security.Rolle.ACTUATOR;
+import static com.acme.song.security.Rolle.ADMIN;
+import static com.acme.song.rest.SongGetController.REST_PATH;
+import static com.acme.song.security.Rolle.KUNDE;
 /**
  * Security-Konfiguration.
  *
@@ -65,7 +62,7 @@ interface SecurityConfig {
                     // https://spring.io/blog/2020/06/30/url-matching-with-pathpattern-in-spring-mvc
                     // https://docs.spring.io/spring-security/reference/6.0.1/servlet/integrations/mvc.html
                     .requestMatchers(GET, REST_PATH).hasRole(ADMIN.name())
-                    //TODO war path um nachname zu finden, könnte bei mir dann irnen Attribut werden
+                    //TODO war path um nachname zu finden, könnte bei mir dann irnen Attribut werden !! Import
                     //.requestMatchers(GET, REST_PATH + NACHNAME_PATH + "/*").hasRole(ADMIN.name())
                     .requestMatchers(GET, restPathKundeId).hasAnyRole(ADMIN.name(), KUNDE.name())
                     .requestMatchers(PUT, restPathKundeId).hasRole(ADMIN.name())
