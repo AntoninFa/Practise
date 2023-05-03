@@ -39,7 +39,6 @@ public class SongGetController {
         "[\\dA-Fa-f]{8}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{12}";
 
     private final SongReadService service;
-    private final UriHelper uriHelper;
 
     /**
      * Suche nach Song mit der passenden ID.

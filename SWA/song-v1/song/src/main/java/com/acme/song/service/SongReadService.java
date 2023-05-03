@@ -60,37 +60,28 @@ public final class SongReadService {
             // Nicht Empfohlen bei sehr großen Datenbanken
             return repo.findAll();
         }
-        /**
-         * private @NonNull Collection<Kunde> findByInteresse(final Collection<String> interessenStr) {
-         *         log.debug("findByInteressen: interessenStr={}", interessenStr);
-         *         final var interessen = interessenStr
-         *             .stream()
-         *             .map(interesse -> InteresseType.of(interesse).orElse(null))
-         *             .toList();
-         *         if (interessen.contains(null)) {
-         *             return emptyList();
-         *         }
-         *         final var kunden = KUNDEN.stream()
-         *             .filter(kunde -> {
-         *                 @SuppressWarnings("SetReplaceableByEnumSet")
-         *                 final Collection<InteresseType> kundeInteressen = new HashSet<>(kunde.getInteressen());
-         *                 return kundeInteressen.containsAll(interessen);
-         *             })
-         *             .toList();
-         *         log.debug("findByNachname: kunden={}", kunden);
-         *         return kunden;
-         *     }
-         */
 
-
-        final var songs = repo.find(suchkriterien);
-        if (songs.isEmpty()) {
-            throw new NotFoundException(suchkriterien);
+        if (suchkriterien.size() == 1) {
+            final var titel = suchkriterien.get("titel");
+            if (titel != null && titel.size() == 1) {
+                final var songs = repo.findByTitel(titel.get(0));
+                if (songs.isEmpty()) {
+                    throw new NotFoundException(suchkriterien);
+                }
+                log.debug("find (titel): {}", songs);
+                return songs;
+            }
         }
-        log.debug("find: {}", songs);
-        return songs;
 
+
+            final var songs = repo.find(suchkriterien);
+            if (songs.isEmpty()) {
+                throw new NotFoundException(suchkriterien);
+            }
+            log.debug("find: {}", songs);
+            return songs;
+
+
+        }
 
     }
-
-}

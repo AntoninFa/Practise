@@ -1,15 +1,28 @@
 package com.acme.song.repository;
+
 import com.acme.song.entity.Song;
 import com.acme.song.entity.GenreType;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.IntStream;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
-import static com.acme.song.repository.DB.SONGS;
 import static java.util.Collections.emptyList;
+import static java.util.UUID.randomUUID;
+import static com.acme.song.repository.DB.SONGS;
 import static java.util.UUID.randomUUID;
 
 /**
@@ -71,14 +84,34 @@ public class SongRepository {
             .findFirst();
         log.trace("update: index={}", index);
         if (index.isEmpty()) {
-            //TODO deleto
-            System.out.println("TRACE is EMpty");
             return;
         }
         SONGS.set(index.getAsInt(), song);
-        //TODO deleto
-        System.out.println("Index: "+ index.getAsInt() + "song den wir reinSetz:"+ song);
         log.debug("update: {}", song);
+    }
+
+    public @NonNull Collection<Song> find(final Map<String, ? extends List<String>> suchkriterien) {
+        log.debug("find: suchkriterien ={}", suchkriterien);
+
+        if (suchkriterien.isEmpty()) {
+            return findAll();
+        }
+
+        for (final var e : suchkriterien.entrySet()) {
+            switch (e.getKey()) {
+                case "titel" -> {
+                    return findByTitel(e.getValue().get(0));
+                }
+                case "genre" -> {
+                    return findByGenre(e.getValue());
+                }
+                default -> {
+                    log.debug("find: Suchkriterium nicht erkannt: {}", e.getKey());
+                    return emptyList();
+                }
+            }
+        }
+        return emptyList();
     }
 
     public @NonNull Collection<Song> findByTitel(final CharSequence titel) {
@@ -94,6 +127,7 @@ public class SongRepository {
     public @NonNull Collection<Song> findByGenre(final Collection<String> genreString) {
         //TODO Methode müsste so passen, aber hab nicht so mega viel zeit Investiert,
         //TODO als nächstes find hier in repo implementieren
+        //TODO Hier Weitemachen
         log.debug("findByGenre: genreString={}", genreString);
         final var genres = genreString
             .stream()
@@ -104,8 +138,7 @@ public class SongRepository {
         }
         final var songs = SONGS.stream()
             .filter(song -> {
-                @SuppressWarnings("SetReplaceableByEnumSet")
-                final Collection<GenreType> songGenre = new HashSet<>(song.getGenre());
+                @SuppressWarnings("SetReplaceableByEnumSet") final Collection<GenreType> songGenre = new HashSet<>(song.getGenre());
                 return songGenre.containsAll(genres);
             })
             .toList();
