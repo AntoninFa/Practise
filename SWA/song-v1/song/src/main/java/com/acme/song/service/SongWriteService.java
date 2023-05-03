@@ -8,9 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 import jakarta.validation.Validator;
 
-
 /**
- * Anwendungslogik fürs Schreiben der Song-DB.
+ * Anwendungslogik für Songs.
  */
 @Service
 @RequiredArgsConstructor
@@ -28,6 +27,12 @@ public class SongWriteService {
     public Song create(final Song song) {
         log.debug("create: {}", song);
 
+        final var violations = validator.validate(song);
+        if (!violations.isEmpty()) {
+            log.debug("create: violations={}", violations);
+
+            throw new ConstraintViolationsException(violations);
+        }
         final var songDB = repo.create(song);
         log.debug("create: {}", songDB);
         return songDB;
@@ -42,19 +47,18 @@ public class SongWriteService {
      * @throws NotFoundException Kein Song zur ID vorhanden.
      */
     public void update(final Song song, final UUID id) {
-        log.debug("update: {}", song);
+        log.debug("update: song={}", song);
         log.debug("update: id={}", id);
 
         final var violations = validator.validate(song);
         if (!violations.isEmpty()) {
             log.debug("update: violations={}", violations);
+
             throw new ConstraintViolationsException(violations);
         }
-
         if (repo.findById(id).isEmpty()) {
             throw new NotFoundException(id);
         }
-
         song.setId(id);
         repo.update(song);
     }

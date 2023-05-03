@@ -17,7 +17,6 @@
 package com.acme.song;
 
 import java.util.List;
-
 import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
@@ -29,9 +28,13 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
-import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.Customizer.withDefaults;
-//import static com.acme.song.rest.SongGetController.NACHNAME_PATH;
+import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.PATCH;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.PUT;
+//import static com.acme.song.rest.SongGetController.NACHNAME_PATH; //Muss dann glaub Titel path werden?!
 import static org.springframework.security.crypto.factory.PasswordEncoderFactories.createDelegatingPasswordEncoder;
 import static com.acme.song.security.Rolle.ADMIN;
 import static com.acme.song.rest.SongGetController.REST_PATH;
@@ -62,7 +65,8 @@ interface SecurityConfig {
                     // https://spring.io/blog/2020/06/30/url-matching-with-pathpattern-in-spring-mvc
                     // https://docs.spring.io/spring-security/reference/6.0.1/servlet/integrations/mvc.html
                     .requestMatchers(GET, REST_PATH).hasRole(ADMIN.name())
-                    //TODO war path um nachname zu finden, könnte bei mir dann irnen Attribut werden !! Import
+                    // war path um nachname zu finden, könnte bei mir dann Titel Attribut werden !! Import
+                    // heißt, wenn ich die query Suche einschränken will, muss ich das hier noch machen
                     //.requestMatchers(GET, REST_PATH + NACHNAME_PATH + "/*").hasRole(ADMIN.name())
                     //.requestMatchers(GET, restPathKundeId).hasAnyRole(ADMIN.name(), KUNDE.name())
                     .requestMatchers(PUT, restPathKundeId).hasRole(ADMIN.name())
@@ -79,7 +83,6 @@ interface SecurityConfig {
                     .requestMatchers(GET, "/graphiql").permitAll()
                     .requestMatchers("/h2-console", "/h2-console/*").permitAll()
                     .requestMatchers("/error").permitAll()
-                    // TODO richtig, dass ich hier authi anstatt perimitAll() gemacht habe?
                     .anyRequest().authenticated();
             })
             .httpBasic(withDefaults())
@@ -116,13 +119,6 @@ interface SecurityConfig {
                 .password(password)
                 .roles("ADMIN", "KUNDE", "ACTUATOR")
                 .build()
-            //, (nach build)
-            /*
-            User.withUsername("alpha")
-                .password(password)
-                .roles("KUNDE")
-                .build()
-             */
         );
 
         return new InMemoryUserDetailsManager(users);

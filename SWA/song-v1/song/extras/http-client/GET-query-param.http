@@ -2,3 +2,8 @@
 GET {{restUrl}}?titel=Watch Me
 Accept: application/json
 Authorization: Basic {{userAdmin}} {{password}}
+
+### Suche nach nicht-vorhandenem Titel
+GET {{restUrl}}?titel=KeinSong
+Accept: application/json
+Authorization: Basic {{userAdmin}} {{password}}

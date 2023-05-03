@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Anwendungslogik fürs Lesen der Song-DB.
+ * Anwendungslogik für Songs.
  */
 @Service
 @RequiredArgsConstructor
@@ -42,18 +42,6 @@ public final class SongReadService {
     }
 
     /**
-     * Sucht alle Songs.
-     *
-     * @return Alle Songs
-     */
-    public @NonNull Collection<Song> findAll() {
-        final var songs = repo.findAll();
-        log.debug("findAll: {}", songs);
-        return songs;
-    }
-
-
-    /**
      * Songs anhand einer Collection von Suchkriterien finden.
      *
      * @param suchkriterien Die Collection aus Suchkriterien.
@@ -61,7 +49,7 @@ public final class SongReadService {
      *              oder alle, falls keine suchkriterien gegeben sind.
      * @throws NotFoundException Falls keine Songs gefunden wurden.
      */
-    @SuppressWarnings({"NestedIfDepth"})
+    @SuppressWarnings({"ReturnCount", "NestedIfDepth"})
     public @NonNull Collection<Song> find(@NonNull final Map<String, List<String>> suchkriterien) {
         log.debug("find: suchkriterien={}", suchkriterien);
 

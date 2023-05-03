@@ -1,4 +1,5 @@
 package com.acme.song.rest;
+
 import com.acme.song.entity.Song;
 import com.acme.song.service.SongReadService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -7,15 +8,19 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
-import static com.acme.song.rest.SongGetController.REST_PATH;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Collection;
 import java.util.UUID;
+import static com.acme.song.rest.SongGetController.REST_PATH;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
- * REST-Schnittstelle fürs Lesen.
+ * Eine @RestController-Klasse als REST-Schnittstelle für lesende Zugriffe.
  */
 @Controller
 @RequestMapping(REST_PATH)
@@ -51,7 +56,7 @@ public class SongGetController {
     }
 
     /**
-     * Suche mit Query Parametern
+     * Suche mit Query Parametern.
      *
      * @param suchkriterien Query-Parameter als Map.
      * @return Die gefundenen Songs als Collection aus Songs

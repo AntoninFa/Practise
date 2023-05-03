@@ -29,7 +29,7 @@ public class NotFoundException extends RuntimeException {
     }
 
     NotFoundException(final Map<String, List<String>> suchkriterien) {
-        super("Keine Kunden gefunden.");
+        super("Keine Songs gefunden.");
         id = null;
         this.suchkriterien = suchkriterien;
     }

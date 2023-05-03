@@ -90,6 +90,7 @@ public class SongRepository {
      * @param suchkriterien Die Suchkriterien
      * @return Liste aus Songs die zu den Suchkriterien passen, oder eine Leere Liste, falls keine passen
      */
+    @SuppressWarnings({"ReturnCount", "JavadocLinkAsPlainText"})
     public @NonNull Collection<Song> find(final Map<String, ? extends List<String>> suchkriterien) {
         log.debug("find: suchkriterien ={}", suchkriterien);
 
@@ -114,6 +115,13 @@ public class SongRepository {
         return emptyList();
     }
 
+    /**
+     * Songs anhand seines Titels finden.
+     *
+     * @param titel Titel des Songs der gefunden werden soll als String
+     * @return den gesuchten Song oder eine leere Collection, falls kein passender
+     *          Song gefunden wurde
+     */
     public @NonNull Collection<Song> findByTitel(final CharSequence titel) {
         log.debug("findByTitel: titel={}", titel);
 
@@ -128,14 +136,16 @@ public class SongRepository {
         log.debug("findByGenre: genreString={}", genreString);
         final var genres = genreString
             .stream()
-            .map(genre -> GenreType.of(genre).orElse(null))
+            .map(genre -> GenreType.of(genre)
+                .orElse(null))
             .toList();
         if (genres.contains(null)) {
             return emptyList();
         }
         final var songs = SONGS.stream()
             .filter(song -> {
-                @SuppressWarnings("SetReplaceableByEnumSet") final Collection<GenreType> songGenre = new HashSet<>(song.getGenre());
+                @SuppressWarnings("SetReplaceableByEnumSet")
+                final Collection<GenreType> songGenre = new HashSet<>(song.getGenre());
                 return songGenre.containsAll(genres);
             })
             .toList();

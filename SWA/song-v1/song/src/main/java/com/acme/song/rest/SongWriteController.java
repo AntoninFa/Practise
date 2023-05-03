@@ -1,24 +1,27 @@
 package com.acme.song.rest;
 
+import com.acme.song.service.ConstraintViolationsException;
 import com.acme.song.service.SongWriteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.UUID;
+import static org.springframework.http.ResponseEntity.created;
 import static com.acme.song.rest.SongGetController.ID_PATTERN;
 import static com.acme.song.rest.SongGetController.REST_PATH;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.ResponseEntity.created;
 
 /**
- * REST-Schnittstelle fürs Schreiben.
+ * Eine @RestController-Klasse als REST-Schnittstelle für lesende Zugriffe.
  */
 @Controller
 @RequestMapping(REST_PATH)
@@ -27,6 +30,7 @@ import static org.springframework.http.ResponseEntity.created;
 class SongWriteController {
     private final SongWriteService writeService;
     private final UriHelper uriHelper;
+    private static final String PROBLEM_PATH = "/problem/";
 
 
     /**
@@ -63,10 +67,36 @@ class SongWriteController {
     void update(@PathVariable final UUID id, @RequestBody final SongDTO songDTO
     ) {
         log.debug("update: id={}, {}", id, songDTO);
+
         final var song = songDTO.toSong();
         writeService.update(song, id);
     }
 
+    @ExceptionHandler
+    ProblemDetail onConstraintViolations(
+        final ConstraintViolationsException ex,
+        final HttpServletRequest request
+    ) {
+        log.debug("onConstraintViolations: {}", ex.getMessage());
 
-    //TODO habe ich schon einen Constraints Violation Exception handler
+        final var songViolations = ex.getViolations()
+            .stream()
+            .map(violation -> violation.getPropertyPath() + ": " +
+                violation.getConstraintDescriptor().getAnnotation().annotationType().getSimpleName() + " " +
+                violation.getMessage())
+            .toList();
+        log.trace("onConstraintViolations: {}", songViolations);
+
+        final String detail;
+        if (songViolations.isEmpty()) {
+            detail = "N/A";
+        } else {
+            final var violationsStr = songViolations.toString();
+            detail = violationsStr.substring(1, violationsStr.length() - 2);
+        }
+        final var problemDetail = ProblemDetail.forStatusAndDetail(UNPROCESSABLE_ENTITY, detail);
+        problemDetail.setType(URI.create(PROBLEM_PATH + ProblemType.CONSTRAINTS.getValue()));
+        problemDetail.setInstance(URI.create(request.getRequestURL().toString()));
+        return problemDetail;
+    }
 }

@@ -4,3 +4,9 @@ Content-Type: application/json
 Authorization: Basic {{userAdmin}} {{password}}
 
 < data/song-neu.json
+
+### Einen neuen Song mit ungueltigen Daten anlegen
+POST {{restUrl}}
+Content-Type: application/json
+
+< data/song-neu-invalid.json

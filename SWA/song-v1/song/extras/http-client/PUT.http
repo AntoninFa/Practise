@@ -4,3 +4,10 @@ Content-Type: application/json
 Authorization: Basic {{userAdmin}} {{password}}
 
 < data/song-01-put.json
+
+### Einen Song mittels PUT, aber mit unglueltigen Daten aktualisieren
+PUT {{restUrl}}/00000000-0000-0000-0000-000000000001
+Content-Type: application/json
+Authorization: Basic {{userAdmin}} {{password}}
+
+< data/song-01-put-invalid.json

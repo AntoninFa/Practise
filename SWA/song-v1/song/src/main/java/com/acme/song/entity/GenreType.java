@@ -72,7 +72,7 @@ public enum GenreType {
      */
     public static Optional<GenreType> of(final String value) {
         return Stream.of(values())
-            .filter(genre -> Objects.equals(genre, value))
+            .filter(genre -> Objects.equals(genre.toString(), value))
             .findFirst();
     }
 }
