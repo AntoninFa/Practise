@@ -11,6 +11,7 @@ import lombok.ToString;
 /**
  * Klasse speichert eine Zeitdauer.
  * In Stunden:Minuten:Sekunden.
+ * Dabei sollen Minuten und Sekunden jeweils <60 sein
  */
 @Builder
 @Getter
@@ -18,16 +19,21 @@ import lombok.ToString;
 @ToString
 public class Duration {
 
+    /**
+     * Minuten und Sekunden sollen jeweils <60 sein.
+     */
+    private static final int MAXHM = 59;
+
     @NotNull
     @Min(0)
     private int hours;
     @NotNull
     @Min(0)
-    @Max(60)
+    @Max(MAXHM)
     private int minutes;
     @NotNull
     @Min(0)
-    @Max(60)
+    @Max(MAXHM)
     private int seconds;
 
     /**

@@ -3,12 +3,9 @@ import com.acme.song.entity.Song;
 import com.acme.song.service.SongReadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -54,19 +51,11 @@ public class SongGetController {
     }
 
     /**
-     * Sucht alle Songs.
+     * Suche mit Query Parametern
      *
-     * @return Response mit allen Songs und Statuscode 200
+     * @param suchkriterien Query-Parameter als Map.
+     * @return Die gefundenen Songs als Collection aus Songs
      */
-    @ApiResponse(responseCode = "200", description = "Song gefunden")
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
-    Collection<Song> findAll() {
-        final var songs = service.findAll();
-        log.debug("findAll: {}", songs);
-        return songs;
-    }
-
-
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Suche mit Suchkriterien", tags = "Suchen")
     @ApiResponse(responseCode = "200", description = "CollectionModel mid den Songs")

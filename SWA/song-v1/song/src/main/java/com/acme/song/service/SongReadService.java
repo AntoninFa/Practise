@@ -53,6 +53,15 @@ public final class SongReadService {
     }
 
 
+    /**
+     * Songs anhand einer Collection von Suchkriterien finden.
+     *
+     * @param suchkriterien Die Collection aus Suchkriterien.
+     * @return Collection aus den gefundenen Songs, die leer ist, falls keine Passenden gefunden worden sind
+     *              oder alle, falls keine suchkriterien gegeben sind.
+     * @throws NotFoundException Falls keine Songs gefunden wurden.
+     */
+    @SuppressWarnings({"NestedIfDepth"})
     public @NonNull Collection<Song> find(@NonNull final Map<String, List<String>> suchkriterien) {
         log.debug("find: suchkriterien={}", suchkriterien);
 
@@ -72,16 +81,11 @@ public final class SongReadService {
                 return songs;
             }
         }
-
-
-            final var songs = repo.find(suchkriterien);
-            if (songs.isEmpty()) {
-                throw new NotFoundException(suchkriterien);
-            }
-            log.debug("find: {}", songs);
-            return songs;
-
-
+        final var songs = repo.find(suchkriterien);
+        if (songs.isEmpty()) {
+            throw new NotFoundException(suchkriterien);
         }
-
+        log.debug("find: {}", songs);
+        return songs;
     }
+}

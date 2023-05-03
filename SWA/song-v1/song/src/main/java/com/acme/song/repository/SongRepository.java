@@ -10,20 +10,15 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.IntStream;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.OptionalInt;
-import java.util.UUID;
-import java.util.stream.IntStream;
 
 import static java.util.Collections.emptyList;
 import static java.util.UUID.randomUUID;
 import static com.acme.song.repository.DB.SONGS;
-import static java.util.UUID.randomUUID;
 
 /**
  * Repository für den DB-Zugriff.
@@ -55,7 +50,6 @@ public class SongRepository {
     public @NonNull Collection<Song> findAll() {
         return SONGS;
     }
-
 
     /**
      * Einen neuen Song anlegen.
@@ -90,6 +84,12 @@ public class SongRepository {
         log.debug("update: {}", song);
     }
 
+    /**
+     * Kunden anhand einer Liste von Suchkriterien finden.
+     *
+     * @param suchkriterien Die Suchkriterien
+     * @return Liste aus Songs die zu den Suchkriterien passen, oder eine Leere Liste, falls keine passen
+     */
     public @NonNull Collection<Song> find(final Map<String, ? extends List<String>> suchkriterien) {
         log.debug("find: suchkriterien ={}", suchkriterien);
 
@@ -124,10 +124,7 @@ public class SongRepository {
         return songs;
     }
 
-    public @NonNull Collection<Song> findByGenre(final Collection<String> genreString) {
-        //TODO Methode müsste so passen, aber hab nicht so mega viel zeit Investiert,
-        //TODO als nächstes find hier in repo implementieren
-        //TODO Hier Weitemachen
+    @NonNull Collection<Song> findByGenre(final Collection<String> genreString) {
         log.debug("findByGenre: genreString={}", genreString);
         final var genres = genreString
             .stream()
