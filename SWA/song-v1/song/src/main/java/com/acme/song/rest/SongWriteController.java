@@ -10,7 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import java.net.URI;
 import java.util.UUID;
 import static org.springframework.http.ResponseEntity.created;
@@ -28,17 +34,16 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 @Slf4j
 class SongWriteController {
+    private static final String PROBLEM_PATH = "/problem/";
     private final SongWriteService writeService;
     private final UriHelper uriHelper;
-    private static final String PROBLEM_PATH = "/problem/";
-
 
     /**
      * Einen neuen Song-Datensatz anlegen.
      *
      * @param songDTO Das Song DataTransferObject aus dem eingegangenen Request-Body.
      * @param request Das Request-Objekt, um `Location` im Response-Header zu erstellen.
-     * @return Response mit dem Satuscode 201, einschließlich Location-Header.
+     * @return Response mit dem Statuscode 201, einschließlich Location-Header.
      */
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
     @Operation(summary = "Einen neuen Song anlegen", tags = "Neuanlegen")

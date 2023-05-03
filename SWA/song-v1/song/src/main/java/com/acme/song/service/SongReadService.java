@@ -45,8 +45,8 @@ public final class SongReadService {
      * Songs anhand einer Collection von Suchkriterien finden.
      *
      * @param suchkriterien Die Collection aus Suchkriterien.
-     * @return Collection aus den gefundenen Songs, die leer ist, falls keine Passenden gefunden worden sind
-     *              oder alle, falls keine suchkriterien gegeben sind.
+     * @return Collection aus den gefundenen Songs, welche leer ist, falls keine Passenden gefunden wurden
+     *              oder alle Songs enthält, falls keine suchkriterien vorgegeben sind.
      * @throws NotFoundException Falls keine Songs gefunden wurden.
      */
     @SuppressWarnings({"ReturnCount", "NestedIfDepth"})
