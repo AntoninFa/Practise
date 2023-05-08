@@ -1,0 +1,20 @@
+### Einen neuen Song anlegen
+GRAPHQL {{graphqlUrl}}
+
+mutation {
+  create(
+    input: {
+      titel: "Schnappi, das kleine Krokodil"
+      erscheinungsDatum: "2004-10-06"
+      genre: ["KINDERMUSIK"]
+      musikLabel: "Polydor Records"
+      duration: {
+    hours: 0,
+    minutes: 2,
+    seconds: 0
+  }
+  }
+  ) {
+    id
+  }
+}
