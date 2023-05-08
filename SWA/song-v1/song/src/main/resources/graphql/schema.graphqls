@@ -1,0 +1,88 @@
+# Description in Markdown-Syntax
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"Suche nach Daten von Songs"
+type Query {
+  "Suche Daten von Songs anhand der ID"
+  song(id: ID!): Song
+
+  "Suche Daten von Songs anhand des Titels oder des Genres"
+  songs(input: Suchkriterien): [Song!]
+}
+
+type Mutation {
+  "Einen neuen Song-Datensatz anlegen"
+  create(input: SongInput!): CreatePayload
+}
+
+"Eigenschaften eines Kunde-Datensatzes mit untergeordneten Eigenschaften"
+type Song {
+  "ID des Songs"
+  id: ID
+  titel: String!
+  erscheinungsDatum: String!
+  genre: [String!]
+  musikLabel: String
+  duration: SongDuration!
+}
+
+"Dauer eines Songs"
+type SongDuration {
+  "Stunden in der Zeitdauer eines Songs"
+  hours: Int!
+  "Minuten in der Zeitdauer eines Songs"
+  minutes: Int!
+  "Sekunden in der Zeitdauer eines Songs"
+  seconds: Int!
+}
+
+"Suchkriterien für die Query 'songs"
+input Suchkriterien {
+  "Titel des gesuchten Songs"
+  titel: String
+  "Genres der gesuchten Songs"
+  genre: [String!]
+}
+
+"Eingabedaten für einen neuen Song"
+input SongInput {
+  "Titel des neuen Songs"
+  titel: String!
+  "Datum an dem ein Song erschienen ist"
+  erscheinungsDatum: String!
+  "Genre eines Songs"
+  genre: [String!]
+  "Zu einem Song gehöriges Label"
+  musikLabel: String
+  "Zeitdauer eines Songs"
+  duration: DurationInput!
+}
+
+"Aufzählungstyp für ein Song-Genre"
+enum GenreType {
+  POP
+  DANCEPOP
+  PUNKROCK
+  NEUEDEUTSCHEWELLE
+  KINDERMUSIK
+  RAP
+  FOLK
+
+}
+
+"Neue oder geänderte Adresse"
+input DurationInput {
+  hours: Int!
+  minutes: Int!
+  seconds: Int!
+}
+
+"Rückgabetyp beim Neuanlegen eines Songs"
+type CreatePayload {
+  "ID des neu angelegten Songs"
+  id: String!
+}

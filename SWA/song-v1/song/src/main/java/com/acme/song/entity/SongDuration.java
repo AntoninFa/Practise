@@ -9,7 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Klasse speichert eine Zeitdauer.
+ * Klasse speichert die Zeitdauer eines Songs.
  * In Stunden:Minuten:Sekunden.
  * Dabei sollen Minuten und Sekunden jeweils <60 sein
  */
@@ -23,7 +23,6 @@ public class SongDuration {
      * Minuten und Sekunden sollen jeweils <60 sein.
      */
     private static final int MAXHM = 59;
-
     @NotNull
     @Min(0)
     private int hours;

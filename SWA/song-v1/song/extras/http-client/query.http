@@ -1,0 +1,9 @@
+### Suche mit vorhandener Kunde-ID als admin
+GRAPHQL {{graphqlUrl}}
+Authorization: Basic {{userAdmin}} {{password}}
+
+{
+  song(id: "00000000-0000-0000-0000-000000000001") {
+    titel
+  }
+}
