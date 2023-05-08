@@ -1,6 +1,5 @@
 package com.acme.song.rest;
 
-import com.acme.song.entity.Song;
 import com.acme.song.service.SongReadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Collection;
 import java.util.UUID;
 
 import static com.acme.song.rest.SongGetController.REST_PATH;
@@ -49,14 +46,14 @@ public class SongGetController {
     private final SongReadService service;
     private final UriHelper uriHelper;
 
-    //TODO ist @Operation wichtig, irwie für Java-Doc oderso? Gleiche Frage bei find..
-
     /**
      * Suche nach Song mit der passenden ID.
      *
      * @param id id des gesuchten Songs
+     * @param sRequest Das HttpServletRequest-Objekt, um Links für HATEOAS zu erstellen.
      * @return den Song
      */
+    @Operation(summary = "Suche anhand der Song-ID", tags = "Suchen")
     @ApiResponse(responseCode = "200", description = "Song gefunden")
     @ApiResponse(responseCode = "404", description = "Song konnte nicht gefunden werden")
     @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = HAL_JSON_VALUE)
@@ -82,9 +79,10 @@ public class SongGetController {
      * Suche mit Query Parametern.
      *
      * @param suchkriterien Query-Parameter als Map.
+     * @param sRequest Das HttpServletRequest-Objekt, um Links für HATEOAS zu erstellen.
      * @return Die gefundenen Songs als Collection aus Songs
      */
-    @Operation(summary = "Suche mit Suchkriterien", tags = "Suchen")
+    @Operation(summary = "Suche mit den Suchkriterien", tags = "Suchen")
     @ApiResponse(responseCode = "200", description = "CollectionModel mit den Songs")
     @ApiResponse(responseCode = "404", description = "Keine Songs gefunden")
     @GetMapping(produces = HAL_JSON_VALUE)
