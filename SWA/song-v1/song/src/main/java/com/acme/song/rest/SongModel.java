@@ -10,11 +10,13 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
-
 import java.time.LocalDate;
 import java.util.List;
 
 //TODO brauche ich HashCOde?
+/**
+ * Model-Klasse für Spring HATEOAS.
+ */
 @JsonPropertyOrder({
     "titel", "erscheinungsDatum", "genre", "musikLabel", "duration"
 })
@@ -30,6 +32,11 @@ class SongModel extends RepresentationModel<SongModel> {
     private final String musikLabel;
     private final Duration duration;
 
+    /**
+     * Kopierkonstruktor von einem Song Objekt.
+     *
+     * @param song Song der Kopiert werden soll
+     */
     SongModel(final Song song) {
         titel = song.getTitel();
         erscheinungsDatum = song.getErscheinungsDatum();
@@ -37,6 +44,4 @@ class SongModel extends RepresentationModel<SongModel> {
         musikLabel = song.getMusikLabel();
         duration = song.getDuration();
     }
-
-
 }
