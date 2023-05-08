@@ -1,6 +1,6 @@
 package com.acme.song.rest;
 
-import com.acme.song.entity.Duration;
+import com.acme.song.entity.SongDuration;
 import com.acme.song.entity.GenreType;
 import com.acme.song.entity.Song;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -30,7 +30,7 @@ class SongModel extends RepresentationModel<SongModel> {
     private final LocalDate erscheinungsDatum;
     private final List<GenreType> genre;
     private final String musikLabel;
-    private final Duration duration;
+    private final SongDuration duration;
 
     /**
      * Kopierkonstruktor von einem Song Objekt.

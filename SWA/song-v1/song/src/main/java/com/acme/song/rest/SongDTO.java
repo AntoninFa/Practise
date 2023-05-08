@@ -1,5 +1,5 @@
 package com.acme.song.rest;
-import com.acme.song.entity.Duration;
+import com.acme.song.entity.SongDuration;
 import com.acme.song.entity.GenreType;
 import com.acme.song.entity.Song;
 import java.time.LocalDate;
@@ -32,7 +32,7 @@ record SongDTO(
     Song toSong() {
         final var durationEntity = duration() == null
             ? null
-            : Duration
+            : SongDuration
             .builder()
             .hours(duration().hours())
             .minutes(duration().minutes())

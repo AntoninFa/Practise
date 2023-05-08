@@ -58,5 +58,5 @@ public class Song {
      */
     @Valid
     @ToString.Exclude
-    private Duration duration;
+    private SongDuration duration;
 }

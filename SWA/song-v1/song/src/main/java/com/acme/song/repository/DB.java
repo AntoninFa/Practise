@@ -1,6 +1,6 @@
 package com.acme.song.repository;
 
-import com.acme.song.entity.Duration;
+import com.acme.song.entity.SongDuration;
 import com.acme.song.entity.GenreType;
 import com.acme.song.entity.Song;
 
@@ -72,7 +72,7 @@ public final class DB {
                 .erscheinungsDatum(LocalDate.of(WATCHMERY, Month.MAY, WATCHMERD))
                 .genre(List.of(GenreType.RAP))
                 .musikLabel("Capitol Records")
-                .duration(Duration.builder().hours(WATCHMEDURH)
+                .duration(SongDuration.builder().hours(WATCHMEDURH)
                     .minutes(WATCHMEDURM).seconds(WATCHMEDURS).build()).build(),
             Song.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000001"))
@@ -80,7 +80,7 @@ public final class DB {
                 .erscheinungsDatum(LocalDate.of(GIMMERY, Month.OCTOBER, GIMMERD))
                 .genre(List.of(GenreType.POP, GenreType.DANCEPOP))
                 .musikLabel("Polar Music")
-                .duration(Duration.builder().hours(GIMMEDURH)
+                .duration(SongDuration.builder().hours(GIMMEDURH)
                     .minutes(GIMMEDURM).seconds(GIMMEDURS).build()).build(),
             Song.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000002"))
@@ -88,7 +88,7 @@ public final class DB {
                 .erscheinungsDatum(LocalDate.of(SNLIEBERY, Month.SEPTEMBER, SNLIEBERD))
                 .genre(List.of(GenreType.PUNKROCK))
                 .musikLabel("Columbia Records")
-                .duration(Duration.builder().hours(SNLIEBEDURH)
+                .duration(SongDuration.builder().hours(SNLIEBEDURH)
                     .minutes(SNLIEBEDURM).seconds(SNLIEBEDURS).build()).build(),
             Song.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000003"))
@@ -96,7 +96,7 @@ public final class DB {
                 .erscheinungsDatum(LocalDate.of(LAMOURDURRY, Month.NOVEMBER, LAMOURDUURD))
                 .genre(List.of(GenreType.FOLK))
                 .musikLabel("Northern Music Group")
-                .duration(Duration.builder().hours(LAMOURDURH)
+                .duration(SongDuration.builder().hours(LAMOURDURH)
                     .minutes(LAMOURDURM).seconds(LAMOURDURS).build()).build(),
             Song.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000004"))
@@ -104,7 +104,7 @@ public final class DB {
                 .erscheinungsDatum(LocalDate.of(GOLDRRY, Month.MAY, GOLDRRD))
                 .genre(List.of(GenreType.NEUEDEUTSCHEWELLE, GenreType.POP))
                 .musikLabel("WEA Records")
-                .duration(Duration.builder().hours(GOLDRDURH)
+                .duration(SongDuration.builder().hours(GOLDRDURH)
                     .minutes(GOLDRDURM).seconds(GOLDRDURS).build()).build()
         ).collect(Collectors.toList());
         return songs;

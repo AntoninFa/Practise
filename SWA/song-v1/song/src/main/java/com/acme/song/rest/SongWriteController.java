@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 import java.net.URI;
 import java.util.UUID;
+
 import static org.springframework.http.ResponseEntity.created;
 import static com.acme.song.rest.SongGetController.ID_PATTERN;
 import static com.acme.song.rest.SongGetController.REST_PATH;
@@ -45,9 +47,11 @@ class SongWriteController {
      * @param request Das Request-Objekt, um `Location` im Response-Header zu erstellen.
      * @return Response mit dem Statuscode 201, einschließlich Location-Header.
      */
-    @PostMapping(consumes = APPLICATION_JSON_VALUE)
     @Operation(summary = "Einen neuen Song anlegen", tags = "Neuanlegen")
     @ApiResponse(responseCode = "201", description = "Song neu angelegt")
+    @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
+    @ApiResponse(responseCode = "422", description = "Fehlerhafte Werte")
+    @PostMapping(consumes = APPLICATION_JSON_VALUE)
     ResponseEntity<Void> create(@RequestBody final SongDTO songDTO, final HttpServletRequest request) {
         log.debug("create: {}", songDTO);
         final var song = writeService.create(songDTO.toSong());
@@ -59,7 +63,7 @@ class SongWriteController {
     /**
      * Einen vorhandenen Song-Datensatz überschreiben.
      *
-     * @param id       ID des Songs, welcher Überschrieben werden soll.
+     * @param id      ID des Songs, welcher Überschrieben werden soll.
      * @param songDTO as Song DataTransferObject aus dem eingegangenen Request-Body.
      */
     @PutMapping(path = "{id:" + ID_PATTERN + "}", consumes = APPLICATION_JSON_VALUE)
@@ -68,7 +72,7 @@ class SongWriteController {
     @ApiResponse(responseCode = "204", description = "Aktualisiert")
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
     @ApiResponse(responseCode = "404", description = "Song nicht in der Datenbank")
-    @ApiResponse(responseCode = "422", description = "Ungültige Werte")
+    @ApiResponse(responseCode = "422", description = "Fehlerhafte Werte")
     void update(@PathVariable final UUID id, @RequestBody final SongDTO songDTO
     ) {
         log.debug("update: id={}, {}", id, songDTO);
