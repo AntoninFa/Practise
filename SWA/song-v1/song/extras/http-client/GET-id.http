@@ -1,9 +1,9 @@
 ### Suche mit vorhandener ID1
 GET {{restUrl}}/00000000-0000-0000-0000-000000000001
-Content-Type: application/json
+Content-Type: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 ### Suche mit vorhandener ID2
 GET {{restUrl}}/00000000-0000-0000-0000-000000000002
-Content-Type: application/json
+Content-Type: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}

@@ -4,9 +4,13 @@ import com.acme.song.entity.Song;
 import com.acme.song.service.SongReadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.LinkRelation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.util.MultiValueMap;
@@ -14,10 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.util.Collection;
 import java.util.UUID;
+
 import static com.acme.song.rest.SongGetController.REST_PATH;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
 
 /**
  * Eine @RestController-Klasse als REST-Schnittstelle für lesende Zugriffe.
@@ -41,6 +47,9 @@ public class SongGetController {
         "[\\dA-Fa-f]{8}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{12}";
 
     private final SongReadService service;
+    private final UriHelper uriHelper;
+
+    //TODO ist @Operation wichtig, irwie für Java-Doc oderso? Gleiche Frage bei find..
 
     /**
      * Suche nach Song mit der passenden ID.
@@ -49,10 +58,24 @@ public class SongGetController {
      * @return den Song
      */
     @ApiResponse(responseCode = "200", description = "Song gefunden")
-    @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = APPLICATION_JSON_VALUE)
-    Song findById(@PathVariable final UUID id) {
+    @ApiResponse(responseCode = "404", description = "Song konnte nicht gefunden werden")
+    @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = HAL_JSON_VALUE)
+    SongModel findById(@PathVariable final UUID id, final HttpServletRequest sRequest) {
         log.debug("findById: id={}", id);
-        return service.findById(id);
+
+        final var song = service.findById(id);
+        final var model = new SongModel(song);
+        final var baseUri = uriHelper.getBaseUri(sRequest).toString();
+        final var idUri = baseUri + '/' + song.getId();
+        final var selfLink = Link.of(idUri);
+        final var listLink = Link.of(baseUri, LinkRelation.of("list"));
+        final var addLink = Link.of(baseUri, LinkRelation.of("add"));
+        final var updateLink = Link.of(idUri, LinkRelation.of("update"));
+        final var removeLink = Link.of(idUri, LinkRelation.of("remove"));
+        model.add(selfLink, listLink, addLink, updateLink, removeLink);
+        log.debug("findById: model= {}", model);
+
+        return model;
     }
 
     /**
@@ -61,13 +84,25 @@ public class SongGetController {
      * @param suchkriterien Query-Parameter als Map.
      * @return Die gefundenen Songs als Collection aus Songs
      */
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Suche mit Suchkriterien", tags = "Suchen")
-    @ApiResponse(responseCode = "200", description = "CollectionModel mid den Songs")
+    @ApiResponse(responseCode = "200", description = "CollectionModel mit den Songs")
     @ApiResponse(responseCode = "404", description = "Keine Songs gefunden")
-    Collection<Song> find(
-        @RequestParam @NonNull final MultiValueMap<String, String> suchkriterien) {
+    @GetMapping(produces = HAL_JSON_VALUE)
+    CollectionModel<? extends SongModel> find(
+        @RequestParam @NonNull final MultiValueMap<String, String> suchkriterien,
+        final HttpServletRequest sRequest) {
         log.debug("find: suchkriterien={}", suchkriterien);
-        return service.find(suchkriterien);
+
+        final var baseUri = uriHelper.getBaseUri(sRequest).toString();
+        final var songModels = service.find(suchkriterien)
+            .stream()
+            .map(song -> {
+                final var songModel = new SongModel(song);
+                songModel.add(Link.of(baseUri + '/' + song.getId()));
+                return songModel;
+            }).toList();
+        log.debug("find: model= {}", songModels);
+
+        return CollectionModel.of(songModels);
     }
 }
