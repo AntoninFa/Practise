@@ -1,0 +1,100 @@
+\documentclass[14pt]{article}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{vwcol}
+\usepackage[a4paper , lmargin = {2cm} , rmargin = {2cm} , tmargin = {2cm} , bmargin = {2cm} ]{geometry}
+\usepackage{multicol}
+\pgfplotsset{compat=1.18}
+\pgfplotsset{ticks=none}
+
+%custom declaration
+\newcommand{\antwort}[1]{\vspace{#1cm}}
+
+\begin{document}
+\title{Tutorium Nr. 4}
+\date{25. April 2023}
+\author{Patrick Stark, Maxim Eremenko, David Berroth, Antonin Fahning}
+\maketitle
+\vspace{1cm}
+
+%Aufgabe 1
+\section*{Aufgabe 1: Planung}
+\subsection*{\textmd{Erklären Sie die folgenden Begriffe.}}
+\vspace{.25cm}
+
+\begin{itemize}
+\setlength\itemsep{0.5cm}
+    \item Starre Planung: \textcolor{red}{Bei der starren Planung handelt es sich um die einfachste Form der zeitlichen Koordination, da hier keine Koordination stattfindet. Nehmen wir einen Planungshorizont von 4 Jahren an, wird der Plan für diesen Zeitraum festgelegt und wird statisch so beibehalten.}
+    \item Flexible Planung: \textcolor{red}{Entscheidungsverfahren zur Lösung mehrstufiger Entscheidungen unter Unsicherheit. Nur für den ersten Entscheidungszeitpunkt wird verbindlich eine Entscheidung getroffen, für alle nachfolgenden Entscheidungszeitpunkte sieht der flexible Plan Entscheidungen in Abhängigkeit der bis dahin eingetretenen Umweltentwicklung (Abfolge von Umweltzuständen) vor.}
+    \item Operative Planung: \textcolor{red}{Die operative Planung ist kurzfristig, also für Alles innerhalb eines Jahres zuständig und wird vom lower Management umgesetzt. Beispiel: Planung einer Werbekampagne für die Weihnachtszeit.}
+    \item Strategische Planung: \textcolor{red}{Die strategische Planung, die für langfristige Entscheidungen zuständig ist, also für über die nächsten fünf Jahre hinaus, wird von der Geschäftsführung und dem Top Management übernommen. Es geht dabei um große Projekte, wie z.B. die Expansion auf neue Kontinente oder auf ganz neue Geschäftsfelder. Beispiel: ein Handyhersteller möchte jetzt auch Autos bauen.}
+\end{itemize}
+\vspace{.25cm}
+
+%Aufgabe 2
+\section*{Aufgabe 2: Zielzusammenhänge}
+\subsection*{\textmd{Notieren Sie, in welcher Relation die folgenden Ziele sich befinden.}}
+\vspace{.25cm}
+
+\begin{description}
+\setlength\itemsep{.25cm}
+\item Produktionskosten senken $\leftrightarrow$ Produktqualität verbessern: \textcolor{red}{Zielkonkurrenz}
+\item Freiheit $\leftrightarrow$ Sicherheit: \textcolor{red}{Zielkonkurrenz}
+\item Gesunde Ernährung $\leftrightarrow$ Körperliche Fitness: \textcolor{red}{Komplementärziele}
+\item Zimmerpflanze regelmäßig gießen $\leftrightarrow$ Gute Noten schreiben: \textcolor{red}{Zielindifferenz}
+\item Bildung $\leftrightarrow$ Karriere: \textcolor{red}{Komplementärziele}
+\item Softwareupdates durchführen $\leftrightarrow$ Tierschutz: \textcolor{red}{Zielindifferenz}
+\item Umweltschutz $\leftrightarrow$ Nachhaltigkeit: \textcolor{red}{Komplementärziele}
+\item Liquidität erhöhen $\leftrightarrow$ Gewinnmaximierung: \textcolor{red}{Zielkonkurrenz}
+\end{description}
+
+\newpage
+
+%Aufgabe 3
+\section*{Aufgabe 3: Entscheidungstheorie}
+\subsection*{\textmd{Es ist der 1. Mai 2020. Jens möchte 5000€ seines verfügbaren Einkommens über ein Jahr investieren. Er redet mit seinen Freunden darüber und denkt nun darüber nach, sein Geld in 50 Wirecard Aktien zu investieren.}}
+\subsection*{\textmd{Jens überlegt sich mit seinen Freunden, wie sich der Kurs wohl verändern könnte. Die meisten Freunde denken, der Aktienkurs wird um 12\% steigen. Ein paar wenige glauben, der Kurs wird sich nicht signifikant verändern und empfehlen, das Geld nicht bei Wirecard, sondern stattdessen bei der Joel Stark KG für 2\% als Anleihe zu investieren. Ein Freund empfiehlt, Verkaufsoptionen (Short) zu kaufen, weil er behauptet, die Aktie würde auf 0.42€ abstürzen. Jens sieht das aber als sehr unwahrscheinlich an.}}
+\subsection*{\textmd{Nun denkt Jens über vier Alternativen nach:}}
+\subsubsection*{\textmd{1. Er investiert sein Geld in die Joel Stark KG}}
+\subsubsection*{\textmd{2. Er investiert die 5000€ in die Wirecard AG}}
+\subsubsection*{\textmd{3. Er shortet die Aktie für 5000€}}
+\subsubsection*{\textmd{4. Er bekommt einen Kredit für 95000€ zu ca. 3,15\% p.a. und investiert diese zusammen mit den eigenen 5000€ in Wirecard}}
+\subsection*{\textmd{Eine Entscheidungstabelle des erwarteten Gewinnes mit dem oben beschriebenen Sachverhalt sähe so aus:}}
+\vspace{.25cm}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+
+\hline
+& E1 (72\%) & E2 (27,8\%) & E3 (0,2\%) \\ \hline
+1 & 100       & 100         & 100        \\ \hline
+2 & 600       & 0           & -4980      \\ \hline
+3 & -600      & 0           & 4980       \\ \hline
+4 & 9000      & -3000       & -102580   \\ \hline
+\end{tabular}
+\end{table}
+\vspace{.25cm}
+
+\subsection*{\textmd{3.1 Für welche Alternative würde Jens sich nach dem Minimax- \& dem Maximax-Prinzip entscheiden?}}
+\subsubsection*{\textmd{\textcolor{red}{Minimax: 1, Maximax: 4}}}
+\vspace{1cm}
+\subsection*{\textmd{3.2 Für welche Alternative würde Jens sich nach dem Laplace- \& dem Mittelwert-Prinzip entscheiden?}}
+\subsubsection*{\textmd{\textcolor{red}{Laplace: 1 = +100.00, 2 = +422.04, 3 = -422.04, 4 = +5440.84 $\rightarrow$ Alternative 4}}}
+\subsubsection*{\textmd{\textcolor{red}{Mittelwert: 1 = +100.00, 2 = -1460.00, 3 = +1460.00, 4 = -32193.33 $\rightarrow$ Alternative 3}}}
+\vspace{.5cm}
+\subsection*{\textmd{3.3 Erklären Sie anhand dieser Aufgabe, welchen Nachteil das Entscheiden mittels Laplace-Prinzip hat und womit man es lösen kann.}}
+\subsubsection*{\textmd{\textcolor{red}{Das Laplace Prinzip an sich berücksichtigt kein Risiko. Sich um 95000€ zu verschulden, damit man sich davon Aktien für ein Jahr kauft, ist eine stark risikobehaftete Entscheidung. Hätte Jens tatsächlich so gehandelt, dann würde er nun sechsstellige Schulden haben. Die Lösung, mit der man die Risikoneigung einer Person berücksichtigen kann, ist durch das Verwenden von Nutzenfunktionen.}}}
+\newpage
+
+\subsection*{\textmd{(3.4 Zusatzaufgabe für schnelle... oder zuhause: Rechnen Sie die gesamte Aufgabe noch einmal mit folgender Nutzenfunktion:)}}
+\subsection*{\textmd{$-100e^{-0,001x} + 100$}}
+\vspace{.25cm}
+\subsubsection*{\textmd{\textcolor{red}{Minimax: 1, Maximax: 4}}}
+\subsubsection*{\textmd{\textcolor{red}{Laplace: 1 = 9.52, 2 = 3.59, 3 = -58.99, 4 = -7.095091 $\cdot$ 10$^{43}$ $\rightarrow$ Alternative 1}}}
+\subsubsection*{\textmd{\textcolor{red}{Mittelwert: 1 = 9.52, 2 = -4800.77, 3 = 5.7, 4 = -1,182515 $\cdot$ 10$^{46}$ $\rightarrow$ Alternative 1}}}
+
+
+
+\end{document}

@@ -1,0 +1,91 @@
+\documentclass[14pt]{article}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{vwcol}
+\usepackage[a4paper , lmargin = {2cm} , rmargin = {2cm} , tmargin = {2cm} , bmargin = {2cm} ]{geometry}
+\usepackage{multicol}
+\pgfplotsset{compat=1.18}
+\pgfplotsset{ticks=none}
+
+%custom declaration
+\newcommand{\antwort}[1]{\vspace{#1cm}}
+
+\begin{document}
+\title{Tutorium Nr. 4}
+\date{25. April 2023}
+\author{Patrick Stark, Maxim Eremenko, David Berroth, Antonin Fahning}
+\maketitle
+\vspace{1cm}
+
+%Aufgabe 1
+\section*{Aufgabe 1: Planung}
+\subsection*{\textmd{Erklären Sie die folgenden Begriffe.}}
+\vspace{.25cm}
+
+\begin{itemize}
+\setlength\itemsep{0.5cm}
+    \item Starre Planung:
+    \item Flexible Planung:
+    \item Operative Planung:
+    \item Strategische Planung:
+\end{itemize}
+\vspace{.25cm}
+
+%Aufgabe 2
+\section*{Aufgabe 2: Zielzusammenhänge}
+\subsection*{\textmd{Notieren Sie, in welcher Relation die folgenden Ziele sich befinden.}}
+\vspace{.25cm}
+
+\begin{description}
+\setlength\itemsep{.25cm}
+\item Produktionskosten senken $\leftrightarrow$ Produktqualität verbessern:
+\item Freiheit $\leftrightarrow$ Sicherheit:
+\item Gesunde Ernährung $\leftrightarrow$ Körperliche Fitness:
+\item Zimmerpflanze regelmäßig gießen $\leftrightarrow$ Gute Noten schreiben:
+\item Bildung $\leftrightarrow$ Karriere:
+\item Softwareupdates durchführen $\leftrightarrow$ Tierschutz:
+\item Umweltschutz $\leftrightarrow$ Nachhaltigkeit:
+\item Liquidität erhöhen $\leftrightarrow$ Gewinnmaximierung:
+\end{description}
+
+\newpage
+
+%Aufgabe 3
+\section*{Aufgabe 3: Entscheidungstheorie}
+\subsection*{\textmd{Es ist der 1. Mai 2020. Jens möchte 5000€ seines verfügbaren Einkommens über ein Jahr investieren. Er redet mit seinen Freunden darüber und denkt nun darüber nach, sein Geld in 50 Wirecard Aktien zu investieren.}}
+\subsection*{\textmd{Jens überlegt sich mit seinen Freunden, wie sich der Kurs wohl verändern könnte. Die meisten Freunde denken, der Aktienkurs wird um 12\% steigen. Ein paar wenige glauben, der Kurs wird sich nicht signifikant verändern und empfehlen, das Geld nicht bei Wirecard, sondern stattdessen bei der Joel Stark KG für 2\% als Anleihe zu investieren. Ein Freund empfiehlt, Verkaufsoptionen (Short) zu kaufen, weil er behauptet, die Aktie würde auf 0.42€ abstürzen. Jens sieht das aber als sehr unwahrscheinlich an.}}
+\subsection*{\textmd{Nun denkt Jens über vier Alternativen nach:}}
+\subsubsection*{\textmd{1. Er investiert sein Geld in die Joel Stark KG}}
+\subsubsection*{\textmd{2. Er investiert die 5000€ in die Wirecard AG}}
+\subsubsection*{\textmd{3. Er shortet die Aktie für 5000€}}
+\subsubsection*{\textmd{4. Er bekommt einen Kredit für 95000€ zu ca. 3,15\% p.a. und investiert diese zusammen mit den eigenen 5000€ in Wirecard}}
+\subsection*{\textmd{Eine Entscheidungstabelle des erwarteten Gewinnes mit dem oben beschriebenen Sachverhalt sähe so aus:}}
+\vspace{.25cm}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+
+\hline
+& E1 (72\%) & E2 (27,8\%) & E3 (0,2\%) \\ \hline
+1 & 100       & 100         & 100        \\ \hline
+2 & 600       & 0           & -4980      \\ \hline
+3 & -600      & 0           & 4980       \\ \hline
+4 & 9000      & -3000       & -102580   \\ \hline
+\end{tabular}
+\end{table}
+\vspace{.25cm}
+
+\subsection*{\textmd{3.1 Für welche Alternative würde Jens sich nach dem Minimax- \& dem Maximax-Prinzip entscheiden?}}
+\vspace{1.5cm}
+\subsection*{\textmd{3.2 Für welche Alternative würde Jens sich nach dem Laplace- \& dem Mittelwert-Prinzip entscheiden?}}
+\vspace{2cm}
+\subsection*{\textmd{3.3 Erklären Sie anhand dieser Aufgabe, welchen Nachteil das Entscheiden mittels Laplace-Prinzip hat und womit man es lösen kann.}}
+\newpage
+
+\subsection*{\textmd{(3.4 Zusatzaufgabe für schnelle... oder zuhause: Rechnen Sie die gesamte Aufgabe noch einmal mit folgender Nutzenfunktion:)}}
+\subsection*{\textmd{$-100e^{-0,001x} + 100$}}
+
+
+\end{document}

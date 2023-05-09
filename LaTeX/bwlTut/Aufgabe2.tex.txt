@@ -1,0 +1,117 @@
+\documentclass[14pt]{article}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{vwcol}
+\usepackage[a4paper , lmargin = {2cm} , rmargin = {2cm} , tmargin = {2cm} , bmargin = {2cm} ]{geometry}
+\usepackage{multicol}
+\pgfplotsset{compat=1.18}
+\pgfplotsset{ticks=none}
+
+%custom declaration
+\newcommand{\antwort}[1]{\vspace{#1cm}}
+
+\begin{document}
+\title{Tutorium Nr. 2}
+\date{12. April 2023}
+\author{Patrick Stark, Maxim Eremenko, David Berroth, Antonin Fahning}
+\maketitle
+\vspace{1cm}
+
+%Aufgabe 1
+\section*{Aufgabe 1: Rechtsformen}
+\subsection*{\textmd{1.1 Nach welchem Prinzip arbeiten...}}
+\vspace{0.25cm}
+
+\begin{description}
+\item ...Privatwirtschaftliche Betriebe:
+\vspace{2mm} % 
+\item ...Öffentliche Betriebe: 
+\end{description}
+\vspace{0.5cm}
+
+\subsection*{\textmd{1.2 Ergänzen sie die Tabelle}}
+\begin{tabular}{ |p{1.5cm}||p{3.2cm}|p{3.2cm}|p{3.2cm}|}
+
+ \multicolumn{4}{c}{} \\
+ \hline
+ &Haftungsart &Art der Kapitalgesellschaft & Mindestkapital\\
+ \hline
+ OHG&&& \\
+ &&& \\
+ GmbH&&& \\
+ &&& \\
+ GmbH u. Co.KG&&& \\
+ &&& \\
+ AG&&& \\
+ &&&\\
+ \hline
+\end{tabular}
+\vspace{1cm}
+
+%Aufgabe 2
+\section*{Aufgabe 2: Cournot'scher Punkt}
+\subsection*{\textmd{2.1  Bestimmen sie den Cournot'schen Punkt}}
+\subsection*{\textmd{Gegeben sei ein Unternehmen in einem Monopol. Es hat für ein Produkt die Kostenfunktion K(x) = 24x + 100 und die Preis-Absatz-Funktion P(x) = -3x + 60}}
+\newpage
+\subsection*{\textmd{2.2 (Zusatzaufgabe) Ermitteln sie folgende Informationen:}}
+\vspace{0.25cm}
+\begin{description}
+\item Fixkosten:
+\item Variable Kosten:
+\item Sättigungsmenge:
+\item Prohibitivpreis:
+\end{description}
+\vspace{1cm}
+\subsection*{\textmd{(Hinweise zur Berechnung des Cournot'schen Punktes):}}
+
+\begin{description}
+\item - Umsatzfunktion ist Preis-Absatz-Funktion mal Menge (U(x) = P(x) $\cdot$ x)
+\item - Wenn man die Ableitung der Umsatzfunktion mit der Ableitung der Kostenfunktion gleichsetzt, ist x die \underline{Stelle} des Cournot'schen Punktes
+\item - (U'(x) = K'(x) $\rightarrow$ Punkt (x, P(x)) = gewinnmaximale Preis-Mengen-Kombination)
+\end{description}
+\vspace{1cm}
+
+%Aufgabe 3
+\section*{Aufgabe 3: Relation von Zielen}
+\subsection*{\textmd{3.1 Erklären sie die Begriffe Komplementärziel, Zielindifferenz und Zielkonkurrenz}}
+\subsection*{\textmd{}}
+\vspace{3cm}
+
+\subsection*{\textmd{3.2 Nennen sie geeignete Beispiele für die obig genannten Begriffe}}
+\vspace{0.25cm}
+\begin{description}
+\item Komplementärziel:
+\item Zielindifferenz:
+\item Zielkonkurrenz:
+\end{description}
+\newpage
+
+%Aufgabe 4
+\section*{Aufgabe 4: Nutzenfunktionen}
+\subsection*{\textmd{4.1 Ordnen sie die Nutzenfunktionen den jeweiligen Personen zu (Begründung!)}}
+\begin{center}
+\begin{multicols}{2}
+
+\subsection*{\textmd{A: N(x) = x$^2$}}
+\begin{tikzpicture}
+\draw [blue, thick] (0,0) parabola (2.75,1.75);
+\draw [->, thick](0,0)--(0,2) node [above] {Nutzen};
+\draw [->, thick](0,0)--(3,0) node [right] {Gewinn u. Risiko};
+\end{tikzpicture}
+
+\subsection*{\textmd{B: N(x) = $\sqrt{x}$}}
+\begin{tikzpicture}
+\draw [blue, thick,rotate=270] (0,0) parabola (-1.75,2.75);
+\draw [->, thick](0,0)--(0,2) node [above] {Nutzen};
+\draw [->, thick](0,0)--(3,0) node [right] {Gewinn u. Risiko};
+\end{tikzpicture}
+
+\end{multicols}
+\end{center}
+\vspace{0.25cm}
+
+\subsection*{\textmd{Person 1 ist Heinrich G.: Rentner, nimmt geringeren Gewinn in Kauf, solange sein angelegtes Kapitel dafür sicher ist }}
+\subsection*{\textmd{Person 2 ist Andrew T..: Millionär, ist bereit, bei der Geldanlage Risiken einzugehen, wenn diese höheren Gewinn versprechen}}
+
+\end{document}

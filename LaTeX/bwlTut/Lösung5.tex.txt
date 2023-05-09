@@ -1,0 +1,195 @@
+\documentclass[14pt]{article}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{vwcol}
+\usepackage[a4paper , lmargin = {2cm} , rmargin = {2cm} , tmargin = {2cm} , bmargin = {2cm} ]{geometry}
+\usepackage{multicol}
+\pgfplotsset{compat=1.18}
+\pgfplotsset{ticks=none}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+\usepackage{ulem}
+
+%custom declaration
+\newcommand{\antwort}[1]{\vspace{#1cm}}
+
+\begin{document}
+\title{Tutorium Nr. 5}
+\date{2. May 2023}
+\author{Patrick Stark, Maxim Eremenko, David Berroth, Antonin Fahning}
+\maketitle
+\vspace{1cm}
+
+%Aufgabe 1
+\section*{Aufgabe 1: Nachhaltigkeit}
+\subsubsection*{\textmd{Sie bekommen die Aufgabe, die CO$_2$-Emissionen einer kleinen Fabrikhalle zu verringern. Dazu haben Sie sich ein Renovierungskonzept ausgedacht, bei dem Sie davon ausgehen können, dass der Energieverbrauch auf zwischen 65\% bis 30\%  des ursprünglichen Verbrauchs sinken wird.}}
+\subsubsection*{\textmd{Angenommen, die Halle hat einen jährlichen Energieverbrauch von 12.000 kWh, 
+die Erzeugung von einer kWh Strom stößt 0,2kg CO$_2$ aus
+und bei der Renovierung werden durch die benötigten Materialien 8t CO$_2$ ausgestoßen.}}
+\vspace{.5cm}
+\subsection*{\textmd{1.1 Wie viele Jahre muss die Fabrikhalle nach der Renovierung benutzt werden, damit sich die Renovierung garantiert gelohnt hat?}}
+\subsubsection*{\textmd{\textcolor{red}{12000 $\cdot$ 0,2 $\cdot$ t = 12000 $\cdot$ 0,2 $\cdot$ 0,65 $\cdot$ t + 8000 $\rightarrow$ t \approx 9,52}}}
+\subsubsection*{\textmd{\textcolor{red}{Nach 10 Jahren ist der bei der Renovation entstandene CO$_2$ Ausstoß durch die Einsparungen eingeholt.}}}
+\vspace{1cm}
+\subsection*{\textmd{1.2 Ihr Chef hat errechnet, dass sein PKW pro Jahr 1,6t CO$_2$ ausstößt. Um sein Gewissen zu beruhigen würde er gerne wissen, wie viele Jahre nach der Renovierung so viel CO$_2$ eingespart wurde, dass diese die jährlichen Emissionen seines Pkws seit der Renovierung ausgleichen.
+Da die Renovierung viel Geld gekostet hat und Sie ihren Chef aufmuntern wollen, nehmen Sie an, dass die Renovierung sehr gründlich durchgeführt wurde und rechnen mit der bestmöglichen Energieeinsparung.}}
+\subsubsection*{\textmd{\textcolor{red}{12000 $\cdot$ 0,2 $\cdot$ t = 12000 $\cdot$ 0,2 $\cdot$ 0,3 $\cdot$ t + 8000 + 1600t $\rightarrow$ t = 100}}}
+\subsubsection*{\textmd{\textcolor{red}{Erst nach 100 Jahren haben die CO$_2$-Einsparungen den PKW
+Ausstoß eingeholt.}}}
+\newpage
+
+%Aufgabe 2
+\section*{Aufgabe 2: Lineare Optimierung}
+\subsubsection*{\textmd{Die Joel Stark KG stellt zwei verschiedene Arten von Bierkästen her. 
+\\ Sei x$_A$ die Menge der Bierkästen für 20 Flaschen a 0,5L und x$_B$ die Menge der Bierkästen für 24 Flaschen a 0,33L. }}
+\subsubsection*{\textmd{Es gelten folgende Restriktionen:}}
+\vspace{.1cm}
+
+\begin{tabular}{|cc|}
+\hline
+ R1: & 3x$_A$ + x$_B$ $\leq$ 180 \\ \hline
+ R2: & x$_B$ $\leq$ 3x$_A$ \\ \hline
+ R3: & x$_A$ + 2x$_B$ $\leq$ 120 \\ \hline
+ R4: & x$_A$, x$_B$ \in \mathbb{N}$^0$ \\ \hline
+\end{tabular}
+
+\subsubsection*{\textmd{Zielfunktion: 4x$_A$ + 6x$_B$ maximieren (stellt Gewinn dar)}}
+
+\vspace{.5cm}
+\subsection*{\textmd{2.1 Bestimmen Sie das Produktionsoptimum (Graphisch)}}
+\vspace{.5cm}
+
+\begin{tikzpicture}[scale=.7]
+\draw[help lines] (0,0) grid (10,10);
+\draw [->, thick](0,0)--(0,10.5) node [above] {x$_B$};
+\draw [->, thick](0,0)--(10.5,0) node [right] {x$_A$};
+
+\draw [--, thick, red](0,9)--(3,0);
+\node [red] at (1.5, 6.5){R1};
+
+\draw [--, thick, blue](0,0)--(3,9);
+\node [blue] at (1, 4.5){R2};
+
+\draw [--, thick, yellow](0,3)--(6,0);
+\node [yellow] at (3.5, 1.75){R3};
+
+\draw [--, thick, purple](0,3.4)--(5.1,0);
+\node [purple] at (6.5, .5){Zielfunktion};
+
+
+
+
+%x-Achse
+\node [] at (-0.25, -0.25){0};
+\node [] at (1, -0.25){20};
+\node [] at (2, -0.25){40};
+\node [] at (3, -0.25){60};
+\node [] at (4, -0.25){80};
+\node [] at (5, -0.25){100};
+\node [] at (6, -0.25){120};
+\node [] at (7, -0.25){140};
+\node [] at (8, -0.25){160};
+\node [] at (9, -0.25){180};
+\node [] at (10, -0.25){200};
+%y-Achse
+\node [] at (-0.4, 1){20};
+\node [] at (-0.4, 2){40};
+\node [] at (-0.4, 3){60};
+\node [] at (-0.4, 4){80};
+\node [] at (-0.4, 5){100};
+\node [] at (-0.4, 6){120};
+\node [] at (-0.4, 7){140};
+\node [] at (-0.4, 8){160};
+\node [] at (-0.4, 9){180};
+\node [] at (-0.4, 10){200};
+
+\end{tikzpicture}
+
+
+\subsubsection*{\textmd{Vorgehensweise:}}
+\begin{description}
+    \item Schritt 1: Schauen Sie sich die einzelnen Restriktionen an und bestimmen Sie jeweils zwei Punkte bzw. Kombinationen an, für die die Gleichheit gilt. Bsp.:
+    
+    \begin{center}
+    \item \begin{tabular}{|cc|}
+\hline
+R1: & 3y + 2z $\leq$ 90 \\
+$\rightarrow$ & P1 (0, 45) und P2 (30, 0) \\
+\hline
+\end{tabular}
+ \end{center}
+ 
+\item \underline{R1}: P1 (\textcolor{red}{60, 0}) und P2 (\textcolor{red}{0, 180}) \hspace{.3cm}  \underline{R2}: P1 (\textcolor{red}{0, 0}) und P2 (\textcolor{red}{60, 180}) \hspace{.3cm}  \underline{R3}: P1 (\textcolor{red}{0, 60}) und P2 (\textcolor{red}{120, 0}),
+
+\item Schritt 2: Tragen Sie die Punkte ein und verbinden Sie diese zu Geraden. Schraffieren Sie die Fläche, die diese Geraden einschließen. Setzen Sie die Zielfunktion gleich null und lösen Sie nach x$_B $auf. Wichtig ist nun die Steigung, also der Koeffizient von x$_A$. Legen Sie ein Geodreieck so auf das Koordinatensystem, dass die Kante davon die Steigung abbildet. Schieben Sie das Geodreieck so nach rechts, dass die Kante die schraffierte Fläche gerade so noch berührt. Ziehen Sie dort eine Linie durch und schreiben Sie den Punkt auf. P (\textcolor{red}{48, 36})
+
+\item Schritt 3: Setzen Sie den Punkt in die Zielfunktion ein: 4x$_A$ + 6x$_B$ = 4 $\cdot$ \textcolor{red}{48} + 6 $\cdot$ \textcolor{red}{36} = \textcolor{red}{432}
+\item Schritt 4: Schreiben Sie einen Antwortsatz. \textcolor{red}{Würde die Joel Stark KG 48 Einheiten von Bierkästen für 20 Flaschen a 0,5L und 36 Einheiten von Bierkästen für 24 Flaschen a 0,33L produzieren, würde es mit einem Gewinn von 432 GE das Betriebsoptimum erreichen.}
+\end{description}
+
+\newpage
+
+%Aufgabe 3
+\section*{Aufgabe 3: Spieltheorie}
+\subsubsection*{\textmd{Ihr langjähriger Konkurrent, Apfel Inc., und Sie, Sumsang Ltd., befinden sich seit einiger Zeit im Preiskampf. Ihr Konkurrent hat den Preis für sein neues "myPhone 14 Pro Max" nun auf 2.000€ angesetzt. Nun überlegen Sie, für welchem Preis Sie ihr neues "Sumsang Universe S21 Plus" ansetzen sollen. }}
+\subsubsection*{\textmd{Die Möglichkeiten und ihre Ausgänge sind hier dargestellt:}}
+\vspace{.75cm}
+
+\begin{tikzpicture}[->, level 1/.style={sibling distance = 6.5cm}, level 2/.style={sibling distance = 3.5cm}, level 3/.style={sibling distance = 1.5cm}] 
+\node {2.000€}
+    child{ node {2.000€} 
+            child{ node {1.500€} 
+            	child{ node {\sout{1.300€}} 
+                         } 
+							child{ node {1.500€}}
+            }
+            child{ node {2.000€}
+							child{ node {1.800€}}
+							child{ node {\sout{2.000€}}}
+            }                            
+    }
+    child{ node {1.500€}
+            child{ node {1.500€} 
+							child{ node{\sout{1.300€}}}
+							child{ node{1.500€}}
+            }
+            child{ node {2.000€}
+							child{ node {1.700€}}
+							child{ node {\sout{2.000€}}}
+            }
+		}
+;
+
+\node [] at (-7.5,0){Konkurrent};
+\node [] at (-7.5,-1.5){Wir};
+\node [] at (-7.5,-3){Konkurrent};
+\node [] at (-7.5,-4.5){Wir};
+\node [] at (-7.5,-5.5){Gewinn:};
+\node [] at (-7.5,-5.9){(in Mio. €)};
+
+\node [] at (-5.75,-5.5){50};
+\node [] at (-4.25,-5.5){80};
+
+\node [] at (-2.25,-5.5){100};
+\node [] at (-.75,-5.5){60};
+
+\node [] at (.75,-5.5){40};
+\node [] at (2.25,-5.5){80};
+
+\node [] at (4.25,-5.5){130};
+\node [] at (5.75,-5.5){120};
+\end{tikzpicture}
+\vspace{1cm}
+
+\subsection*{\textmd{3.1 Entscheiden Sie sich mithilfe der Maximax-Regel (nur erste Entscheidung!)}}
+\subsubsection*{\textmd{\textcolor{red}{Sowohl 1.500€ als auch 2.000€ sind richtig.  }\\  \textcolor{red}{(1.500€, ohne Wegstreichen)}}}
+\vspace{1cm}
+
+\subsection*{\textmd{3.2 Entscheiden Sie sich mithilfe der Minimax-Regel (nur erste Entscheidung!)}}
+\subsubsection*{\textmd{\textcolor{red}{1.500€}}
+\\ \textmd{\textcolor{red}{(2.000€, ohne Wegstreichen)}}
+}
+\vspace{1cm}
+
+\end{document}

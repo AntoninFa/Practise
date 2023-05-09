@@ -1,0 +1,137 @@
+\documentclass[14pt]{article}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{vwcol}
+\usepackage[a4paper , lmargin = {2cm} , rmargin = {2cm} , tmargin = {2cm} , bmargin = {2cm} ]{geometry}
+\usepackage{multicol}
+\pgfplotsset{compat=1.18}
+\pgfplotsset{ticks=none}
+
+%custom declaration
+\newcommand{\antwort}[1]{\vspace{#1cm}}
+
+\begin{document}
+\title{Tutorium Nr. 2}
+\date{12. April 2023}
+\author{Patrick Stark, Maxim Eremenko, David Berroth, Antonin Fahning}
+\maketitle
+\vspace{1cm}
+
+%Aufgabe 1
+\section*{Aufgabe 1: Rechtsformen}
+\subsection*{\textmd{1.1 Nach welchem Prinzip arbeiten...}}
+\vspace{0.25cm}
+
+\begin{description}
+\item ...Privatwirtschaftliche Betriebe: \textcolor{red}{ erwerbswirtschaftliches Prinzip}
+\vspace{2mm} % 
+\item ...Öffentliche Betriebe: \textcolor{red}{ ökonomisches Prinzip}
+\end{description}
+\vspace{0.5cm}
+
+\subsection*{\textmd{1.2 Ergänzen sie die Tabelle}}
+\begin{tabular}{ |p{1.5cm}||p{3.2cm}|p{3.2cm}|p{3.2cm}|}
+
+ \multicolumn{4}{c}{} \\
+ \hline
+ &Haftungsart &Art der Kapitalgesellschaft & Mindestkapital\\
+ \hline
+ OHG& \textcolor{red}{vollhaftend}& \textcolor{red}{Personengesellschaft}
+ & \textcolor{red}{0€} \\
+ &&& \\
+ GmbH& \textcolor{red}{teilhaftend}& \textcolor{red}{Kapitalgesellschaft}& \textcolor{red}{25.000€}\\
+ &&& \\
+ GmbH u. Co.KG& \textcolor{red}{teilhaftend}& \textcolor{red}{Personengesellschaft}& \textcolor{red}{25.000€ (für GmbH)} \\
+ &&& \\
+ AG&\textcolor{red}{teilhaftend}&\textcolor{red}{Kapitalgesellschaft}&\textcolor{red}{50.000€} \\
+ &&&\\
+ \hline
+\end{tabular}
+\vspace{1cm}
+
+%Aufgabe 2
+\section*{Aufgabe 2: Cournot'scher Punkt}
+\subsection*{\textmd{2.1  Bestimmen sie den Cournot'schen Punkt}}
+\subsection*{\textmd{Gegeben sei ein Unternehmen in einem Monopol. Es hat für ein Produkt die Kostenfunktion K(x) = 24x + 100 und die Preis-Absatz-Funktion P(x) = -3x + 60}}
+\vspace{2mm}
+\begin{description}
+\item \textcolor{red}{K(x) = 24x + 100} 
+\item \textcolor{red}{P(x) = -3x + 60}
+\item \textcolor{red}{U(x) = -3x$^2$ + 60x}
+\vspace{2mm}
+\item \textcolor{red}{U'(x) = -6x + 60, K'(x) = 24}
+\item \textcolor{red}{U'(x) = K'(x) $\rightarrow$ x = 6}
+\vspace{2mm}
+\item \textcolor{red}{P(6) = 42 $\rightarrow$ Der Punkt (6, 42) ist die gewinnmaximale Preis-Mengen-Kombination}
+
+\end{description}
+\newpage
+\subsection*{\textmd{2.2 (Zusatzaufgabe) Ermitteln sie folgende Informationen:}}
+\vspace{0.25cm}
+\begin{description}
+\item Fixkosten: \textcolor{red}{K(0) = 100}
+\item Variable Kosten: \textcolor{red}{K'(x) = 24}
+\item Sättigungsmenge: \textcolor{red}{P(x) = 0 $\leftrightarrow$ x = 20}
+\item Prohibitivpreis: \textcolor{red}{P(0) = 60}
+\end{description}
+\vspace{1cm}
+\subsection*{\textmd{(Hinweise zur Berechnung des Cournot'schen Punktes):}}
+
+\begin{description}
+\item - Umsatzfunktion ist Preis-Absatz-Funktion mal Menge (U(x) = P(x) $\cdot$ x)
+\item - Wenn man die Ableitung der Umsatzfunktion mit der Ableitung der Kostenfunktion gleichsetzt, ist x die \underline{Stelle} des Cournot'schen Punktes
+\item - (U'(x) = K'(x) $\rightarrow$ Punkt (x, P(x)) = gewinnmaximale Preis-Mengen-Kombination)
+\end{description}
+\vspace{1cm}
+
+%Aufgabe 3
+\section*{Aufgabe 3: Relation von Zielen}
+\subsection*{\textmd{3.1 Erklären sie die Begriffe Komplementärziel, Zielindifferenz und Zielkonkurrenz}}
+\begin{description}
+\item \textcolor{red}{Komplementärziele bedingen sich gegenseitig. Das Erreichen des einen Ziels fördert das Erreichen eines anderen Ziels.} 
+\item \textcolor{red}{Zielindifferenz bedeutet, dass die Erfüllung des einen Ziels nichts mit dem Erreichen des Anderen zu tun hat.}
+\item \textcolor{red}{Zielkonkurrenz bedeutet, dass das Erreichen des ersten Ziels das Erreichen des anderen Ziels beeinträchtigt.} 
+\end{description}
+
+\subsection*{\textmd{3.2 Nennen sie geeignete Beispiele für die obig genannten Begriffe}}
+\vspace{0.25cm}
+\begin{description}
+\item Komplementärziel: \textcolor{red}{'Umweltschutz' und 'Image'
+}
+\item Zielindifferenz: \textcolor{red}{'Verbesserung des Kundenservice' und 'Schulung der Mitarbeiter aus dem Bereich der Logistik'}
+\item Zielkonkurrenz: \textcolor{red}{'Kosten senken' und 'Produktqualität verbessern'}
+\end{description}
+\newpage
+
+%Aufgabe 4
+\section*{Aufgabe 4: Nutzenfunktionen}
+\subsection*{\textmd{4.1 Ordnen sie die Nutzenfunktionen den jeweiligen Personen zu (Begründung!)}}
+\begin{center}
+\begin{multicols}{2}
+
+\subsection*{\textmd{A: N(x) = x$^2$}}
+\begin{tikzpicture}
+\draw [blue, thick] (0,0) parabola (2.75,1.75);
+\draw [->, thick](0,0)--(0,2) node [above] {Nutzen};
+\draw [->, thick](0,0)--(3,0) node [right] {Gewinn u. Risiko};
+\end{tikzpicture}
+
+\subsection*{\textmd{B: N(x) = $\sqrt{x}$}}
+\begin{tikzpicture}
+\draw [blue, thick,rotate=270] (0,0) parabola (-1.75,2.75);
+\draw [->, thick](0,0)--(0,2) node [above] {Nutzen};
+\draw [->, thick](0,0)--(3,0) node [right] {Gewinn u. Risiko};
+\end{tikzpicture}
+
+\end{multicols}
+\end{center}
+\vspace{0.25cm}
+
+\subsection*{\textmd{Person 1 ist Heinrich G.: Rentner, nimmt geringeren Gewinn in Kauf, solange sein angelegtes Kapitel dafür sicher ist }}
+\subsection*{\textmd{Person 2 ist Andrew T..: Millionär, ist bereit, bei der Geldanlage Risiken einzugehen, wenn diese höheren Gewinn versprechen}}
+
+\subsubsection*{\textmd{\textcolor{red}{Person 1 gehört zu Funktion B: Heinrich G. ist risikoadvers, was bedeutet, dass für ihn mit steigendem Risiko der Grenznutzen ( $\equiv$ Steigung) trotz höheren Gewinnes fällt.}}}
+\subsubsection*{\textmd{\textcolor{red}{Person 2 gehört zu Funktion A: Andrew T. ist risikofreudig, was bedeutet, dass für ihn der steigende Gewinn das steigende Risiko überwiegt $\rightarrow$ steigender Grenznutzen ($\equiv$ Steigung)}}}
+
+\end{document}
