@@ -1,0 +1,163 @@
+\documentclass[14pt]{article}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{vwcol}
+\usepackage[a4paper , lmargin = {2cm} , rmargin = {2cm} , tmargin = {2cm} , bmargin = {2cm} ]{geometry}
+\usepackage{multicol}
+\pgfplotsset{compat=1.18}
+\pgfplotsset{ticks=none}
+
+%custom declaration
+\newcommand{\antwort}[1]{\vspace{#1cm}}
+
+\begin{document}
+\title{Tutorium Nr. 3}
+\date{18. April 2023}
+\author{Patrick Stark, Maxim Eremenko, David Berroth, Antonin Fahning}
+\maketitle
+\vspace{1cm}
+
+%Aufgabe 1
+\section*{Aufgabe 1: Definitionen}
+\subsection*{\textmd{Definieren Sie die folgenden Begriffe:}}
+\begin{itemize}
+\item simultane Planung:
+\vspace{0.5cm}
+\item sukzessive Planung:
+\end{itemize}
+\vspace{0.5cm}
+
+%Aufgabe 2
+\section*{Aufgabe 2: Relation von Zielen}
+\subsection*{\textmd{Ordnen Sie die folgenden Zielrelationen den Abbildungen zu (Begründung!!):}}
+\begin{description}
+\item Komplementärziele:
+\item Zielindifferenz:
+\item Zielkonkurrenz:
+\vspace{0.5cm}
+\end{description}
+
+
+\begin{multicols}{3}
+
+\centering \subsection*{A}
+\begin{tikzpicture}
+\draw [->, thick](0,0)--(0,2) node [above] {Ziel 1};
+\draw [->, thick](0,0)--(3,0) node [right] {Ziel 2};
+\draw [-, thick, blue](0, 1)--(2.5, 1);
+\end{tikzpicture}
+
+\centering \subsection*{B}
+\begin{tikzpicture}
+\draw [->, thick](0,0)--(0,2) node [above] {Ziel 1};
+\draw [->, thick](0,0)--(3,0) node [right] {Ziel 2};
+\draw [-, thick, blue](0, 0)--(2.5, 1.5);
+\end{tikzpicture}
+
+\centering \subsection*{C}
+\begin{tikzpicture}
+\draw [->, thick](0,0)--(0,2) node [above] {Ziel 1};
+\draw [->, thick](0,0)--(3,0) node [right] {Ziel 2};
+\draw [-, thick, blue](0, 1.5)--(2.5, 0);
+\end{tikzpicture}
+
+\end{multicols}
+\newpage
+
+%Aufgabe 3
+\section*{Aufgabe 3: Entscheidungstabelle}
+\subsection*{\textmd{Ein Investor kann sich zwischen 2 Investitionsmöglichkeiten entscheiden (A1 und A2), Welche jeweils entweder gut (S2) oder schlecht (S1) laufen können:}}
+\vspace{0.5cm}
+
+
+\begin{tabular}{|l|l|l|}
+\hline
+   & S1 (50\%) & S2 (50\%) \\ \hline
+A1 & 45        & 100       \\ \hline
+A2 & 43        & 103       \\ \hline
+\end{tabular}
+
+
+\subsection*{\textmd{3.1 Wie würde sich der Investor entscheiden, wenn er folgende Entscheidungsregeln als Maßstab verwenden würde?}}
+\begin{description}
+\item Minimax-Regel:
+\item Maximax-Regel:
+\item Mittelwert:
+\end{description}
+
+\subsection*{\textmd{Ein anderer Investor hat folgende Nutzenfunktion: N(G) = G$^2$}}
+\subsection*{\textmd{3.1 Füllen Sie die Tabelle aus und treffen Sie für diesen Investor die Entscheidung nach den obigen Regeln.}}
+\vspace{0.5cm}
+\begin{tabular}{|l|l|l|}
+\hline
+   & S1 (50\%) & S2 (50\%) \\ \hline
+A1 &        &       \\ \hline
+A2 &         &       \\ \hline
+\end{tabular}
+\vspace{2cm}
+
+\subsection*{\textmd{Ein weiterer Investor hat folgende Nutzenfunktion: N(G) = $\sqrt{G}$}}
+\subsection*{\textmd{3.2 Füllen Sie die Tabelle aus und treffen Sie für diesen Investor die Entscheidung nach den obigen Regeln.}}
+\vspace{0.5cm}
+\begin{tabular}{|l|l|l|}
+\hline
+   & S1 (50\%) & S2 (50\%) \\ \hline
+A1 &        &       \\ \hline
+A2 &         &       \\ \hline
+\end{tabular}
+
+
+\newpage
+
+%Aufgabe 4
+\section*{Aufgabe 4: Cournot'scher Punkt}
+\subsection*{\textmd{Das zu betrachtende Unternehmen ist in einer Monopolstellung. Durch Befragungen wurden für ein Produkt der Prohibitivpreis, also der Preis, zu dem die abgesetzte Menge null ist, und die Sättigungsmenge, also die Menge, welche bei einem Preis von null abgesetzt wird, ermittelt (Werte siehe unten). Von der Finanzabteilung wurden die Informationen übermittelt, dass die Fixkosten 20 GE und die Variablen Kosten 2/3 GE pro Einheit betragen.}}
+\vspace{0.5cm}
+
+\subsection*{\textmd{4.1 Zeichnen Sie die Preis-Absatz-Funktion und die Kostenfunktion in das Diagramm ein.}}
+\begin{center}
+\begin{tikzpicture}
+\draw[help lines] (0,0) grid (13,8);
+\draw [->, thick](0,0)--(0,8.5) node [above] {Preis};
+\draw [->, thick](0,0)--(13.5,0) node [right] {Menge};
+%x-Achse
+\node [] at (-0.25, -0.25){0};
+\node [] at (1, -0.25){20};
+\node [] at (2, -0.25){40};
+\node [] at (3, -0.25){60};
+\node [] at (4, -0.25){80};
+\node [] at (5, -0.25){100};
+\node [] at (6, -0.25){120};
+\node [] at (7, -0.25){140};
+\node [] at (8, -0.25){160};
+\node [] at (9, -0.25){180};
+\node [] at (10, -0.25){200};
+\node [] at (11, -0.25){220};
+\node [] at (12, -0.25){240};
+\node [] at (13, -0.25){260};
+%y-Achse
+\node [] at (-0.4, 1){20};
+\node [] at (-0.4, 2){40};
+\node [] at (-0.4, 3){60};
+\node [] at (-0.4, 4){80};
+\node [] at (-0.4, 5){100};
+\node [] at (-0.4, 6){120};
+\node [] at (-0.4, 7){140};
+\node [] at (-0.4, 8){160};
+
+\node [blue,left,thick] at (0, 0.65){Fixkosten};
+\filldraw [blue] (0,1) circle (2pt);
+
+\node [blue,left,thick] at (0, 3.65){Prohibitivpreis};
+\filldraw [blue] (0,4) circle (2pt);
+
+\node [blue,below,thick] at (12, -0.5){Sättigungsmenge};
+\filldraw [blue] (12,0) circle (2pt);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{\textmd{4.2 Berechnen Sie den Cournot'schen Punkt.}}
+
+
+\end{document}

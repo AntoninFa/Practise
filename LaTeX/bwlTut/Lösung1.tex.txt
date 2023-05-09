@@ -1,0 +1,209 @@
+\documentclass[14pt]{article}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{vwcol}
+\usepackage[a4paper , lmargin = {2cm} , rmargin = {2cm} , tmargin = {2cm} , bmargin = {2cm} ]{geometry}
+\usepackage{multicol}
+\pgfplotsset{compat=1.18}
+\pgfplotsset{ticks=none}
+
+%custom declaration
+\newcommand{\antwort}[1]{\vspace{#1cm}}
+
+\begin{document}
+\title{Tutorium Nr. 1}
+\date{4. April 2023}
+\author{Patrick Stark, Maxim Eremenko, David Berroth, Antonin Fahning}
+\maketitle
+\vspace{1cm}
+
+%Aufgabe 1
+\section*{Aufgabe 1: Definitionen}
+\subsection*{\textmd{Definieren sie die folgenden Begriffe mithilfe von Formeln:}}
+\begin{description}
+\item 1.1 Gewinn
+
+% \textcolor{red}{}
+\begin{description}
+\item 1.1.1 Nach HGB: \textcolor{red}{Ertrag - Aufwand}
+
+\item 1.1.2 Firmenintern: \textcolor{red}{Leistung - Kosten}
+\end{description}
+\item 1.2 Ertr\"age: \textcolor{red}{Umsatz + Zinsen}
+
+\item 1.3 Umsatz: \textcolor{red}{Preis $\cdot$ Menge}
+
+\item 1.4 Rendite: \textcolor{red}{$\frac{Gewinn}{Kapital} $}
+
+\item1.5 Eigenkapitalrentabilit\"at in Prozent: \textcolor{red}{($\frac{Gewinn}{Eigenkapital}$) * 100}
+
+\item 1.6 Kapital: \textcolor{red}{Eigenkapital + Fremdkapital}
+\end{description}
+
+%Aufgabe 2
+\section*{Aufgabe 2: Erl\"autern}
+\subsection*{\textmd{Erl\"autern Sie die nachfolgenden Begriffe in eigenen Worten:}}
+\vspace{0,5cm}
+\begin{description}
+\item 2.1 \"Okonomisches Prinzip:
+\item \textcolor{red}{Das ökonomische Prinzip zielt auf die Wirtschaftlichkeit ab, das heißt unter der Werwendung des Minimal- oder Maximalprinzips sollen Ziele in Abhängigkeit von Mitteln erreicht werden. Es wird meist in öffentlichen Betrieben eingesetzt.} 
+\end{description}
+\vspace{1cm}	
+\begin{description}
+\item 2.2 Erwerbswirtschaftliches Prinzip:
+\item \textcolor{red}{Das Erwerbswirtschaftliche Prinzip zielt vor allem auf eine Maximierung der Rendite bei möglichst kleiner Liquidität (=0) ab. Es wird meist von privatwirtschaftlichen Unternehmen realisiert.}
+\end{description}
+\vspace{1cm}
+\begin{description}
+\item Wo liegen die Unterschiede der beiden Begriffe?
+\item \textcolor{red}{Der Unterschied der beiden Prinzipien besteht im Wesentlichen aus der Herangehensweise und der Güterknappheit bzw. dem Umgang mit dieser.}
+\end{description}
+\vspace{2cm}
+\newpage
+
+%Aufgabe 3
+\section*{Aufgabe 3: Rechnung zur Nachhaltigkeit}
+\subsection*{\textmd{Ein Auto mit Verbrennungsmotor und ein Auto mit Elektromotor erzeugen circa folgende Mengen an CO$_2$:}}
+
+\begin{description}
+\item
+\begin{multicols}{2}
+
+\subsection*{\textmd{\underline{Verbrenner:}}}
+
+\begin{description}
+\item Herstellung: 7,5t
+\item Pro 100km gefahrene Strecke: 13kg
+\end{description}
+
+\subsection*{\textmd{\underline{Elektro:}}}
+\begin{description}
+\item Herstellung: 13t
+\item Pro 100km gefahrene Strecke: 2kg
+\end{description}
+\end{multicols}	
+\end{description}
+
+\subsection*{\textmd{Das Auto mit Verbrennungsmotor hat eine Lebensdauer von 250.000km, das Auto mit Elektromotor eine Lebensdauer von 400.000km.}}
+\vspace{1cm}
+\begin{description}
+\item 3.1 Wieviel CO$_2$ erzeugen die beiden Autos w\"ahrend ihrer gesamten Lebensdauer?
+\begin{multicols}{2}
+\item \textcolor{red}{\underline{Verbrenner}}
+\item \textcolor{red}{7.500kg + ($\frac{250.000km}{100km}$ $\cdot$ 13kg) = 40t}
+\columnbreak
+\item \textcolor{red}{\underline{Elektro}}
+\item \textcolor{red}{13.000kg + ($\frac{400.000km}{100km}$ $\cdot$ 2kg) = 21t}
+\end{multicols}
+\item 
+\item 3.2 Wieviele Kilometer m\"usste das E-Auto fahren, damit es w\"ahrend seiner Lebensdauer gleichviel CO$_2$ wie das Auto mit Verbrennungsmotor erzeugt?
+\item \textcolor{red}{40t (Gesamtwert Verbrenner) - 13t (Herstellungskosten Elektro) = 27t}
+\item \textcolor{red}{27t = $\frac{x}{100km}$ $\cdot$ 2kg $\rightarrow$ 1.350.000km}
+\end{description}
+\vspace{1cm}
+
+
+%Aufgabe 4
+\section*{Aufgabe 4: Cournot'scher Punkt}
+\subsection*{\textmd{Beschriften Sie die Folgende Funktion. Tragen Sie dabei insbesondere den Cournot’schen 
+       Punkt ein.}}
+\vspace{1cm}
+       
+\begin{multicols}{2}
+
+
+\begin{tikzpicture}[>=stealth, scale=0.75]
+\draw[red, thick] (0,3) -- (8.5,6) node [right] {C};
+\draw[red, thick] (0,4.67) -- (8.5,7.67);
+\node[red] at (8.5,8.2) {Tangente};
+\node [teal] at (4.8, 3.4){Cournot};
+\draw [teal, thick ] (3.6,3) -- (3.6,6.2); 
+\draw[blue, thick] (0,6) -- (8,0);
+\draw[help lines] (0,0) grid (8.5,7.5);
+\node [] at (4.5, 5.5){E};
+\draw [->, thick](0,0)--(8.5,0) node [right] {B};
+\draw [->, thick](0,0)--(0,7.5) node [above] {G};
+\draw [thick] (4, 6) parabola (0,0);
+\draw [thick] (4, 6) parabola (8,0);
+\node [blue] at (5.5, 1.5){D};
+\node [] at (-0.3, 6){A};
+\node [] at (8, -0.3){F};
+\filldraw (0,6) circle (2pt);
+\filldraw (8,0) circle (2pt);
+\end{tikzpicture}
+
+
+\begin{description}
+\item A: \textcolor{red}{Prohibitivpreis}
+\item B: \textcolor{red}{X (Menge)}
+\item C: \textcolor{red}{Kosten}
+\item D: \textcolor{red}{Nachfrage}
+\item E: \textcolor{red}{Umsatz}
+\item F: \textcolor{red}{Sättigungsmenge}
+\item G: \textcolor{red}{Preis}
+\end{description}
+
+\end{multicols}
+
+\newpage
+
+\subsection*{\textmd{Das Unternehmen "Joel Stark KG" stellt palettenweise Bierkästen aus Plastik vom Ozean her. In der Region ist es das einzige Unternehmen, welches das für lokale Brauereien anbietet. Dadurch entstehen fixe Kosten von 15000€ im Monat. Für jede produzierte Palette voller Bierkästen entstehen Kosten von 50€. Würde Joel Stark KG die Bierkästen umsonst anbieten, würde man einen Absatz von 4525 Einheiten im Monat erreichen. Ab einem Preis von 180€ würde niemand das Produkt nachfragen.}}
+\vspace{0.5cm}
+
+\begin{description}
+\item 4.1 Schreiben Sie die folgenden Informationen aus dem Text heraus:
+\begin{description}
+\item Fixkosten: \textcolor{red}{15.000€}
+\item Variable Kosten: \textcolor{red}{50€ pro Stück}
+\item Sättigungsmenge: \textcolor{red}{4525 Stück}
+\item Prohibitivpreis: \textcolor{red}{180€}
+\end{description}
+\end{description}
+
+\begin{description}
+\item 4.2 Erstellen Sie mit diesen Daten eine Kosten- und Preis-Absatz-Funktion:
+\begin{description}
+\item K(x)= Variable Kosten $\cdot$ x + Fixkosten = \textcolor{red}{50x + 15.000}
+\item P(x)= - (Prohibitivpreis/Sättigungsmenge) $\cdot$ x + Prohibitivpreis = \textcolor{red}{-($\frac{180}{4525}$)x + 180}
+\end{description}
+\end{description}
+
+\begin{description}
+\item 4.3 Erstellen Sie mit der Preis-Absatz-Funktion eine Umsatzfunktion:
+\begin{description}
+\item U(x) = P(x) $\cdot$ \textcolor{red}{x} = \textcolor{red}{-($\frac{180}{4525}$)x$^2$ + 180x}
+\end{description}
+\end{description}
+
+\begin{description}
+\item 4.4 Erstellen Sie für die Umsatzfunktion und die Preis-Absatz-Funktion die erste Ableitung:
+\begin{description}
+\item K'(x) = \textcolor{red}{50}
+\item U'(x) = \textcolor{red}{-($\frac{360}{4525}$)x + 180}
+\end{description}
+\end{description}
+
+\begin{description}
+\item 4.5 Setzen Sie U'(x) und K'(x) gleich und geben Sie den Schnittpunkt der beiden Funktionen an:
+\item \textcolor{red}{-($\frac{360}{4525}$)x + 180 = 50}
+\item \textcolor{red}{$\rightarrow$ x = 1634,0278}
+\end{description}
+\vspace{1cm}
+
+\begin{description}
+\item 4.6 Runden Sie das Ergebnis kaufmännisch und setzen Sie es in die Preis-Absatz-Funktion ein:
+\item \textcolor{red}{P(1634) = 115 }
+\end{description}
+
+\vspace{1cm}
+
+\begin{description}
+\item Schreiben Sie einen Antwortsatz:
+\item \textcolor{red}{Die Joel Stark KG würde bei der Produktion von 1634 Paletten Bierkästen mit einem Verkaufspreis von 115€ pro Einheit den maximalen Gewinn erzielen.}
+\end{description}
+
+
+\end{document}
+
+
