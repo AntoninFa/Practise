@@ -13,7 +13,6 @@ import org.springframework.hateoas.server.core.Relation;
 import java.time.LocalDate;
 import java.util.List;
 
-//TODO brauche ich HashCOde?
 /**
  * Model-Klasse für Spring HATEOAS.
  */

@@ -25,6 +25,7 @@ import static org.springframework.graphql.execution.ErrorType.BAD_REQUEST;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@SuppressWarnings("unused")
 class SongMutationController {
     private final SongWriteService service;
 

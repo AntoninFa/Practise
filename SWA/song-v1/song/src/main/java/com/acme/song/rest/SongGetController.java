@@ -1,7 +1,9 @@
 package com.acme.song.rest;
 
 import com.acme.song.service.SongReadService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
@@ -28,6 +30,7 @@ import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
 @Controller
 @RequestMapping(REST_PATH)
 @ResponseBody
+@OpenAPIDefinition(info = @Info(title = "Song API", version = "v1"))
 @RequiredArgsConstructor
 @Slf4j
 public class SongGetController {

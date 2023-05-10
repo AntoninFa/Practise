@@ -1,5 +1,3 @@
-# Description in Markdown-Syntax
-
 schema {
   query: Query
   mutation: Mutation
@@ -9,7 +7,6 @@ schema {
 type Query {
   "Suche Daten von Songs anhand der ID"
   song(id: ID!): Song
-
   "Suche Daten von Songs anhand des Titels oder des Genres"
   songs(input: Suchkriterien): [Song!]
 }
@@ -19,9 +16,8 @@ type Mutation {
   create(input: SongInput!): CreatePayload
 }
 
-"Eigenschaften eines Kunde-Datensatzes mit untergeordneten Eigenschaften"
+"Eigenschaften eines Kunde-Datensatzes"
 type Song {
-  "ID des Songs"
   id: ID
   titel: String!
   erscheinungsDatum: String!
@@ -40,7 +36,7 @@ type SongDuration {
   seconds: Int!
 }
 
-"Suchkriterien für die Query 'songs"
+"Suchkriterien für songs"
 input Suchkriterien {
   "Titel des gesuchten Songs"
   titel: String
@@ -71,10 +67,9 @@ enum GenreType {
   KINDERMUSIK
   RAP
   FOLK
-
 }
 
-"Neue oder geänderte Adresse"
+"Eingabedaten für eine neue Song-Dauer"
 input DurationInput {
   hours: Int!
   minutes: Int!
