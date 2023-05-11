@@ -19,12 +19,12 @@ Authorization: Basic {{userAdmin}} {{password}}
   }
 }
 
-### Suche nach
+### Suche nach allen Songs
 GRAPHQL {{graphqlUrl}}
 Authorization: Basic {{userAdmin}} {{password}}
 
 {
-  song(genre: "POP") {
+  songs(input: {}) {
     titel
     genre
   }
