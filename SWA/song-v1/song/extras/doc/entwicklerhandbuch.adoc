@@ -1,0 +1,101 @@
+:doctype: book
+:toc: left
+:sectanchors:
+:sectlinks:
+:sectnums:
+:source-highlighter: coderay
+:icons: font
+
+// https://github.com/asciidoctor/asciidoctorj
+// https://github.com/asciidoctor/asciidoctor-diagram
+// http://de.plantuml.com/classes.html
+// http://de.plantuml.com/component.html
+// https://github.com/odrotbohm/asciidoctor-plantuml
+
+
+== Der Microservice Song
+
+=== Der Microservice im Überblick
+
+bla bla
+
+
+----
+
+bla bla
+
+----
+
+=== Die REST-Schnittstelle
+
+bla bla
+
+."SongGetController" für Lesezugriffe an der REST-Schnittstelle
+[plantuml,SongGetController,svg]
+----
+include::./SongGetController.plantuml[]
+----
+
+----
+
+
+
+=== Die Geschäftslogik
+
+bla bla
+
+.Die Service-Klasse "SongReadService" für die Geschäftslogik
+[plantuml,SongReadService,svg]
+----
+include::./SongReadService.plantuml[]
+----
+
+bla bla
+
+
+=== Die Entity-Klassen
+
+bla bla
+
+.Die Entity-Klasse "Song" für Songndaten
+[plantuml,Song,svg]
+----
+include::./Song.plantuml[]
+----
+
+== Programmierrichtlinien
+
+TIP: Als Studierende/r sollte man sich frühzeitig an Programmierrichtlinien
+     gewöhnen. Das hinterlässt im späteren Praxissemester einen professionellen Eindruck.
+
+=== Java
+
+[horizontal]
+_Google_:: https://google.github.io/styleguide/javaguide.html
+_Microsoft Azure_:: https://azure.github.io/azure-sdk/java_introduction.html
+_Mozilla_:: https://firefox-source-docs.mozilla.org/code-quality/coding-style/coding_style_java.html
+
+=== SQL
+
+[horizontal]
+_SQL_:: https://www.sqlstyle.guide
+
+=== TypeScript und JavaScript
+
+[horizontal]
+_Microsoft_:: https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines
+_Angular_:: https://angular.io/docs/ts/latest/guide/style-guide.html
+_React_:: https://github.com/airbnb/javascript/tree/master/react
+
+=== Python
+
+[horizontal]
+_Google_:: https://google.github.io/styleguide/pyguide.html
+
+=== Kotlin
+
+Für die Entwicklung mit *Kotlin* sind folgende Styleguides empfehlenswert:
+
+[horizontal]
+_Kotlin_:: https://kotlinlang.org/docs/reference/coding-conventions.html
+_Android_:: https://developer.android.com/kotlin/style-guide

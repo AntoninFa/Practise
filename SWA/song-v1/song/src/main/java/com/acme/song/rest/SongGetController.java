@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.UUID;
-
 import static com.acme.song.rest.SongGetController.REST_PATH;
 import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
 
 /**
  * Eine @RestController-Klasse als REST-Schnittstelle für lesende Zugriffe.
+ * ../../../../../../../build/docs/asciidoc/SongGetController.svg
  */
 @Controller
 @RequestMapping(REST_PATH)
@@ -34,12 +34,10 @@ import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
 @RequiredArgsConstructor
 @Slf4j
 public class SongGetController {
-
     /**
      * Basispfad für die REST-Schnittstelle.
      */
     public static final String REST_PATH = "/rest";
-
     /**
      * Regex für eine gültige UUID.
      */

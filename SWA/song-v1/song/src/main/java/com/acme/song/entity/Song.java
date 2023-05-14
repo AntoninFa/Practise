@@ -15,6 +15,7 @@ import java.util.UUID;
 
 /**
  * Daten von einem Song.
+ * ../../../../../../../build/docs/asciidoc/Song.svg
  */
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)

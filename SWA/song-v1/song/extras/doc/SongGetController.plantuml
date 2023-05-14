@@ -1,0 +1,74 @@
+@startuml SongGetController
+
+skinparam classAttributeIconSize 0
+
+package org.springframework {
+    package web.bind.annotation {
+        interface "@RequestMapping" as RequestMapping
+        interface "@PathVariable" as PathVariable
+        interface "@RequestParam" as RequestParam
+        interface "@ExceptionHandler" as ExceptionHandler
+        interface "@ResponseStatus" as ResponseStatus
+    }
+
+    package http {
+        class ResponseEntity<T>
+    }
+    package stereotype {
+    interface Controller
+    }
+    package hateoas {
+        class CollectionModel<E>
+        class Link
+        interface LinkRelation
+    }
+    package util {
+        class MultiValueMap<K,V>
+    }
+}
+
+package jakarta.servlet.http {
+    interface HttpServletRequest
+}
+
+package java.util {
+    class UUID
+    UUID .up[hidden].> HttpServletRequest
+}
+
+package com.acme.song {
+    package service {
+        class SongReadService << control >> << @Service >>
+        class NotFoundException
+    }
+    package rest #DDDDDD {
+        class SongModel <<entity>>
+        class SongGetController << boundary >> << Controller >> << @RequestMapping >> {
+            + @GetMapping findById(@PathVariable id: UUID, sRequest: HttpServletRequest): SongModel
+            + @GetMapping find(@RequestParam queryParams: MultiValueMap<String, String>, request: HttpServletRequest): CollectionModel<SongModel>
+        }
+        class CommonExceptionHandler << @ControllerAdvice >> {
+            + @ExceptionHandler @ResponseStatus onNotFound(ex: NotFoundException)
+        }
+        SongGetController o--> "1" SongReadService : service
+        SongGetController ..> SongModel
+        SongGetController .up.> Controller
+        SongGetController .up.> RequestMapping
+        SongGetController .up.> PathVariable
+        SongGetController .up.> RequestParam
+        SongGetController .up.> ResponseEntity
+        SongGetController .up.> MultiValueMap
+        SongGetController .up.> CollectionModel
+        SongGetController .up.> Link
+        SongGetController .up.> LinkRelation
+        SongGetController .right.> HttpServletRequest
+        CommonExceptionHandler .up.> ExceptionHandler
+        CommonExceptionHandler .up.> ResponseStatus
+        CommonExceptionHandler ..> NotFoundException
+        CommonExceptionHandler .up[hidden].> SongModel
+        SongGetController .right.> UUID
+        SongModel .[hidden].> SongReadService
+    }
+}
+hide empty members
+@enduml

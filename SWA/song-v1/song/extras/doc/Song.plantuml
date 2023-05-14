@@ -1,0 +1,48 @@
+@startuml Song
+skinparam classAttributeIconSize 0
+
+package java {
+    package util {
+        class UUID
+        interface List<T>
+        class URL
+    }
+
+    package time {
+        class LocalDate
+    }
+
+    UUID .[hidden].> LocalDate
+}
+
+package com.acme.song.entity #DDDDDD {
+    class SongDuration {
+        int: hours
+        int: minutes
+        int seconds
+    }
+    enum GenreType {
+        POP
+        DANCEPOP
+        PUNKROCK
+        NEUEDEUTSCHEWELLE
+        KINDERMUSIK
+        RAP
+        FOLK
+    }
+    class Song << entity >> {
+        id : UUID
+        titel : String
+        erscheinungsDatum : LocalDate
+        genre : List<GenreType>
+        musikLabel : String
+    }
+    Song *--> "0..1" SongDuration : duration
+    Song .up.> GenreType
+    Song ..> UUID
+    Song ..> LocalDate
+    Song ..> List
+    Song ..> URL
+}
+hide empty members
+@enduml
