@@ -25,6 +25,7 @@ package java.util {
     interface Map<K,V>
     class UUID
 
+' hat er gemacht um die schöner Anzuordnen
     UUID .left[hidden].> Service
 }
 

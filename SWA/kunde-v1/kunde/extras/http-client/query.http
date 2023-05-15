@@ -1,4 +1,7 @@
 ### Suche mit vorhandener Kunde-ID als admin
+// eig. baseURl/graphql, Autorization macht ihr eig. kum Sinn
+//query ist hier kein Json, (haben kein: und keine Kommas)
+// man kann query dazu schreiben muss aber nicht (z.8)
 GRAPHQL {{graphqlUrl}}
 Authorization: Basic {{userAdmin}} {{password}}
 

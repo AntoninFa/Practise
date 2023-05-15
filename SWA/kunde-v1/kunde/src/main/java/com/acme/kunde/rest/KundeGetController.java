@@ -85,7 +85,7 @@ public class KundeGetController {
      * Suche anhand der Kunde-ID als Pfad-Parameter.
      *
      * @param id ID des zu suchenden Kunden
-     * @param request Das Request-Objekt, um Links für HATEOAS zu erstellen.
+     * @param request Das HttpServletRequest-Objekt, um Links für HATEOAS zu erstellen.
      * @return Gefundener Kunde mit Atom-Links.
      */
     @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = HAL_JSON_VALUE)
