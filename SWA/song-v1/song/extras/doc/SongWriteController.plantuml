@@ -1,0 +1,62 @@
+@startuml SongHandler
+skinparam classAttributeIconSize 0
+package jakarta.servlet.http {
+    class HttpServletRequest
+}
+package org.springframework {
+    package stereotype {
+        interface "@Controller" as Controller
+    }
+    package web.bind.annotation {
+        interface "@RequestMapping" as RequestMapping
+        interface "@PathVariable" as PathVariable
+        interface "@RequestBody" as RequestBody
+        interface "@ExceptionHandler" as ExceptionHandler
+        RequestBody .left[hidden].> Controller
+        ExceptionHandler .left[hidden].> Controller
+    }
+    package http {
+        class ResponseEntity<T>
+        class ProblemDetail
+        ResponseEntity .[hidden].> ProblemDetail
+        ResponseEntity .left[hidden].> Controller
+    }
+}
+package java.util {
+    class UUID
+}
+package com.acme.song {
+    package service {
+        class SongWriteService << control >> << @Service >>
+        class ConstraintViolationsException
+    }
+    package rest #DDDDDD {
+        package patch #FFFFFF {
+        }
+        class SongDTO <<entity>>
+        class CustomUserDTO <<entity>>
+        class SongDTO <<entity>>
+        SongDTO .[hidden].> UUID
+        SongDTO .[hidden].> SongWriteService
+        class SongWriteController << boundary >> << @Controller >> << @RequestMapping >> {
+            + @PostMapping create(@RequestBody songDTO: SongDTO, request: HttpServletRequest): ResponseEntity<Void>
+            + @PutMapping update(@PathVariable id: UUID, @RequestBody songDTO: SongDTO, @RequestHeader("If-Match") version: Optional<String>, request: HttpServletRequest): ResponseEntity<Void>
+            + @ExceptionHandler onConstraintViolations(ex: ConstraintViolationsException, req: HttpServletRequest): ResponseEntity<ProblemDetail>
+        }
+        SongWriteController o-right-> "1" SongWriteService : service
+        SongWriteController ..> SongDTO
+        SongWriteController .up.> UUID
+        SongWriteController ..> ConstraintViolationsException
+        SongWriteController .up.> HttpServletRequest
+        SongWriteController .up.> ResponseEntity
+        SongWriteController .up.> ProblemDetail
+        SongWriteController .up.> Controller
+        SongWriteController .up.> RequestMapping
+        SongWriteController .up.> PathVariable
+        SongWriteController .up.> RequestBody
+        SongWriteController .up.> ExceptionHandler
+        SongDTO .[hidden].> UsernameExistsException
+    }
+}
+hide empty members
+@enduml
