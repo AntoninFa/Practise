@@ -10,6 +10,7 @@ import jakarta.validation.Validator;
 
 /**
  * Anwendungslogik für Songs.
+ * <img src="../../../../../../../build/docs/asciidoc/SongWriteService.svg" alt="Klassendiagramm">
  */
 @Service
 @RequiredArgsConstructor

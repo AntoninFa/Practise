@@ -25,7 +25,7 @@ import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
 
 /**
  * Eine @RestController-Klasse als REST-Schnittstelle für lesende Zugriffe.
- * ../../../../../../../build/docs/asciidoc/SongGetController.svg
+ * <img src="../../../../../../../build/docs/asciidoc/SongGetController.svg" alt="Klassendiagramm">
  */
 @Controller
 @RequestMapping(REST_PATH)

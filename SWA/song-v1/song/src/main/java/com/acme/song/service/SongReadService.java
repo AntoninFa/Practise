@@ -13,7 +13,7 @@ import java.util.UUID;
 
 /**
  * Anwendungslogik für Songs.
- * ../../../../../../../build/docs/asciidoc/SongReadService.svg
+ * <img src="../../../../../../../build/docs/asciidoc/SongReadService.svg" alt="Klassendiagramm">
  */
 @Service
 @RequiredArgsConstructor

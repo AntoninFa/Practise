@@ -29,3 +29,15 @@ Authorization: Basic {{userAdmin}} {{password}}
     genre
   }
 }
+
+
+### Suche nach Songs mit gegebenem Titel
+GRAPHQL {{graphqlUrl}}
+Authorization: Basic {{userAdmin}} {{password}}
+
+{
+  songs(input: {titel: "Watch Me"}) {
+    titel
+    genre
+  }
+}

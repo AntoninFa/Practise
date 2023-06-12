@@ -9,6 +9,6 @@ Accept: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 ### Suche nach Genres
-GET {{restUrl}}?genre=POP
+GET {{restUrl}}?genre=POP&genre=NEUEDEUTSCHEWELLE
 Accept: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}

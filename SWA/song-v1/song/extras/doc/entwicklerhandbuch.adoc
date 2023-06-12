@@ -1,3 +1,4 @@
+= Entwicklerhandbuch
 :doctype: book
 :toc: left
 :sectanchors:
@@ -35,23 +36,21 @@ bla bla
 ----
 include::./SongGetController.plantuml[]
 ----
-
+."SongWriteController" für Schreibzugriffe an der REST-Schnittstelle
+[plantuml,SongWriteController,svg]
 ----
-
-
-
-=== Die Geschäftslogik
-
-bla bla
-
-.Die Service-Klasse "SongReadService" für die Geschäftslogik
+include::./SongWriteController.plantuml[]
+----
+."SongReadService" im Anwendungskern
 [plantuml,SongReadService,svg]
 ----
 include::./SongReadService.plantuml[]
 ----
-
-bla bla
-
+."SongWriteService" für die Geschäftslogik
+[plantuml,SongWriteService,svg]
+----
+include::./SongWriteService.plantuml[]
+----
 
 === Die Entity-Klassen
 

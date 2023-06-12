@@ -1,17 +1,14 @@
 @startuml Song
 skinparam classAttributeIconSize 0
-
 package java {
     package util {
         class UUID
         interface List<T>
         class URL
     }
-
     package time {
         class LocalDate
     }
-
     UUID .[hidden].> LocalDate
 }
 
