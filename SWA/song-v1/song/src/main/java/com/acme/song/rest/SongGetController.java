@@ -1,7 +1,9 @@
 package com.acme.song.rest;
 
 import com.acme.song.service.SongReadService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
@@ -18,25 +20,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.UUID;
-
 import static com.acme.song.rest.SongGetController.REST_PATH;
 import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
 
 /**
  * Eine @RestController-Klasse als REST-Schnittstelle für lesende Zugriffe.
+ * <img src="../../../../../../../build/docs/asciidoc/SongGetController.svg" alt="Klassendiagramm">
  */
 @Controller
 @RequestMapping(REST_PATH)
 @ResponseBody
+@OpenAPIDefinition(info = @Info(title = "Song API", version = "v1"))
 @RequiredArgsConstructor
 @Slf4j
 public class SongGetController {
-
     /**
      * Basispfad für die REST-Schnittstelle.
      */
     public static final String REST_PATH = "/rest";
-
     /**
      * Regex für eine gültige UUID.
      */

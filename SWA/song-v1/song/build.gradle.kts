@@ -161,7 +161,7 @@ group = "com.acme"
 version = "2023.1.0"
 
 sweeney {
-    enforce(mapOf("type" to "gradle", "expect" to "[8.1.1,8.1.1]"))
+    enforce(mapOf("type" to "gradle", "expect" to "[8.2,8.2]"))
     // https://www.java.com/releases
     // https://devcenter.heroku.com/articles/java-support#specifying-a-java-version
     enforce(mapOf("type" to "jdk", "expect" to "[20.0.1,21]"))
@@ -750,7 +750,7 @@ tasks.javadoc {
         addStringOption("Xdoclint:none", "-quiet")
         // https://stackoverflow.com/questions/59485464/javadoc-and-enable-preview
         addBooleanOption("-enable-preview", true)
-        addStringOption("-release", "19")
+        addStringOption("-release", "20")
 
         this as StandardJavadocDocletOptions
         author(true)

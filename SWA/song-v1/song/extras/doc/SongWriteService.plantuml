@@ -1,0 +1,40 @@
+@startuml SongWriteService
+skinparam classAttributeIconSize 0
+package java.util {
+    class UUID
+}
+
+package org.springframework {
+    package stereotype {
+        interface Service
+    }
+    package security.core.userdetails {
+        interface UserDetails
+    }
+    UUID .right[hidden].> UserDetails
+}
+
+package com.acme.song {
+
+    package entity {
+        class Song << entity >>
+        Song .up[hidden].> UUID
+    }
+
+    package repository {
+        interface SongRepository << control >>
+    }
+
+    package service #DDDDDD {
+        class SongWriteService << control >> << @Service >> {
+            + create(song: Song): Song
+            + update(song: Song, id: UUID): void
+        }
+        SongWriteService o--> "1" SongRepository : repo
+        SongWriteService .right.> Song
+        SongWriteService .up.> UUID
+        SongWriteService .up.> Service
+    }
+}
+hide empty members
+@enduml

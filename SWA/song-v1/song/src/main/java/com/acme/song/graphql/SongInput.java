@@ -3,11 +3,19 @@ package com.acme.song.graphql;
 import com.acme.song.entity.GenreType;
 import com.acme.song.entity.Song;
 import com.acme.song.entity.SongDuration;
-
 import java.time.LocalDate;
 import java.util.List;
 
-record SongInput (
+/**
+ * Eine Value-Klasse für Eingabedaten passend zu SongInput aus dem GraphQL-Schema.
+ *
+ * @param titel Titel eines Songs
+ * @param erscheinungsDatum Datum an dem ein Song erschienen ist
+ * @param genre Genre eines Songs
+ * @param musikLabel Label unter welchem der Song erschienen ist
+ * @param duration Dauer eines Songs
+ */
+record SongInput(
     String titel,
     String erscheinungsDatum,
     List<GenreType> genre,

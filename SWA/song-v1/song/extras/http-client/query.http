@@ -1,9 +1,43 @@
-### Suche mit vorhandener Kunde-ID als admin
+### Suche nach Titel von Song mit gegebener ID
 GRAPHQL {{graphqlUrl}}
 Authorization: Basic {{userAdmin}} {{password}}
 
 {
   song(id: "00000000-0000-0000-0000-000000000001") {
     titel
+  }
+}
+
+### Suche nach Titel und Genre von Song mit gegebener ID
+GRAPHQL {{graphqlUrl}}
+Authorization: Basic {{userAdmin}} {{password}}
+
+{
+  song(id: "00000000-0000-0000-0000-000000000001") {
+    titel
+    genre
+  }
+}
+
+### Suche nach allen Songs
+GRAPHQL {{graphqlUrl}}
+Authorization: Basic {{userAdmin}} {{password}}
+
+{
+  songs(input: {}) {
+    titel
+    genre
+  }
+}
+
+
+### Suche nach Songs mit gegebenem Titel
+GRAPHQL {{graphqlUrl}}
+Authorization: Basic {{userAdmin}} {{password}}
+
+{
+  songs(input: {titel: "Watch Me"}) {
+    titel
+    genre
   }
 }

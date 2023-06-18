@@ -158,7 +158,7 @@ public class Kunde {
      * @param interessen Die Interessen.
      * @return Die Interessen.
      */
-    @UniqueElements
-    @ToString.Exclude
+        @UniqueElements
+        @ToString.Exclude
     private List<InteresseType> interessen;
 }

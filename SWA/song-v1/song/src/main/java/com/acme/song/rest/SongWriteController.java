@@ -30,6 +30,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * Eine @RestController-Klasse als REST-Schnittstelle für lesende Zugriffe.
+ * <img src="../../../../../../../build/docs/asciidoc/SongWriteController.svg" alt="Klassendiagramm">
  */
 @Controller
 @RequestMapping(REST_PATH)

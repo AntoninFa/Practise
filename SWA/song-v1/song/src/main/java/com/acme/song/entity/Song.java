@@ -3,6 +3,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 /**
  * Daten von einem Song.
+ * <img src="../../../../../../../build/docs/asciidoc/Song.svg" alt="Klassendiagramm">
  */
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
@@ -22,6 +24,7 @@ import java.util.UUID;
 @Setter
 @ToString
 public class Song {
+    private static final int MAX_STRING_SIZE = 42;
 
     /**
      * ID die einen Song eindeutig identifiziert.
@@ -33,6 +36,7 @@ public class Song {
      */
     @NotNull
     @NotBlank
+    @Size(max = MAX_STRING_SIZE)
     private String titel;
 
     /**
@@ -51,6 +55,7 @@ public class Song {
     /**
      * Musik-Label, unter welchem der SOng erschienen ist.
      */
+    @Size(max = MAX_STRING_SIZE)
     private String musikLabel;
 
     /**

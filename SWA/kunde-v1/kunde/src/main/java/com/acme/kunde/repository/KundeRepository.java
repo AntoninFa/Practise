@@ -145,6 +145,8 @@ public class KundeRepository {
     public @NonNull Collection<Kunde> findByNachname(final CharSequence nachname) {
         log.debug("findByNachname: nachname={}", nachname);
         final var kunden = KUNDEN.stream()
+            // soll nen like werden, also dass wir auch nach Tilstrings suchen können
+            // später au groß klein egal
             .filter(kunde -> kunde.getNachname().contains(nachname))
             .toList();
         log.debug("findByNachname: kunden={}", kunden);

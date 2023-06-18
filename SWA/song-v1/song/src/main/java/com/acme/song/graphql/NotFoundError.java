@@ -4,13 +4,14 @@ import graphql.GraphQLError;
 import graphql.language.SourceLocation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.execution.ErrorType;
-
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import static org.springframework.graphql.execution.ErrorType.NOT_FOUND;
 
+/**
+ * Fehlerklasse für GraphQL, falls eine NotFoundException geworfen wurde.
+ */
 @RequiredArgsConstructor
 class NotFoundError implements GraphQLError {
     private final UUID id;

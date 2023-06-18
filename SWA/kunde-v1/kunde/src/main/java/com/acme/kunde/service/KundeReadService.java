@@ -67,6 +67,7 @@ public final class KundeReadService {
         log.debug("find: suchkriterien={}", suchkriterien);
 
         if (suchkriterien.isEmpty()) {
+            // bissl gefährlich bei sehr großen Datenbanken
             return repo.findAll();
         }
 

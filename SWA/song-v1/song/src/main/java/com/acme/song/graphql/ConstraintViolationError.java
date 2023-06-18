@@ -7,20 +7,17 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Path;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.execution.ErrorType;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.springframework.graphql.execution.ErrorType.BAD_REQUEST;
 
-
 /**
- * Fehlerklasse für GraphQL, für ConstraintViolationException
+ * Fehlerklasse für GraphQL, für ConstraintViolationException.
  */
 @RequiredArgsConstructor
 @SuppressWarnings("SerializableDeserializableClassInSecureContext")
 final class ConstraintViolationError implements GraphQLError {
-    private final ConstraintViolation<Song> violation ;
+    private final ConstraintViolation<Song> violation;
 
     /**
      * ErrorType auf BAD_REQUEST setzen.
