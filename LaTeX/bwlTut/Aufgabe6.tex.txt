@@ -1,0 +1,151 @@
+\documentclass[14pt]{article}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{vwcol}
+\usepackage[a4paper , lmargin = {2cm} , rmargin = {2cm} , tmargin = {2cm} , bmargin = {2cm} ]{geometry}
+\usepackage{multicol}
+\pgfplotsset{compat=1.18}
+\pgfplotsset{ticks=none}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+
+%custom declaration
+\newcommand{\antwort}[1]{\vspace{#1cm}}
+
+\begin{document}
+\title{Tutorium Nr. 6}
+\date{9. Mai 2023}
+\author{Patrick Stark, Maxim Eremenko, David Berroth, Antonin Fahning}
+\maketitle
+\vspace{1cm}
+
+%Aufgabe 1
+\section*{Aufgabe 1: Definitionen}
+\subsection*{\textmd{Erklären Sie die folgenden Begriffe}}
+\vspace{.25cm}
+\begin{description}
+\item Kapitalwert:
+\item Interner Zins:
+\item Amortisation:
+\item Barwert:
+\item Endwert:
+\end{description}
+
+%Aufgabe 2
+\section*{Aufgabe 2: Kapitalwert}
+\subsubsection*{\textmd{Ihr Unternehmen ist auf der Suche nach einer Maschine. In der näheren Auswahl ist eine Maschine, welche zwar stark abgenutzt, aber dafür mit einem Preis von 7000€ sehr günstig ist.
+Der Verkäufer sagt, dass die Maschine bei unserer Nutzung noch fünf Jahre standhalten würde, aber wegen Verschleiß die Menge an ausgebrachten Produkten (und somit der Gewinn) pro Jahr um 25\% reduziert wird. Die Maschine kann am Ende zu einem Schrottpreis von 450€ verkauft werden.
+Ihr Unternehmen erwartet einen kalkulatorischen Zins von 6\% p.a. und würde im ersten Jahr durch die Maschine einen Gewinn von 2560€ erzielen.}}
+\vspace{.25cm}
+\subsection*{\textmd{2.1 Wieso wäre der Preis nicht fair, wenn Ihr Unternehmen nach fünf Jahren mit der Maschine genau 7000€ Gewinn erwirtschaften würde?}}
+\vspace{1.5cm}
+\subsection*{\textmd{2.2 Lohnt sich die Investition? Berechnen Sie den Kapitalwert und entscheiden Sie.}}
+\vspace{3cm}
+\subsection*{\textmd{2.3 Wieviel müsste der Verkäufer verlangen, damit der Preis fair ist?}}
+
+\newpage
+%Aufgabe 3
+\section*{Aufgabe 3: Lineare Optimierung}
+\subsubsection*{\textmd{Eine Hochschule besitzt zwei funktionierende Drucker D1 und D2. \\ Sei X$_1$ die Menge an Blättern, die von D1 gedruckt wurde und X$_2$ die Anzahl an von D2 gedruckten Blättern.
+\\ Sie wollen dies ausnutzen, um Ihrer Oma Bilder auszudrucken und  zu schenken. Da D2 mit höherer Auflösung druckt und Ihre Oma noch sehr gut sehen kann, ergibt sich folgende Zielfunktion für die gedruckten Blätter: \\ 30X$_1$ + 40X$_2$ $\rightarrow$ max
+}}
+\subsubsection*{\textmd{Es gelten folgende Restriktionen:}}
+\vspace{.25cm}
+
+
+\begin{tabular}{|cc|}
+\hline
+ R1: &  \\ \hline
+ R2: & X$_1$ + 2X$_2$  $\leq$ 27 \\ \hline
+ R3: & X$_1$ $\leq$ 8 \\ \hline
+ R4: & \\ \hline
+ R5: & x$_A$, x$_B$ \in \mathbb{N}$^0$ \\ \hline
+\end{tabular}
+
+\subsection*{\textmd{3.1 Ergänzen Sie die Restriktionstabelle}}
+\subsubsection*{\textmd{Um die Restriktionen:
+\\R1: Sie besitzen nur 15 Blatt Druckpapier.(Wir bedrucken nur eine Seite)
+\\R4: D2 hat wenig Tinte und ist nur noch in der Lage 10 Blätter zu bedrucken.}}
+\vspace{.5cm}
+\subsection*{\textmd{3.2 Bestimmen Sie das (Druck-)Optimum (Graphisch)}}
+\vspace{3.5cm}
+
+
+
+\begin{tikzpicture}[scale=.75]
+\draw[help lines] (0,0) grid (12,10);
+\draw [->, thick](0,0)--(0,10.5) node [above] {X$_2$};
+\draw [->, thick](0,0)--(12.5,0) node [right] {X$_1$};
+
+%\draw [--, thick, red](0,15)--(15,0);
+%\node [red] at (1.5, 6.5){R1};
+
+%x-Achse
+\node [] at (-0.25, -0.25){0};
+\node [] at (1, -0.25){};
+\node [] at (2, -0.25){};
+\node [] at (3, -0.25){};
+\node [] at (4, -0.25){};
+\node [] at (5, -0.25){};
+\node [] at (6, -0.25){};
+\node [] at (7, -0.25){};
+\node [] at (8, -0.25){};
+\node [] at (9, -0.25){};
+\node [] at (10, -0.25){};
+\node [] at (11, -0.25){};
+%y-Achse
+\node [] at (-0.4, 1){};
+\node [] at (-0.4, 2){};
+\node [] at (-0.4, 3){};
+\node [] at (-0.4, 4){};
+\node [] at (-0.4, 5){};
+\node [] at (-0.4, 6){};
+\node [] at (-0.4, 7){};
+\node [] at (-0.4, 8){};
+\node [] at (-0.4, 9){};
+\node [] at (-0.4, 10){};
+\node [] at (-0.4, 11){};
+
+\end{tikzpicture}
+
+\newpage
+
+%Aufgabe 4
+\section*{Aufgabe 4: Spieltheorie}
+\subsubsection*{\textmd{Ihr größter Konkurrent und Sie befinden sich in einem Preiskrieg. Beide Seiten haben folgende Möglichkeiten:\\ A: Preis niedriger setzen\\
+B: Preis gleich lassen\\
+Die daraus jeweils resultierenden Gewinne für Ihren Konkurrent und Sie sehen Sie in der Tabelle. (Gewinn in Millionen €)}}
+
+\vspace{.5cm}
+
+
+\begin{tikzpicture}[scale=0.5]
+
+\draw [-](0,1)--(0,-6);
+\draw [-](-1,0)--(6,0);
+
+\node [scale=1.25] at (1.5, 0.5){A};
+\node [scale=1.25] at (4.5, 0.5){B};
+
+\node [scale=1.25] at (-0.5, -1.5){A};
+\node [scale=1.25] at (-0.5, -4.5){B};
+
+\node [scale=1.25, green] at (3, 1){P1};
+\node [scale=1.25, blue] at (-1, -3){P2};
+
+\node [scale=1.25] at (1.5, -1.5){\textcolor{blue}{4}/\textcolor{green}{4}};
+\node [scale=1.25] at (4.5, -1.5){\textcolor{blue}{5}/\textcolor{green}{3}};
+\node [scale=1.25] at (1.5, -4.5){\textcolor{blue}{6}/\textcolor{green}{5}};
+\node [scale=1.25] at (4.5, -4.5){\textcolor{blue}{7}/\textcolor{green}{9}};
+
+\end{tikzpicture}
+
+\subsubsection*{\textmd{Angenommen, P2 entscheidet sich für B.}}
+
+\subsection*{\textmd{4.1 Für welche Alternative wird sich P1 entscheiden?}}
+\vspace{1cm}
+
+\subsection*{\textmd{4.2 Wie nennt man den durch die Folgeentscheidung von P1 erreichten Punkt? Warum werden sich P1 und P2 danach nicht mehr umentscheiden?}}
+
+\end{document}
