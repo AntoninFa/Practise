@@ -27,11 +27,11 @@ server:
 
 spring:
   aop.proxy-target-class: false
-  application.name: kunde
+  application.name: song
   datasource:
-    url: jdbc:postgresql://localhost/kunde
-    username: kunde
-    password: Change Me!
+    url: jdbc:postgresql://localhost/song
+    username: song
+    password: p
   flyway:
     locations: classpath:db/migration/{vendor}
     create-schemas: false
@@ -45,7 +45,7 @@ spring:
       # https://docs.jboss.org/hibernate/orm/6.1/javadocs/org/hibernate/cfg/AvailableSettings.html
       # https://docs.jboss.org/hibernate/orm/6.1/javadocs/org/hibernate/cfg/Environment.html
       hibernate:
-        #default_schema: kunde
+        #default_schema: song
         jdbc:
           time_zone: Europe/Berlin
           batch_versioned_data: true
@@ -91,7 +91,7 @@ spring:
 management:
   endpoints.web.exposure.include: "*"
   #endpoint.shutdown.enabled: true
-  metrics.tags.application: kunde
+  metrics.tags.application: song
   # Trace every action
   # https://springbootlearning.medium.com/using-micrometer-to-trace-your-spring-boot-app-1fe6ff9982ae
   tracing.sampling.probability: "1.0"

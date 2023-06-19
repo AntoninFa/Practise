@@ -3,8 +3,8 @@ CREATE TABLE IF NOT EXISTS song (
     version       INTEGER NOT NULL DEFAULT 0,
     titel         VARCHAR(40) NOT NULL,
     erscheinungsDatum  DATE CHECK (erscheinungsDatum <= current_date),
-    genre         VARCHAR(20) CHECK (genre ~ 'POP|DANCEPOP|PUNKROCK|NEUEDEUTSCHEWELLE|KINDERMUSIK|RAP|FOLK'),
-    musikLabel    VARCHAR(32),
+    genre         VARCHAR(60) CHECK (genre ~ 'POP|DANCEPOP|PUNKROCK|NEUEDEUTSCHEWELLE|KINDERMUSIK|RAP|FOLK'),
+    musikLabel    VARCHAR(40),
     erzeugt       TIMESTAMP NOT NULL,
     aktualisiert  TIMESTAMP NOT NULL
   );
