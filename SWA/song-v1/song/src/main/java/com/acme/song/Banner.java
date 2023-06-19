@@ -15,12 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.acme.song;
-import com.github.lalyos.jfiglet.FigletFont;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.core.SpringVersion;
 import org.springframework.security.core.SpringSecurityCoreVersion;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Locale;
@@ -96,11 +94,13 @@ final class Banner {
     }
 
     private static String getFiglet() {
-        try {
-            return FigletFont.convertOneLine("song v1");
-        } catch (final IOException ex) {
-            throw new IllegalArgumentException(ex);
-        }
+        return "\n" +
+            "                                   ___\n" +
+            "   _________  ____  ____ _   _   _<  /\n" +
+            "  / ___/ __ \\/ __ \\/ __ `/  | | / / / \n" +
+            " (__  ) /_/ / / / / /_/ /   | |/ / /  \n" +
+            "/____/\\____/_/ /_/\\__, /    |___/_/   \n" +
+            "                 /____/               \n";
     }
 
     private static InetAddress getLocalhost() {

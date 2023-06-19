@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 /**
- * Enum für die Verschiedenen Musik Genres.
+ * Enum für die verschiedenen Musik Genres.
  */
 public enum GenreType {
 
