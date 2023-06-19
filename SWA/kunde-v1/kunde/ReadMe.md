@@ -37,6 +37,9 @@ Inhalt
 - [Statische Codeanalyse](#statische-codeanalyse)
   - [Checkstyle und SpotBugs](#checkstyle-und-spotbugs)
   - [SonarQube](#sonarqube)
+- [Analyse von Sicherheitslücken](#analyse-von-sicherheitslücken)
+  - [OWASP Security Check](#owasp-security-check)
+  - [Trivy von Aquasec](#trivy-von-aquasec)
 - [Dokumentation](#dokumentation)
   - [Dokumentation durch AsciiDoctor und PlantUML](#dokumentation)
   - [API Dokumentation durch javadoc](#api-dokumentation-durch-javadoc)
@@ -819,21 +822,53 @@ SonarQube-Server mit _Docker Compose_ als Docker-Container gestartet werden:
 Wenn der Server zum ersten Mal gestartet wird, ruft man in einem Webbrowser die
 URL `http://localhost:9000` auf. In der Startseite muss man sich einloggen und
 verwendet dazu als Loginname `admin` und ebenso als Password `admin`. Danach
-wird man weitergeleitet, um das initiale Passwort zu ändern. Das neue Passwort
-trägt man dann in das Skript `sonar-scanner.ps1` im Wurzelverzeichnis ein.
-Zur Konfiguration für künftige Aufrufe des _SonarQube-Scanners_ trägt man jetzt
-noch in der Konfigurationsdatei `sonar-project.properties` den Projektnamen bei
-der Property `sonar.projectKey` ein.
+wird man weitergeleitet, um das initiale Passwort zu ändern.
+
+Nun wählt man in der Webseite rechts oben das Profil aus und klickt auf den
+Karteireiter _Security_. Im Abschnitt _Generate Tokens_ macht nun die folgende
+Eingaben:
+
+* _Name_: z.B. Softwarearchitektur
+* _Type_: _Global Analysis Token_ auswählen
+* _Expires in_: z.B. _90 days_ auswählen
+
+Abschließend klickt man auf den Button _Generate_ und trägt den generierten
+Token in `gradle.properties` bei der Property `sonarToken` ein.
 
 Nachdem der Server gestartet ist, wird der SonarQube-Scanner in einer zweiten
-PowerShell mit dem Skript `sonar-scanner.ps1` gestartet. Das Resultat kann dann
-in der Webseite des zuvor gestarteten Servers über die URL `http://localhost:9000`
-inspiziert werden.
+PowerShell mit `gradle sonar` gestartet. Das Resultat kann dann in der Webseite
+des zuvor gestarteten Servers über die URL `http://localhost:9000` inspiziert
+werden.
 
 Abschließend wird der oben gestartete Server heruntergefahren.
 
 ```powershell
     docker compose --profile sonar down
+```
+
+---
+
+## Analyse von Sicherheitslücken
+
+### OWASP Security Check
+
+In `build.gradle.kts` sind _dependencies_ konfiguriert, um Java Archive, d.h.
+.jar-Dateien, von Drittanbietern zu verwenden, z.B. die JARs für Spring oder
+für Jackson. Diese Abhängigkeiten lassen sich mit dem Gradle-Plugin für OWASP
+analysieren:
+
+```powershell
+    gradle dependencyCheckAnalyze --info
+```
+
+### Trivy von Aquasec
+
+Von Aquasec gibt es _Trivy_, um Docker-Images auf Sicherheitslücken zu analysieren.
+Auch Trivy selbst gibt es als Docker-Image. In `docker-compose.yaml` ist ein
+Service für Trivy so konfiguriert, dass das Image `kunde` analysiert wird:
+
+```powershell
+    docker compose --profile trivy up
 ```
 
 ---

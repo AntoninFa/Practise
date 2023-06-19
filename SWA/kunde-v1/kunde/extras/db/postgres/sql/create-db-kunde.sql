@@ -24,7 +24,7 @@
 --         chown postgres:postgres /var/lib/postgresql/tablespace
 --         chown postgres:postgres /var/lib/postgresql/tablespace/kunde
 --         exit
---     docker compose down
+--     docker compose --profile postgres down
 -- (3) in docker-compose.yaml den User "postgres" wieder aktivieren, d.h. Kommentar entfernen
 -- (4) 1. PowerShell:
 --     docker compose up postgres
@@ -33,7 +33,7 @@
 --        psql --dbname=postgres --username=postgres --file=/sql/create-db-kunde.sql
 --        psql --dbname=kunde --username=kunde --file=/sql/create-schema-kunde.sql
 --        exit
---     docker compose down
+--     docker compose --profile postgres down
 
 -- https://www.postgresql.org/docs/current/sql-createrole.html
 CREATE ROLE kunde LOGIN PASSWORD 'p';

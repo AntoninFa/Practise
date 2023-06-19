@@ -68,7 +68,7 @@ class KundeMutationController {
 
     @GraphQlExceptionHandler
     GraphQLError onEmailExists(final EmailExistsException ex) {
-        final List<Object> path = List.of("input", "email");
+        final List<Object> path = List.of("input", "email"); // NOSONAR
         return GraphQLError.newError()
             .errorType(BAD_REQUEST)
             .message("Die Emailadresse " + ex.getEmail() + " existiert bereits.")

@@ -152,7 +152,7 @@ public class KundeGetController {
     @Operation(summary = "Suche mit Suchkriterien", tags = "Suchen")
     @ApiResponse(responseCode = "200", description = "CollectionModel mid den Kunden")
     @ApiResponse(responseCode = "404", description = "Keine Kunden gefunden")
-    CollectionModel<? extends KundeModel> get(
+    CollectionModel<KundeModel> get(
         @RequestParam @NonNull final MultiValueMap<String, String> suchkriterien,
         final HttpServletRequest request
     ) {

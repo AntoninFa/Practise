@@ -43,6 +43,6 @@ interface LogPasswordEncoding {
     ) {
         return event -> LoggerFactory
             .getLogger(LogPasswordEncoding.class)
-            .debug("Argon2id mit \"{}\":   {}", password, passwordEncoder.encode(password));
+            .debug("Argon2id mit \"{}\":   {}", password, passwordEncoder.encode(password)); // NOSONAR
     }
 }

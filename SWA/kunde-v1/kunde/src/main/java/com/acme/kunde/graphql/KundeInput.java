@@ -76,7 +76,7 @@ record KundeInput(
             ? new ArrayList<>(1)
             : umsaetze.stream()
                 .map(UmsatzInput::toUmsatz)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()); // NOSONAR
 
         final var kunde = Kunde
             .builder()

@@ -39,6 +39,15 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
 })
 @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
 final class Banner {
+
+    // http://patorjk.com/software/taag/#p=display&f=Slant&t=kunde%20v2
+    private static final String FIGLET = """
+            __                   __             ___
+           / /____  ______  ____/ /__     _   _|__ \\
+          / //_/ / / / __ \\/ __  / _ \\   | | / /_/ /
+         / ,< / /_/ / / / / /_/ /  __/   | |/ / __/
+        /_/|_|\\__,_/_/ /_/\\__,_/\\___/    |___/____/
+        """;
     private static final String JAVA = Runtime.version().toString() + " - " + System.getProperty("java.vendor");
     private static final String OS_VERSION = System.getProperty("os.name");
     private static final InetAddress LOCALHOST = getLocalhost();
@@ -76,7 +85,7 @@ final class Banner {
         OpenAPI             /swagger-ui.html /v3/api-docs.yaml
         H2 Console          $h2Console
         """
-        .replace("$figlet", getFiglet())
+        .replace("$figlet", FIGLET)
         .replace("$springBoot", SpringBootVersion.getVersion())
         .replace("$springSecurity", SpringSecurityCoreVersion.getVersion())
         .replace("$spring", Objects.requireNonNull(SpringVersion.getVersion()))
@@ -94,17 +103,6 @@ final class Banner {
 
     @SuppressWarnings("ImplicitCallToSuper")
     private Banner() {
-    }
-
-    private static String getFiglet() {
-        // http://patorjk.com/software/taag/#p=display&f=Slant&t=kunde%20v2
-        return """
-                __                   __             ___
-               / /____  ______  ____/ /__     _   _|__ \\
-              / //_/ / / / __ \\/ __  / _ \\   | | / /_/ /
-             / ,< / /_/ / / / / /_/ /  __/   | |/ / __/
-            /_/|_|\\__,_/_/ /_/\\__,_/\\___/    |___/____/
-            """;
     }
 
     private static InetAddress getLocalhost() {

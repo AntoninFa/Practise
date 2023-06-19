@@ -46,7 +46,7 @@ interface ThreadConfig {
      * @return Objekt von TomcatProtocolHandlerCustomizer von Tomcat
      */
     @Bean
-    default TomcatProtocolHandlerCustomizer<?> protocolHandlerVirtualThreadExecutorCustomizer() {
+    default TomcatProtocolHandlerCustomizer<?> protocolHandlerVirtualThreadExecutorCustomizer() { // NOSONAR
         return protocolHandler -> protocolHandler.setExecutor(newVirtualThreadPerTaskExecutor());
     }
 }

@@ -303,6 +303,6 @@ public class Kunde {
         final var interessenArray = interessenStr.split(",");
         interessen = Arrays.stream(interessenArray)
             .map(InteresseType::valueOf)
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()); // NOSONAR
     }
 }

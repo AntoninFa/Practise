@@ -190,15 +190,15 @@ public class KundeGetRestTest {
     @Test
     @DisplayName("Immer erfolgreich")
     void immerErfolgreich() {
-        assertThat(true).isTrue();
+        assertThat(true).isTrue(); // NOSONAR
     }
 
     @Test
     @DisplayName("Noch nicht fertig")
     @Disabled
-    void nochNichtFertig() {
+    void nochNichtFertig() { // NOSONAR
         //noinspection DataFlowIssue
-        assertThat(false).isTrue();
+        assertThat(false).isTrue(); // NOSONAR
     }
 
     @Test

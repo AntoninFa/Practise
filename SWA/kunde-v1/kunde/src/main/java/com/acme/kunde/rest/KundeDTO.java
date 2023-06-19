@@ -72,7 +72,7 @@ record KundeDTO(
             ? new ArrayList<>(1)
             : umsaetze.stream()
                 .map(UmsatzDTO::toUmsatz)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()); // NOSONAR
 
         final var kunde = Kunde
             .builder()

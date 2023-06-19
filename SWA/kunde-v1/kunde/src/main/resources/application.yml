@@ -28,6 +28,8 @@ server:
 spring:
   application.name: kunde
   aop.proxy-target-class: false
+  # https://github.com/spring-projects/spring-framework/commit/55b3b28aecdb914224e009c7e53c0d11f0d9cd05
+  checkpoint.restore: onRefresh
   # https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.data
   datasource:
     url: jdbc:postgresql://postgres/kunde
@@ -119,6 +121,7 @@ spring:
       location: classpath:truststore.p12
       password: zimmermann
       type: PKCS12
+  threads.virtual.enabled: true
 
 info.app:
   author: Juergen Zimmermann

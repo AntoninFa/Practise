@@ -31,7 +31,7 @@ public class ConstraintViolationsException extends RuntimeException {
     /**
      * Die verletzten Constraints.
      */
-    private final Collection<ConstraintViolation<Kunde>> violations;
+    private final transient Collection<ConstraintViolation<Kunde>> violations;
 
     ConstraintViolationsException(
         @SuppressWarnings("ParameterHidesMemberVariable")
