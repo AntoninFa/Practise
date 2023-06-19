@@ -16,18 +16,20 @@
  */
 package com.acme.kunde;
 
-import java.util.List;
+import java.util.Map;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import static com.acme.kunde.rest.KundeGetController.NACHNAME_PATH;
 import static com.acme.kunde.rest.KundeGetController.REST_PATH;
+import static com.acme.kunde.security.AuthController.AUTH_PATH;
 import static com.acme.kunde.security.Rolle.ACTUATOR;
 import static com.acme.kunde.security.Rolle.ADMIN;
 import static com.acme.kunde.security.Rolle.KUNDE;
@@ -36,20 +38,26 @@ import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.PATCH;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
-import static org.springframework.security.crypto.factory.PasswordEncoderFactories.createDelegatingPasswordEncoder;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import static org.springframework.security.config.Customizer.withDefaults;
 
+// https://github.com/spring-projects/spring-security/tree/master/samples
 /**
  * Security-Konfiguration.
  *
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
-// https://github.com/spring-projects/spring-security/tree/master/samples
+@SuppressWarnings({"TrailingComment", "MagicNumber", "RedundantSuppression"})
 interface SecurityConfig {
+    // https://foojay.io/today/how-to-do-password-hashing-in-java-applications-the-right-way
+    int SALT_LENGTH = 32; // default: 16
+    int HASH_LENGTH = 64; // default: 32
+    int PARALLELISM = 1; // default: 1 (Bouncy Castle kann keine Parallelitaet)
+    int MEMORY_CONSUMPTION_KBYTES = 1 << 14; // default: 2^14 KByte = 16 MiB  ("Memory Cost Parameter")
+    int ITERATIONS = 3; // default: 3
+
     /**
-     * Bean-Definition, um den Zugriffsschutz an der REST-Schnittstelle zu konfigurieren.
+     * Bean-Definition, um den Zugriffsschutz an der REST-Schnittstelle zu konfigurieren,
+     * d.h. vor Anwendung von @PreAuthorize.
      *
      * @param http Injiziertes Objekt von HttpSecurity als Ausgangspunkt für die Konfiguration.
      * @return Objekt von SecurityFilterChain
@@ -60,18 +68,19 @@ interface SecurityConfig {
     default SecurityFilterChain securityFilterChainFn(final HttpSecurity http) throws Exception {
         return http
             .authorizeHttpRequests(authorize -> {
+                // https://spring.io/blog/2019/11/21/spring-security-lambda-dsl
                 final var restPathKundeId = REST_PATH + "/*";
                 authorize
-                    // https://spring.io/blog/2020/06/30/url-matching-with-pathpattern-in-spring-mvc
-                    // https://docs.spring.io/spring-security/reference/6.0.1/servlet/integrations/mvc.html
                     .requestMatchers(GET, REST_PATH).hasRole(ADMIN.name())
-                    .requestMatchers(GET, REST_PATH + NACHNAME_PATH + "/*").hasRole(ADMIN.name())
                     .requestMatchers(GET, restPathKundeId).hasAnyRole(ADMIN.name(), KUNDE.name())
                     .requestMatchers(PUT, restPathKundeId).hasRole(ADMIN.name())
                     .requestMatchers(PATCH, restPathKundeId).hasRole(ADMIN.name())
                     .requestMatchers(DELETE, restPathKundeId).hasRole(ADMIN.name())
-
+                    .requestMatchers(GET, "/swagger-ui.html").hasRole(ADMIN.name())
+                    .requestMatchers(GET, AUTH_PATH + "/rollen", REST_PATH + NACHNAME_PATH + "/*").hasRole(KUNDE.name())
+                    // Actuator: Health mit Liveness und Readiness wird von Kubernetes genutzt
                     .requestMatchers(EndpointRequest.to(HealthEndpoint.class)).permitAll()
+                    // ggf. PrometheusScrapeEndpoint
                     .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole(ACTUATOR.name())
 
                     .requestMatchers(POST, REST_PATH).permitAll()
@@ -80,6 +89,7 @@ interface SecurityConfig {
                     .requestMatchers(GET, "/v3/api-docs").permitAll()
                     .requestMatchers(GET, "/graphiql").permitAll()
                     .requestMatchers("/h2-console", "/h2-console/*").permitAll()
+                    .requestMatchers(POST, AUTH_PATH + "/login").permitAll()
                     .requestMatchers("/error").permitAll()
 
                     .anyRequest().authenticated();
@@ -92,38 +102,27 @@ interface SecurityConfig {
     }
 
     /**
-     * Bean-Definition, um den Verschlüsselungsalgorithmus für Passwörter bereitzustellen. Es wird der
-     * Default-Algorithmus von Spring Security verwendet: bcrypt.
+     * Bean-Definition, um den Verschlüsselungsalgorithmus für Passwörter bereitzustellen.
+     * Es wird Argon2id statt bcrypt (Default-Algorithmus von Spring Security) verwendet.
      *
      * @return Objekt für die Verschlüsselung von Passwörtern.
      */
     @Bean
     default PasswordEncoder passwordEncoder() {
-        return createDelegatingPasswordEncoder();
-    }
-
-    /**
-     * Bean, um Test-User anzulegen. Dazu gehören jeweils ein Benutzername, ein Passwort und diverse Rollen.
-     * Das wird in Beispiel 2 verbessert werden.
-     *
-     * @param passwordEncoder Injiziertes Objekt zur Passwort-Verschlüsselung
-     * @return Ein Objekt, mit dem diese (Test-) User verwaltet werden, z.B. für die künftige Suche.
-     */
-    @Bean
-    default UserDetailsService userDetailsService(final PasswordEncoder passwordEncoder) {
-        final var password = passwordEncoder.encode("p");
-
-        final var users = List.of(
-            User.withUsername("admin")
-                .password(password)
-                .roles(ADMIN.name(), KUNDE.name(), ACTUATOR.name())
-                .build(),
-            User.withUsername("alpha")
-                .password(password)
-                .roles(KUNDE.name())
-                .build()
+        // https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html
+        // https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Password_Storage_Cheat_Sheet.md
+        // https://www.rfc-editor.org/rfc/rfc9106.html
+        final var idForEncode = "argon2id";
+        final Map<String, PasswordEncoder> encoders = Map.of(
+            idForEncode,
+            new Argon2PasswordEncoder(
+                SALT_LENGTH,
+                HASH_LENGTH,
+                PARALLELISM,
+                MEMORY_CONSUMPTION_KBYTES,
+                ITERATIONS
+            )
         );
-
-        return new InMemoryUserDetailsManager(users);
+        return new DelegatingPasswordEncoder(idForEncode, encoders);
     }
 }

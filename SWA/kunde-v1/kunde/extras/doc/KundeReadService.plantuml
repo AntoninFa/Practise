@@ -12,46 +12,61 @@
 '
 ' You should have received a copy of the GNU General Public License
 ' along with this program.  If not, see <https://www.gnu.org/licenses/>.
-@startuml KundeReadService
+@startuml KundeService
 
 skinparam classAttributeIconSize 0
 
-package org.springframework.stereotype {
-    interface Service
-}
-
 package java.util {
     interface List<T>
-    interface Map<K,V>
+    interface Map<K, V>
     class UUID
-
-' hat er gemacht um die schöner Anzuordnen
-    UUID .left[hidden].> Service
 }
+
+package org.springframework {
+    package stereotype {
+        interface Service
+    }
+
+    package transaction.annotation {
+        interface Transactional
+    }
+
+    package security.core.userdetails {
+        interface UserDetails
+    }
+
+    List .right[hidden].> UserDetails
+}
+
 
 package com.acme.kunde {
     package entity {
         class Kunde << entity >>
 
-        Kunde .up[hidden].> List
+        Kunde .up[hidden].> UUID
+        Kunde .up[hidden].> UserDetails
+        Kunde .up[hidden].> Service
+        Kunde .up[hidden].> Transactional
     }
 
     package repository {
-        class KundeRepository << control >> << @Repository >>
+        interface KundeRepository << control >>
     }
 
     package service #DDDDDD {
         class KundeReadService << control >> << @Service >> {
-            + findById(id: UUID): Kunde
-            + find(queryParams: Map<String, String>): List<Kunde>
+            + findById(id: UUID, user: UserDetails): Kunde
+            + find(suchkriterien: Map<String, List<String>>): List<Kunde>
         }
 
-        KundeReadService o--> KundeRepository : repo
-        KundeReadService .right.> Kunde
-        KundeReadService .up.> Service
+        KundeReadService o--> "1" KundeRepository : repo
+        KundeReadService .up.> Kunde
         KundeReadService .up.> UUID
-        KundeReadService .up> List
+        KundeReadService .up.> List
         KundeReadService .up.> Map
+        KundeReadService .up.> Service
+        KundeReadService ..> Transactional
+        KundeReadService ..> UserDetails
     }
 }
 

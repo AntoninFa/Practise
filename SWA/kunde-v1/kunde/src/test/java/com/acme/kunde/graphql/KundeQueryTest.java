@@ -43,10 +43,10 @@ import static com.acme.kunde.dev.DevConfig.DEV;
 import static com.acme.kunde.entity.Adresse.PLZ_PATTERN;
 import static com.acme.kunde.entity.Kunde.NACHNAME_PATTERN;
 import static com.acme.kunde.rest.KundeGetController.ID_PATTERN;
-import static com.acme.kunde.rest.KundeGetRestTest.ADMIN_BASIC_AUTH;
 import static com.acme.kunde.rest.KundeGetRestTest.CLIENT_CONNECTOR;
 import static com.acme.kunde.rest.KundeGetRestTest.HOST;
 import static com.acme.kunde.rest.KundeGetRestTest.SCHEMA;
+import static com.acme.kunde.rest.KundeGetRestTest.ADMIN_BASIC_AUTH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.condition.JRE.JAVA_19;
 import static org.junit.jupiter.api.condition.JRE.JAVA_21;
@@ -56,12 +56,12 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @Tag("integration")
 @Tag("graphql")
 @Tag("query")
-@DisplayName("GraphQL-Schnittstelle fuer Lesen testen")
+@DisplayName("GraphQL-Schnittstelle fuer Lesen")
 @ExtendWith(SoftAssertionsExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ActiveProfiles(DEV)
 @EnabledForJreRange(min = JAVA_19, max = JAVA_21)
-@SuppressWarnings("WriteTag")
+@SuppressWarnings({"WriteTag", "MissingJavadoc", "RedundantSuppression"})
 class KundeQueryTest {
     static final String GRAPHQL_PATH = "/graphql";
 
@@ -93,7 +93,8 @@ class KundeQueryTest {
             .baseUrl(baseUrl)
             .clientConnector(CLIENT_CONNECTOR)
             .build();
-        client = HttpGraphQlClient.builder(webClient).build();
+        client = HttpGraphQlClient.builder(webClient)
+            .build();
     }
 
     @Test
@@ -139,15 +140,15 @@ class KundeQueryTest {
     @ParameterizedTest
     @ValueSource(strings = NACHNAME_VORHANDEN)
     @DisplayName("Suche mit vorhandenem Nachnamen")
-    void findByNachname(final String nachname) {
+    void findByNachname(final CharSequence nachname) {
         // given
         final var query = """
             {
-                kunden(input: {nachname: "%s"}) {
+                kunden(input: {nachname: "$nachname"}) {
                     id
                     email
                 }
-            }""".formatted(nachname);
+            }""".replace("$nachname", nachname);
 
         // when
         final var response = client
@@ -177,14 +178,14 @@ class KundeQueryTest {
     @ParameterizedTest
     @ValueSource(strings = NACHNAME_NICHT_VORHANDEN)
     @DisplayName("Suche mit nicht-vorhandenem Nachnamen")
-    void findByNachnameNichtVorhanden(final String nachname) {
+    void findByNachnameNichtVorhanden(final CharSequence nachname) {
         // given
         final var query = """
             {
-                kunden(input: {nachname: "%s"}) {
+                kunden(input: {nachname: "$nachname"}) {
                     id
                 }
-            }""".formatted(nachname);
+            }""".replace("$nachname", nachname);
 
         // when
         final var response = client
@@ -203,7 +204,6 @@ class KundeQueryTest {
         final var errors = response.getErrors();
         assertThat(errors).hasSize(1);
         assertThat(errors.get(0))
-            .isNotNull()
             .extracting(ResponseError::getErrorType)
             .isEqualTo(ErrorType.NOT_FOUND);
     }
@@ -211,15 +211,15 @@ class KundeQueryTest {
     @ParameterizedTest
     @ValueSource(strings = EMAIL_VORHANDEN)
     @DisplayName("Suche mit vorhandener Email")
-    void findByEmail(final String email) {
+    void findByEmail(final CharSequence email) {
         // given
         final var query = """
             {
-                kunden(input: {email: "%s"}) {
+                kunden(input: {email: "$email"}) {
                     id
                     nachname
                 }
-            }""".formatted(email);
+            }""".replace("$email", email);
 
         // when
         final var response = client
@@ -249,14 +249,14 @@ class KundeQueryTest {
     @ParameterizedTest
     @ValueSource(strings = EMAIL_NICHT_VORHANDEN)
     @DisplayName("Suche mit nicht-vorhandener Email")
-    void findByEmailNichtVorhanden(final String email) {
+    void findByEmailNichtVorhanden(final CharSequence email) {
         // given
         final var query = """
             {
-                kunden(input: {email: "%s"}) {
+                kunden(input: {email: "$email"}) {
                     id
                 }
-            }""".formatted(email);
+            }""".replace("$email", email);
 
         // when
         final var response = client
@@ -275,29 +275,28 @@ class KundeQueryTest {
         final var errors = response.getErrors();
         assertThat(errors).hasSize(1);
         assertThat(errors.get(0))
-            .isNotNull()
             .extracting(ResponseError::getErrorType)
             .isEqualTo(ErrorType.NOT_FOUND);
     }
 
     @Nested
-    @DisplayName("Suche anhand der ID")
+    @DisplayName("GraphQL-Schnittstelle fuer die Suche anhand der ID")
     class FindById {
         @ParameterizedTest
         @ValueSource(strings = ID_VORHANDEN)
         @DisplayName("Suche mit vorhandener ID")
-        void findById(final String id) {
+        void findById(final CharSequence id) {
             // given
             final var query = """
                 {
-                    kunde(id: "%s") {
+                    kunde(id: "$id") {
                         nachname
                         email
                         adresse {
                             plz
                         }
                     }
-                }""".formatted(id);
+                }""".replace("$id", id);
 
             // when
             final var response = client
@@ -332,14 +331,14 @@ class KundeQueryTest {
         @ParameterizedTest
         @ValueSource(strings = ID_NICHT_VORHANDEN)
         @DisplayName("Suche mit nicht-vorhandener ID")
-        void findByIdNichtVorhanden(final String id) {
+        void findByIdNichtVorhanden(final CharSequence id) {
             // given
             final var query = """
                 {
-                    kunde(id: "%s") {
+                    kunde(id: "$id") {
                         nachname
                     }
-                }""".formatted(id);
+                }""".replace("$id", id);
 
             // when
             final var response = client
@@ -358,7 +357,6 @@ class KundeQueryTest {
             final var errors = response.getErrors();
             assertThat(errors).hasSize(1);
             assertThat(errors.get(0))
-                .isNotNull()
                 .extracting(ResponseError::getErrorType)
                 .isEqualTo(ErrorType.NOT_FOUND);
         }

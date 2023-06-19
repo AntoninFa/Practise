@@ -18,9 +18,12 @@ package com.acme.kunde.rest.patch;
 
 import com.acme.kunde.entity.InteresseType;
 import com.acme.kunde.entity.Kunde;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import java.net.URI;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import static com.acme.kunde.rest.patch.PatchOperationType.ADD;
@@ -43,84 +46,90 @@ public final class KundePatcher {
      *
      * @param kunde Das zu modifizierende Kunde-Objekt.
      * @param operations Die anzuwendenden Operationen.
+     * @param request Das Request-Objekt, um ggf. die URL für ProblemDetail zu ermitteln
      * @throws InvalidPatchOperationException Falls die Patch-Operation nicht korrekt ist.
      */
-    public void patch(final Kunde kunde, final Collection<PatchOperation> operations) {
+    public void patch(
+        final Kunde kunde,
+        final Collection<PatchOperation> operations,
+        final HttpServletRequest request
+    ) {
         final var replaceOps = operations.stream()
             .filter(op -> op.op() == REPLACE)
             .toList();
         log.debug("patch: replaceOps={}", replaceOps);
-        replaceOps(kunde, replaceOps);
+        final var uri = URI.create(request.getRequestURL().toString());
+        replaceOps(kunde, replaceOps, uri);
 
         final var addOps = operations.stream()
             .filter(op -> op.op() == ADD)
             .toList();
         log.debug("patch: addOps={}", addOps);
-        addInteressen(kunde, addOps);
+        addInteressen(kunde, addOps, uri);
 
         final var removeOps = operations.stream()
             .filter(op -> op.op() == REMOVE)
             .toList();
         log.debug("patch: removeOps={}", removeOps);
-        removeInteressen(kunde, removeOps);
+        removeInteressen(kunde, removeOps, uri);
     }
 
-    private void replaceOps(final Kunde kunde, final Iterable<PatchOperation> ops) {
+    private void replaceOps(final Kunde kunde, @NonNull final Iterable<@NonNull PatchOperation> ops, final URI uri) {
         ops.forEach(op -> {
             switch (op.path()) {
                 case "/nachname" -> kunde.setNachname(op.value());
                 case "/email" -> kunde.setEmail(op.value());
-                default -> throw new InvalidPatchOperationException();
+                default -> throw new InvalidPatchOperationException(uri);
             }
         });
         log.trace("replaceOps: kunde={}", kunde);
     }
 
-    private void addInteressen(final Kunde kunde, final Collection<PatchOperation> ops) {
+    private void addInteressen(final Kunde kunde, final Collection<PatchOperation> ops, final URI uri) {
         if (ops.isEmpty()) {
             return;
         }
         ops.stream()
             .filter(op -> Objects.equals("/interessen", op.path()))
-            .forEach(op -> addInteresse(kunde, op));
+            .forEach(op -> addInteresse(kunde, op, uri));
         log.trace("addInteressen: kunde={}", kunde);
     }
 
-    private void addInteresse(final Kunde kunde, final PatchOperation op) {
+    private void addInteresse(final Kunde kunde, final PatchOperation op, final URI uri) {
         final var value = op.value();
         final var interesseOpt = InteresseType.of(value);
         if (interesseOpt.isEmpty()) {
-            throw new InvalidPatchOperationException();
+            throw new InvalidPatchOperationException(uri);
         }
         final var interesse = interesseOpt.get();
         final var interessen = kunde.getInteressen() == null
             ? new ArrayList<InteresseType>(InteresseType.values().length)
             : new ArrayList<>(kunde.getInteressen());
         if (interessen.contains(interesse)) {
-            throw new InvalidPatchOperationException();
+            throw new InvalidPatchOperationException(uri);
         }
         interessen.add(interesse);
         log.trace("addInteresse: op={}, interessen={}", op, interessen);
         kunde.setInteressen(interessen);
     }
 
-    private void removeInteressen(final Kunde kunde, final Collection<PatchOperation> ops) {
+    private void removeInteressen(final Kunde kunde, final Collection<PatchOperation> ops, final URI uri) {
         if (kunde.getInteressen() == null) {
-            throw new InvalidPatchOperationException();
+            throw new InvalidPatchOperationException(uri);
         }
         if (ops.isEmpty()) {
             return;
         }
         ops.stream()
             .filter(op -> Objects.equals("/interessen", op.path()))
-            .forEach(op -> removeInteresse(kunde, op));
+            .forEach(op -> removeInteresse(kunde, op, uri));
     }
 
-    private void removeInteresse(final Kunde kunde, final PatchOperation op) {
+    private void removeInteresse(final Kunde kunde, final PatchOperation op, final URI uri) {
         final var interesseValue = op.value();
         final var interesseRemoveOpt = InteresseType.of(interesseValue);
         if (interesseRemoveOpt.isEmpty()) {
-            throw new InvalidPatchOperationException();
+            throw new InvalidPatchOperationException(uri);
         }
         final var interesseRemove = interesseRemoveOpt.get();
         final var interessen = kunde.getInteressen()

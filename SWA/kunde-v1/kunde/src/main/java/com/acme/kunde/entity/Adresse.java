@@ -17,29 +17,50 @@
 package com.acme.kunde.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import java.util.UUID;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import static jakarta.persistence.FetchType.LAZY;
 
 /**
  * Adressdaten für die Anwendungslogik und zum Abspeichern in der DB.
  *
  *  @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
-@Builder
+@Entity
+@Table(name = "adresse")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
-@SuppressWarnings({"JavadocDeclaration", "RequireEmptyLineBeforeBlockTagGroup"})
+@Builder
+@SuppressWarnings({"JavadocDeclaration", "RequireEmptyLineBeforeBlockTagGroup", "MissingSummary"})
 public class Adresse {
     /**
      * Konstante für den regulären Ausdruck einer Postleitzahl als 5-stellige Zahl mit führender Null.
      */
     public static final String PLZ_PATTERN = "^\\d{5}$";
+
+    @Id
+    @GeneratedValue
+    // Oracle: https://in.relation.to/2022/05/12/orm-uuid-mapping
+    // @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.CHAR)
+    @JsonIgnore
+    private UUID id;
 
     /**
      * Die Postleitzahl für die Adresse.
@@ -58,11 +79,8 @@ public class Adresse {
     @NotBlank
     private String ort;
 
-    /**
-     * Der zugehörige Kunde.
-     * @param kunde Der Kunde.
-     * @return Der Kunde.
-     */
+    @OneToOne(optional = false, fetch = LAZY)
+    @JoinColumn(updatable = false)
     @JsonIgnore
     @ToString.Exclude
     // NICHT @NotNull, weil beim Anlegen ueber REST der Rueckwaertsverweis noch nicht existiert

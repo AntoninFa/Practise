@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  * @param geschlecht Das Geschlecht eines Kunden.
  * @param familienstand Der Familienstand eines Kunden.
  * @param adresse Die Adresse eines Kunden.
- * @param umsaetze Die Umsaetze eines Kunden.
+ * @param umsaetze Die Umsätze eines Kunden.
  * @param interessen Die Interessen eines Kunden.
  */
 @SuppressWarnings("RecordComponentNumber")
@@ -62,33 +62,22 @@ record KundeDTO(
     /**
      * Konvertierung in ein Objekt des Anwendungskerns.
      *
+     * @param username Username, z.B. aus den Benutzerdaten
      * @return Kundeobjekt für den Anwendungskern
      */
-    Kunde toKunde() {
-        final var adresseEntity = adresse() == null
-            ? null
-            : Adresse
-            .builder()
-            .plz(adresse().plz())
-            .ort(adresse().ort())
-            .build();
+    Kunde toKunde(final String username) {
+        final Adresse adresseEntity = adresse() == null ? null : adresse().toAdresse();
 
-        final List<Umsatz> umsaetzeEntity;
-        if (umsaetze == null) {
-            umsaetzeEntity = new ArrayList<>(1);
-        } else {
-            umsaetzeEntity = umsaetze.stream()
-                .map(umsatz -> Umsatz.builder()
-                    .betrag(umsatz.betrag())
-                    .waehrung(umsatz.waehrung())
-                    .build()
-                )
+        final List<Umsatz> umsaetzeEntity = umsaetze == null
+            ? new ArrayList<>(1)
+            : umsaetze.stream()
+                .map(UmsatzDTO::toUmsatz)
                 .collect(Collectors.toList());
-        }
 
         final var kunde = Kunde
             .builder()
             .id(null)
+            .version(0)
             .nachname(nachname)
             .email(email)
             .kategorie(kategorie)
@@ -97,15 +86,22 @@ record KundeDTO(
             .homepage(homepage)
             .geschlecht(geschlecht)
             .familienstand(familienstand)
+            .interessen(interessen)
             .adresse(adresseEntity)
             .umsaetze(umsaetzeEntity)
-            .interessen(interessen)
+            .username(username)
+            .erzeugt(null)
+            .aktualisiert(null)
             .build();
+
         // Rueckwaertsverweise
-        kunde.getAdresse()
-            .setKunde(kunde);
-        kunde.getUmsaetze()
-            .forEach(umsatz -> umsatz.setKunde(kunde));
+        // bei PUT-Requests wird die Adresse nicht aktualisiert, sondern nur bei POST-Requests
+        if (adresseEntity != null) {
+            adresseEntity.setKunde(kunde);
+        }
+        // bei PUT-Requests werden Umsaetze nicht aktualisiert, sondern nur bei POST-Requests
+        umsaetzeEntity.forEach(umsatz -> umsatz.setKunde(kunde));
+
         return kunde;
     }
 }

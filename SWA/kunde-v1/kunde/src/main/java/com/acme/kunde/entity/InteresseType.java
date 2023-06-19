@@ -17,7 +17,6 @@
 package com.acme.kunde.entity;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -28,16 +27,16 @@ import java.util.stream.Stream;
  */
 public enum InteresseType {
     /**
-     * _Sport_ mit dem internen Wert `S` für z.B. das Mapping in einem JSON-Datensatz oder das Abspeichern in einer DB.
+     * Sport mit dem internen Wert S für z.B. das Mapping in einem JSON-Datensatz oder das Abspeichern in einer DB.
      */
     SPORT("S"),
     /**
-    * _Lesen_ mit dem internen Wert `L` für z.B. das Mapping in einem JSON-Datensatz oder das Abspeichern in einer DB.
+    * Lesen mit dem internen Wert L für z.B. das Mapping in einem JSON-Datensatz oder das Abspeichern in einer DB.
     */
     LESEN("L"),
 
     /**
-    * _Reisen_ mit dem internen Wert `R` für z.B. das Mapping in einem JSON-Datensatz oder das Abspeichern in einer DB.
+    * Reisen mit dem internen Wert R für z.B. das Mapping in einem JSON-Datensatz oder das Abspeichern in einer DB.
     */
     REISEN("R");
 
@@ -55,7 +54,7 @@ public enum InteresseType {
      */
     public static Optional<InteresseType> of(final String value) {
         return Stream.of(values())
-            .filter(interesse -> Objects.equals(interesse.value, value))
+            .filter(interesse -> interesse.value.equalsIgnoreCase(value))
             .findFirst();
     }
 

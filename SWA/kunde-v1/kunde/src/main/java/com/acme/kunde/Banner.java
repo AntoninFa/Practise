@@ -16,17 +16,14 @@
  */
 package com.acme.kunde;
 
-import com.github.lalyos.jfiglet.FigletFont;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.springframework.boot.SpringBootVersion;
-import org.springframework.core.SpringVersion;
-import org.springframework.security.core.SpringSecurityCoreVersion;
-
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Locale;
 import java.util.Objects;
+import org.springframework.boot.SpringBootVersion;
+import org.springframework.core.SpringVersion;
+import org.springframework.security.core.SpringSecurityCoreVersion;
 
 /**
  * Banner als String-Konstante für den Start des Servers.
@@ -61,10 +58,11 @@ final class Banner {
 
         $figlet
         (C) Juergen Zimmermann, Hochschule Karlsruhe
-        Version             1.0
+        Version             2023.1.1
         Spring Boot         $springBoot
         Spring Security     $springSecurity
         Spring Framework    $spring
+        Hibernate           $hibernate
         Java                $java
         Betriebssystem      $os
         Rechnername         $rechnername
@@ -82,6 +80,7 @@ final class Banner {
         .replace("$springBoot", SpringBootVersion.getVersion())
         .replace("$springSecurity", SpringSecurityCoreVersion.getVersion())
         .replace("$spring", Objects.requireNonNull(SpringVersion.getVersion()))
+        .replace("$hibernate", org.hibernate.Version.getVersionString())
         .replace("$java", JAVA)
         .replace("$os", OS_VERSION)
         .replace("$rechnername", LOCALHOST.getHostName())
@@ -98,11 +97,14 @@ final class Banner {
     }
 
     private static String getFiglet() {
-        try {
-            return FigletFont.convertOneLine("kunde v1");
-        } catch (final IOException ex) {
-            throw new IllegalArgumentException(ex);
-        }
+        // http://patorjk.com/software/taag/#p=display&f=Slant&t=kunde%20v2
+        return """
+                __                   __             ___
+               / /____  ______  ____/ /__     _   _|__ \\
+              / //_/ / / / __ \\/ __  / _ \\   | | / /_/ /
+             / ,< / /_/ / / / / /_/ /  __/   | |/ / __/
+            /_/|_|\\__,_/_/ /_/\\__,_/\\___/    |___/____/
+            """;
     }
 
     private static InetAddress getLocalhost() {

@@ -21,11 +21,11 @@ releases:
   - name: kunde
     namespace: acme
     chart: extras/kubernetes/kunde
-    #values: [extras/kubernetes/kunde/dev.yaml]
+    values: [extras/kubernetes/kunde/dev.yaml]
     #values: [extras/kubernetes/kunde/dev.yaml, extras/kubernetes/kunde/dev-mysql.yaml]
-    values: [extras/kubernetes/kunde/dev.yaml, extras/kubernetes/kunde/dev-h2.yaml]
+    #values: [extras/kubernetes/kunde/dev.yaml, extras/kubernetes/kunde/dev-h2.yaml]
     # Fortio:
     #values: [extras/kubernetes/kunde/dev.yaml, extras/kubernetes/kunde/dev-fortio.yaml]
-    #values: [extras/kubernetes/kunde/dev.yaml, extras/kubernetes/kunde/dev-mysql.yaml, extras/kubernetes/kunde/dev-fortio.yaml]
-    #values: [extras/kubernetes/kunde/dev.yaml, extras/kubernetes/kunde/dev-h2.yaml, extras/kubernetes/kunde/dev-fortio.yaml]
+    #values: [extras/kubernetes/kunde/dev.yaml, extras/kubernetes/kunde/dev-mysql.yaml, extras/kunde/dev-fortio.yaml]
+    #values: [extras/kunde/kubernetes/dev.yaml, extras/kubernetes/kunde/dev-h2.yaml, extras/kunde/dev-fortio.yaml]
     #wait: true

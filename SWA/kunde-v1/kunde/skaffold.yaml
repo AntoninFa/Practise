@@ -17,12 +17,13 @@
 #                                       $env:TAG = '2023.1.0'
 #           skaffold dev
 #           skaffold delete
+#           docker tag juergenzimmermann/kunde:2023.1.1 juergenzimmermann/kunde:latest
 
 # https://skaffold.dev/docs/references/yaml
 # https://skaffold-latest.firebaseapp.com/docs/references/yaml
 
 # https://github.com/GoogleContainerTools/skaffold/tree/master/docs/content/en/schemas
-apiVersion: skaffold/v4beta3
+apiVersion: skaffold/v4beta5
 kind: Config
 metadata:
   name: kunde
@@ -35,8 +36,7 @@ build:
       # https://www.youtube.com/watch?v=aI19ZYV4-7o
       buildpacks:
         builder: paketobuildpacks/builder:base
-        env: [BP_JVM_VERSION=19.0.2]
-        #env: [BP_JVM_VERSION=19.*]
+        env: [BP_JVM_VERSION=20.*]
         dependencies:
           paths: [src, build.gradle.kts]
   # https://skaffold.dev/docs/pipeline-stages/taggers
@@ -50,7 +50,7 @@ deploy:
     releases:
       - name: kunde
         chartPath: extras/kubernetes/kunde
-        valuesFiles: [extras/kubernetes/kunde/values.yaml]
+        valuesFiles: [extras/kunde/kubernetes/values.yaml]
         namespace: acme
 profiles:
   - name: dev
@@ -61,9 +61,9 @@ profiles:
         releases:
           - name: kunde
             chartPath: extras/kubernetes/kunde
-            #valuesFiles: [extras/kubernetes/kunde/values.yaml, extras/kubernetes/kunde/dev.yaml]
-            #valuesFiles: [extras/kubernetes/kunde/values.yaml, extras/kubernetes/kunde/dev.yaml, extras/kubernetes/kunde/dev-mysql.yaml]
-            valuesFiles: [extras/kubernetes/kunde/values.yaml, extras/kubernetes/kunde/dev.yaml, extras/kubernetes/kunde/dev-h2.yaml]
+            valuesFiles: [extras/kubernetes/kunde/values.yaml, extras/kubernetes/kunde/dev.yaml]
+            #valuesFiles: [extras/kubernetes/kunde/values.yaml, extras/kunde/dev.yaml, extras/kubernetes/kunde/dev-mysql.yaml]
+            #valuesFiles: [extras/kubernetes/kunde/values.yaml, extras/kunde/dev.yaml, extras/kubernetes/kunde/dev-h2.yaml]
             namespace: acme
     # https://skaffold.dev/docs/pipeline-stages/port-forwarding
     portForward:

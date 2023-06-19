@@ -49,7 +49,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @Tag("integration")
 @Tag("graphql")
 @Tag("mutation")
-@DisplayName("GraphQL-Schnittstelle fuer Schreiben testen")
+@DisplayName("GraphQL-Schnittstelle fuer Schreiben")
 @ExtendWith(SoftAssertionsExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ActiveProfiles(DEV)
@@ -77,7 +77,8 @@ class KundeMutationTest {
             .baseUrl(baseUrl)
             .clientConnector(CLIENT_CONNECTOR)
             .build();
-        client = HttpGraphQlClient.builder(webClient).build();
+        client = HttpGraphQlClient.builder(webClient)
+            .build();
     }
 
     @Test
@@ -89,7 +90,7 @@ class KundeMutationTest {
                 create(
                     input: {
                         nachname: "Neuernachname-Graphql"
-                        email: "neue.email.graphql@acme.com"
+                        email: "neu.email.graphql@test.de"
                         kategorie: 1
                         hasNewsletter: true
                         geburtsdatum: "2022-01-31"
@@ -98,13 +99,15 @@ class KundeMutationTest {
                         familienstand: LEDIG
                         adresse: {
                             plz: "12345"
-                            ort: "Testort"
+                            ort: "Neuerortgraphql"
                         }
                         umsaetze: [{
                             betrag: "1"
                             waehrung: "EUR"
                         }]
                         interessen: [LESEN, REISEN]
+                        username: "neugraphql",
+                        password: "Pass123."
                     }
                 ) {
                     id
@@ -134,8 +137,8 @@ class KundeMutationTest {
             "input.nachname",
             "input.email",
             "input.kategorie",
-            "input.interessen",
-            "input.adresse.plz"
+            "input.adresse.plz",
+            "input.interessen"
         );
 
         final var mutation = """
@@ -151,14 +154,16 @@ class KundeMutationTest {
                         geschlecht: WEIBLICH
                         familienstand: LEDIG
                         adresse: {
-                            plz: "1234"
-                            ort: "Testort"
+                            plz: "1"
+                            ort: "Neuerortgraphql"
                         }
                         umsaetze: [{
                             betrag: "1"
                             waehrung: "EUR"
                         }]
                         interessen: [SPORT, SPORT]
+                        username: "test"
+                        password: "Pass123."
                     }
                 ) {
                     id
@@ -174,14 +179,13 @@ class KundeMutationTest {
         // then
         assertThat(response).isNotNull();
         assertThat(response.isValid()).isTrue();
-        assertThat((Map<?, ?>) response.getData()).isNotNull().isEmpty();
+        assertThat((Map<?, ?>) response.getData())
+            .isNotNull()
+            .isEmpty();
 
         final var errors = response.getErrors();
-        assertThat(errors)
-            .isNotEmpty()
-            .hasSize(paths.size());
-        errors
-            .stream()
+        assertThat(errors).isNotEmpty().hasSize(paths.size());
+        errors.stream()
             .map(ResponseError::getErrorType)
             .forEach(errorType -> softly.assertThat(errorType).isEqualTo(ErrorType.BAD_REQUEST));
 

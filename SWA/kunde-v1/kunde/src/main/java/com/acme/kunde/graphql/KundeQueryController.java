@@ -26,6 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import static java.util.Collections.emptyMap;
 
@@ -44,13 +46,15 @@ class KundeQueryController {
      * Suche anhand der Kunde-ID.
      *
      * @param id ID des zu suchenden Kunden
+     * @param authentication Authentication-Objekt für Security
      * @return Der gefundene Kunde
      */
     @QueryMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'KUNDE')")
-    Kunde kunde(@Argument final UUID id) {
-        log.debug("kunde: id={}", id);
-        final var kunde = service.findById(id);
+    Kunde kunde(@Argument final UUID id, final Authentication authentication) {
+        final var user = (UserDetails) authentication.getPrincipal();
+        log.debug("kunde: id={}, user={}", id, user);
+        final var kunde = service.findById(id, user);
         log.debug("kunde: {}", kunde);
         return kunde;
     }
@@ -64,7 +68,7 @@ class KundeQueryController {
     @QueryMapping
     @PreAuthorize("hasRole('ADMIN')")
     Collection<Kunde> kunden(@Argument final Optional<Suchkriterien> input) {
-        log.debug("kunden: suchkriterien={}", input);
+        log.debug("kunden: input={}", input);
         final var suchkriterien = input.map(Suchkriterien::toMap).orElse(emptyMap());
         final var kunden = service.find(suchkriterien);
         log.debug("kunden: {}", kunden);

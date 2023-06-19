@@ -16,34 +16,63 @@
 
 skinparam classAttributeIconSize 0
 
-package org.springframework.stereotype {
-    interface Service
-}
-
 package java.util {
     class UUID
 }
 
+package org.springframework {
+    package stereotype {
+        interface Service
+    }
+
+    package transaction.annotation {
+        interface Transactional
+    }
+
+    package security.core.userdetails {
+        interface UserDetails
+    }
+
+    UUID .right[hidden].> UserDetails
+}
+
 package com.acme.kunde {
+    package security {
+        class CustomUserDetailsService << control >> << @Service >>
+    }
+
+    package mail  {
+        class Mailer << control >> << @Service >>
+
+        CustomUserDetailsService .right[hidden].> Mailer
+    }
+
     package entity {
         class Kunde << entity >>
+        Kunde .up[hidden].> UUID
+        Kunde .up[hidden].> UserDetails
     }
 
     package repository {
-        class KundeRepository << control >> << @Repository >>
+        interface KundeRepository << control >>
     }
 
     package service #DDDDDD {
         class KundeWriteService << control >> << @Service >> {
-            + create(kunde: Kunde): Kunde
-            + update(kunde: Kunde, id: UUID)
+            + create(kunde: Kunde, user: UserDetails): Kunde
+            + update(kunde: Kunde, id: UUID, version: String): Kunde
             + deleteById(id: UUID)
         }
 
         KundeWriteService o--> "1" KundeRepository : repo
+        KundeWriteService o--> "1" CustomUserDetailsService : userService
+        KundeWriteService o--> "1" Mailer : mailer
+
         KundeWriteService .right.> Kunde
-        KundeWriteService .up.> Service
         KundeWriteService .up.> UUID
+        KundeWriteService .up.> UserDetails
+        KundeWriteService .up.> Service
+        KundeWriteService .up.> Transactional
     }
 }
 

@@ -51,7 +51,6 @@ spec:
       containers:
         # https://kubernetes.io/docs/concepts/containers/images
         - image: "{{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          # default
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: {{ .Chart.Name }}
           # https://kubernetes.io/docs/tasks/inject-data-application/define-interdependent-environment-variables
@@ -147,6 +146,7 @@ spec:
           volumeMounts:
             - mountPath: /tmp
               name: log-{{ include "kunde.name" . }}{{ .Values.versionSuffix }}
+      priorityClassName: medium-priority
       volumes:
         - name: log-{{ include "kunde.name" . }}{{ .Values.versionSuffix }}
           # https://kubernetes.io/docs/concepts/storage/volumes/#hostpath

@@ -16,13 +16,30 @@
  */
 package com.acme.kunde.rest.patch;
 
+import java.net.URI;
+import org.springframework.http.ProblemDetail;
+import org.springframework.web.ErrorResponseException;
+import static com.acme.kunde.rest.KundeWriteController.PROBLEM_PATH;
+import static com.acme.kunde.rest.ProblemType.UNPROCESSABLE;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
+
 /**
  * Exception, falls es mindestens ein verletztes Constraint gibt.
  *
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
-public class InvalidPatchOperationException extends RuntimeException {
-    InvalidPatchOperationException() {
-        super("Mindestens eine ungueltige Patch-Operation");
+class InvalidPatchOperationException extends ErrorResponseException {
+    InvalidPatchOperationException(final URI uri) {
+        super(UNPROCESSABLE_ENTITY, asProblemDetail(uri), null);
+    }
+
+    private static ProblemDetail asProblemDetail(final URI uri) {
+        final var problemDetail = ProblemDetail.forStatusAndDetail(
+            UNPROCESSABLE_ENTITY,
+            "Mindestens eine ungueltige Patch-Operation"
+        );
+        problemDetail.setType(URI.create(PROBLEM_PATH + UNPROCESSABLE.getValue()));
+        problemDetail.setInstance(uri);
+        return problemDetail;
     }
 }

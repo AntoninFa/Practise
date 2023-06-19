@@ -1,14 +1,12 @@
-# https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
-
 ### Uebersicht
 GET {{actuatorUrl}}
 Authorization: Basic {{userAdmin}} {{password}}
 
-### Verwaltungs-Info
+### Info
 GET {{actuatorUrl}}/info
 Authorization: Basic {{userAdmin}} {{password}}
 
-###  Mapping von HTTP-Requests, z.B.   GET && /
+### Mappings
 GET {{actuatorUrl}}/mappings
 Authorization: Basic {{userAdmin}} {{password}}
 
@@ -20,7 +18,7 @@ Authorization: Basic {{userAdmin}} {{password}}
 GET {{actuatorUrl}}/env
 Authorization: Basic {{userAdmin}} {{password}}
 
-### Laeuft der Server in gutem Zustand ?
+### "Health" der genutzten Services, wie z.B. DB-Client oder Mail-Client
 GET {{actuatorUrl}}/health
 
 ### Liveness
@@ -33,5 +31,3 @@ GET {{actuatorUrl}}/health/readiness
 POST {{actuatorUrl}}/shutdown
 Authorization: Basic {{userAdmin}} {{password}}
 Content-Type: application/json
-
-###

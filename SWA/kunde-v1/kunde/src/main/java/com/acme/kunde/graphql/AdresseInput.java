@@ -16,6 +16,8 @@
  */
 package com.acme.kunde.graphql;
 
+import com.acme.kunde.entity.Adresse;
+
 /**
  * Adressdaten.
  *
@@ -25,4 +27,11 @@ package com.acme.kunde.graphql;
  * @param ort Der Ort als unveränderliches Pflichtfeld.
  */
 record AdresseInput(String plz, String ort) {
+    Adresse toAdresse() {
+        return Adresse
+            .builder()
+            .plz(plz)
+            .ort(ort)
+            .build();
+    }
 }

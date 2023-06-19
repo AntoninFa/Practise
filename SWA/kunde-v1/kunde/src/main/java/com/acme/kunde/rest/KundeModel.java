@@ -21,7 +21,6 @@ import com.acme.kunde.entity.FamilienstandType;
 import com.acme.kunde.entity.GeschlechtType;
 import com.acme.kunde.entity.InteresseType;
 import com.acme.kunde.entity.Kunde;
-import com.acme.kunde.entity.Umsatz;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.net.URL;
 import java.time.LocalDate;
@@ -34,7 +33,7 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 /**
- * Model-Klasse für Spring HATEOAS. @lombok.Data fasst die Annotationsn @ToString, @EqualsAndHashCode, @Getter, @Setter
+ * Model-Klasse für Spring HATEOAS. @lombok.Data fasst die Annotationen @ToString, @EqualsAndHashCode, @Getter, @Setter
  * und @RequiredArgsConstructor zusammen.
  * <img src="../../../../../asciidoc/KundeModel.svg" alt="Klassendiagramm">
  *
@@ -42,7 +41,7 @@ import org.springframework.hateoas.server.core.Relation;
  */
 @JsonPropertyOrder({
     "nachname", "email", "kategorie", "hasNewsletter", "geburtsdatum", "homepage", "geschlecht", "familienstand",
-    "adresse", "umsaetze", "interessen"
+    "adresse", "umsatz", "interessen"
 })
 @Relation(collectionRelation = "kunden", itemRelation = "kunde")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
@@ -61,9 +60,8 @@ class KundeModel extends RepresentationModel<KundeModel> {
     private final URL homepage;
     private final GeschlechtType geschlecht;
     private final FamilienstandType familienstand;
-    private final Adresse adresse;
-    private final List<Umsatz> umsaetze;
     private final List<InteresseType> interessen;
+    private final Adresse adresse;
 
     KundeModel(final Kunde kunde) {
         nachname = kunde.getNachname();
@@ -74,8 +72,7 @@ class KundeModel extends RepresentationModel<KundeModel> {
         homepage = kunde.getHomepage();
         geschlecht = kunde.getGeschlecht();
         familienstand = kunde.getFamilienstand();
-        adresse = kunde.getAdresse();
-        umsaetze = kunde.getUmsaetze();
         interessen = kunde.getInteressen();
+        adresse = kunde.getAdresse();
     }
 }

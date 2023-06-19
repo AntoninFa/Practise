@@ -16,6 +16,11 @@
  */
 package com.acme.kunde.rest;
 
+import com.acme.kunde.entity.Umsatz;
+
+import java.math.BigDecimal;
+import java.util.Currency;
+
 /**
  * ValueObject für das Neuanlegen und Ändern eines neuen Kunden.
  *
@@ -24,7 +29,14 @@ package com.acme.kunde.rest;
  * @param waehrung Währung
  */
 record UmsatzDTO(
-    java.math.BigDecimal betrag,
-    java.util.Currency waehrung
+    BigDecimal betrag,
+    Currency waehrung
 ) {
+    Umsatz toUmsatz() {
+        return Umsatz
+            .builder()
+            .betrag(betrag)
+            .waehrung(waehrung)
+            .build();
+    }
 }

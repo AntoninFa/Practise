@@ -16,6 +16,8 @@
  */
 package com.acme.kunde.graphql;
 
+import com.acme.kunde.entity.Umsatz;
+
 import java.math.BigDecimal;
 import java.util.Currency;
 
@@ -28,4 +30,11 @@ import java.util.Currency;
  * @param waehrung Die Währungseinheit als unveränderliches Pflichtfeld.
  */
 record UmsatzInput(BigDecimal betrag, Currency waehrung) {
+    Umsatz toUmsatz() {
+        return Umsatz
+            .builder()
+            .betrag(betrag)
+            .waehrung(waehrung)
+            .build();
+    }
 }

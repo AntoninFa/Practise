@@ -16,16 +16,18 @@
  */
 package com.acme.kunde.graphql;
 
-import com.acme.kunde.entity.Adresse;
 import com.acme.kunde.entity.FamilienstandType;
 import com.acme.kunde.entity.GeschlechtType;
 import com.acme.kunde.entity.InteresseType;
 import com.acme.kunde.entity.Kunde;
 import com.acme.kunde.entity.Umsatz;
+import com.acme.kunde.security.CustomUser;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Eine Value-Klasse für Eingabedaten passend zu KundeInput aus dem GraphQL-Schema.
@@ -42,6 +44,8 @@ import java.util.stream.Collectors;
  * @param adresse Adresse
  * @param umsaetze Umsätze
  * @param interessen Interessen als Liste
+ * @param username Benutzername
+ * @param password Passwort
  */
 @SuppressWarnings("RecordComponentNumber")
 record KundeInput(
@@ -55,7 +59,9 @@ record KundeInput(
     FamilienstandType familienstand,
     AdresseInput adresse,
     List<UmsatzInput> umsaetze,
-    List<InteresseType> interessen
+    List<InteresseType> interessen,
+    String username,
+    String password
 ) {
     /**
      * Konvertierung in ein Objekt der Entity-Klasse Kunde.
@@ -63,16 +69,14 @@ record KundeInput(
      * @return Das konvertierte Kunde-Objekt
      */
     Kunde toKunde() {
-        final var geburtsdatumTmp = LocalDate.parse(geburtsdatum);
-        final var adresseEntity = Adresse.builder().plz(adresse.plz()).ort(adresse.ort()).build();
-        final List<Umsatz> umsaetzeEntity;
-        if (umsaetze == null) {
-            umsaetzeEntity = null;
-        } else {
-            umsaetzeEntity = umsaetze.stream()
-                .map(umsatz -> Umsatz.builder().betrag(umsatz.betrag()).waehrung(umsatz.waehrung()).build())
+        final LocalDate geburtsdatumDate;
+        geburtsdatumDate = LocalDate.parse(geburtsdatum);
+        final var adresseEntity = adresse().toAdresse();
+        final List<Umsatz> umsaetzeEntity = umsaetze == null
+            ? new ArrayList<>(1)
+            : umsaetze.stream()
+                .map(UmsatzInput::toUmsatz)
                 .collect(Collectors.toList());
-        }
 
         final var kunde = Kunde
             .builder()
@@ -81,21 +85,29 @@ record KundeInput(
             .email(email)
             .kategorie(kategorie)
             .hasNewsletter(hasNewsletter)
-            .geburtsdatum(geburtsdatumTmp)
+            .geburtsdatum(geburtsdatumDate)
             .homepage(homepage)
             .geschlecht(geschlecht)
             .familienstand(familienstand)
-            .interessen(interessen)
-            .umsaetze(umsaetzeEntity)
             .adresse(adresseEntity)
+            .umsaetze(umsaetzeEntity)
+            .interessen(interessen)
+            .username(username)
             .build();
 
         // Rueckwaertsverweise
-        kunde.getAdresse()
-            .setKunde(kunde);
-        kunde.getUmsaetze()
-            .forEach(umsatz -> umsatz.setKunde(kunde));
+        kunde.getAdresse().setKunde(kunde);
+        umsaetzeEntity.forEach(umsatz -> umsatz.setKunde(kunde));
 
         return kunde;
+    }
+
+    /**
+     * Konvertierung in ein Objekt der Entity-Klasse CustomUser.
+     *
+     * @return Das konvertierte CustomUser-Objekt
+     */
+    UserDetails toUserDetails() {
+        return new CustomUser(username, password);
     }
 }

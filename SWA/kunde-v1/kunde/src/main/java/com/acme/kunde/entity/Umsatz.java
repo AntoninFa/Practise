@@ -17,24 +17,46 @@
 package com.acme.kunde.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.UUID;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import static jakarta.persistence.FetchType.LAZY;
 
 /**
  * Geldbetrag und Währungseinheit für eine Umsatzangabe.
  *
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
-@Builder
+@Entity
+@Table(name = "umsatz")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
-@SuppressWarnings({"JavadocDeclaration", "RequireEmptyLineBeforeBlockTagGroup"})
+@Builder
+@SuppressWarnings({"JavadocDeclaration", "RequireEmptyLineBeforeBlockTagGroup", "MissingSummary"})
 public class Umsatz {
+    @Id
+    @GeneratedValue
+    // Oracle: https://in.relation.to/2022/05/12/orm-uuid-mapping
+    // @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.CHAR)
+    @jakarta.persistence.Column(updatable = false)
+    @JsonIgnore
+    private UUID id;
+
     /**
      * Der Betrag beim Umsatz.
      * @param betrag Der Betrag.
@@ -51,9 +73,11 @@ public class Umsatz {
 
     /**
      * Der zugehörige Kunde.
-     * @param kunde Der Kunde.
-     * @return Der Kunde.
+     * @param kunde Der zugehörige Kunde.
+     * @return Der zugehörige Kunde.
      */
+    @ManyToOne(optional = false, fetch = LAZY)
+    @JoinColumn(updatable = false)
     @JsonIgnore
     @ToString.Exclude
     private Kunde kunde;

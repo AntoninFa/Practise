@@ -17,21 +17,35 @@
 package com.acme.kunde.security;
 
 /**
- * String-Konstante für Rollen.
+ * Singleton für verfügbare Rollen als Strings für das Spring-Interface GrantedAuthority.
+ *
+ * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
 public enum Rolle {
     /**
      * Die Rolle ADMIN.
      */
-    ADMIN,
+    ADMIN("ADMIN"),
 
     /**
      * Die Rolle KUNDE.
      */
-    KUNDE,
+    KUNDE("KUNDE"),
 
     /**
      * Die Rolle ACTUATOR.
      */
-    ACTUATOR
+    ACTUATOR("ACTUATOR");
+
+    /**
+     * Präfix für die Rollennamen gemäß Spring Security.
+     */
+    public static final String ROLE_PREFIX = "ROLE_";
+
+    @SuppressWarnings({"unused", "FieldCanBeLocal"})
+    private final String value;
+
+    Rolle(final String value) {
+        this.value = value;
+    }
 }

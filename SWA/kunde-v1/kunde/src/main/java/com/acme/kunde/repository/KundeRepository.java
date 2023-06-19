@@ -16,23 +16,18 @@
  */
 package com.acme.kunde.repository;
 
-import com.acme.kunde.entity.InteresseType;
 import com.acme.kunde.entity.Kunde;
+import com.querydsl.core.types.Predicate;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.UUID;
-import java.util.stream.IntStream;
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
+import static com.acme.kunde.entity.Kunde.ADRESSE_GRAPH;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
-import static com.acme.kunde.repository.DB.KUNDEN;
-import static java.util.Collections.emptyList;
-import static java.util.UUID.randomUUID;
 
 /**
  * Repository für den DB-Zugriff bei Kunden.
@@ -40,86 +35,34 @@ import static java.util.UUID.randomUUID;
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
 @Repository
-@Slf4j
-@SuppressWarnings("PublicConstructor")
-public class KundeRepository {
-    /**
-     * Einen Kunden anhand seiner ID suchen.
-     *
-     * @param id Die Id des gesuchten Kunden
-     * @return Optional mit dem gefundenen Kunden oder leeres Optional
-     */
-    public Optional<Kunde> findById(final UUID id) {
-        log.debug("findById: id={}", id);
-        final var result = KUNDEN.stream()
-            .filter(kunde -> Objects.equals(kunde.getId(), id))
-            .findFirst();
-        log.debug("findById: {}", result);
-        return result;
-    }
+public interface KundeRepository extends JpaRepository<Kunde, UUID>, QuerydslPredicateExecutor<Kunde> {
+    @EntityGraph(ADRESSE_GRAPH)
+    @Override
+    List<Kunde> findAll();
 
-    /**
-     * Kunden anhand von Suchkriterien ermitteln.
-     * Z.B. mit GET https://localhost:8080/api?nachname=A&amp;plz=7
-     *
-     * @param suchkriterien Suchkriterien.
-     * @return Gefundene Kunden oder leere Collection.
-     */
-    @SuppressWarnings({"ReturnCount", "JavadocLinkAsPlainText"})
-    public @NonNull Collection<Kunde> find(final Map<String, ? extends List<String>> suchkriterien) {
-        log.debug("find: suchkriterien={}", suchkriterien);
+    @EntityGraph(ADRESSE_GRAPH)
+    // @EntityGraph(ADRESSE_UMSAETZE_GRAPH) // NOSONAR
+    @Override
+    List<Kunde> findAll(Predicate predicate);
 
-        if (suchkriterien.isEmpty()) {
-            return findAll();
-        }
-
-        // for-Schleife statt "forEach" wegen return
-        for (final var entry : suchkriterien.entrySet()) {
-            switch (entry.getKey()) {
-                case "email" -> {
-                    final var kundeOpt = findByEmail(entry.getValue().get(0));
-                    //noinspection OptionalIsPresent
-                    return kundeOpt.isPresent() ? List.of(kundeOpt.get()) : emptyList();
-                }
-                case "nachname" -> {
-                    return findByNachname(entry.getValue().get(0));
-                }
-                case "interesse" -> {
-                    return findByInteresse(entry.getValue());
-                }
-                default -> {
-                    log.debug("find: ungueltiges Suchkriterium={}", entry.getKey());
-                    return emptyList();
-                }
-            }
-        }
-
-        return emptyList();
-    }
-
-    /**
-     * Alle Kunden als Collection ermitteln, wie sie später auch von der DB kommen.
-     *
-     * @return Alle Kunden.
-     */
-    public @NonNull Collection<Kunde> findAll() {
-        return KUNDEN;
-    }
+    @EntityGraph(ADRESSE_GRAPH)
+    // @EntityGraph(ADRESSE_UMSAETZE_GRAPH) // NOSONAR
+    @Override
+    Optional<Kunde> findById(UUID id);
 
     /**
      * Kunde zu gegebener Emailadresse aus der DB ermitteln.
      *
-     * @param email Emailadresse für die Suche.
-     * @return Gefundener Kunde oder leeres Optional.
+     * @param email Emailadresse für die Suche
+     * @return Optional mit dem gefundenen Kunde oder leeres Optional
      */
-    public Optional<Kunde> findByEmail(final String email) {
-        log.debug("findByEmail: {}", email);
-        final var result = KUNDEN.stream()
-            .filter(kunde -> Objects.equals(kunde.getEmail(), email))
-            .findFirst();
-        log.debug("findByEmail: {}", result);
-        return result;
-    }
+    @Query("""
+        SELECT k
+        FROM   Kunde k
+        WHERE  lower(k.email) LIKE concat(lower(:email), '%')
+        """)
+    @EntityGraph(ADRESSE_GRAPH)
+    Optional<Kunde> findByEmail(String email);
 
     /**
      * Abfrage, ob es einen Kunden mit gegebener Emailadresse gibt.
@@ -127,14 +70,8 @@ public class KundeRepository {
      * @param email Emailadresse für die Suche
      * @return true, falls es einen solchen Kunden gibt, sonst false
      */
-    public boolean isEmailExisting(final String email) {
-        log.debug("isEmailExisting: email={}", email);
-        final var count = KUNDEN.stream()
-            .filter(kunde -> Objects.equals(kunde.getEmail(), email))
-            .count();
-        log.debug("isEmailExisting: count={}", count);
-        return count > 0L;
-    }
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
+    boolean existsByEmail(String email);
 
     /**
      * Kunden anhand des Nachnamens suchen.
@@ -142,42 +79,14 @@ public class KundeRepository {
      * @param nachname Der (Teil-) Nachname der gesuchten Kunden
      * @return Die gefundenen Kunden oder eine leere Collection
      */
-    public @NonNull Collection<Kunde> findByNachname(final CharSequence nachname) {
-        log.debug("findByNachname: nachname={}", nachname);
-        final var kunden = KUNDEN.stream()
-            // soll nen like werden, also dass wir auch nach Tilstrings suchen können
-            // später au groß klein egal
-            .filter(kunde -> kunde.getNachname().contains(nachname))
-            .toList();
-        log.debug("findByNachname: kunden={}", kunden);
-        return kunden;
-    }
-
-    /**
-     * Kunden anhand von Interessen suchen.
-     *
-     * @param interessenStr Die Interessen der gesuchten Kunden
-     * @return Die gefundenen Kunden oder eine leere Collection
-     */
-    private @NonNull Collection<Kunde> findByInteresse(final Collection<String> interessenStr) {
-        log.debug("findByInteressen: interessenStr={}", interessenStr);
-        final var interessen = interessenStr
-            .stream()
-            .map(interesse -> InteresseType.of(interesse).orElse(null))
-            .toList();
-        if (interessen.contains(null)) {
-            return emptyList();
-        }
-        final var kunden = KUNDEN.stream()
-            .filter(kunde -> {
-                @SuppressWarnings("SetReplaceableByEnumSet")
-                final Collection<InteresseType> kundeInteressen = new HashSet<>(kunde.getInteressen());
-                return kundeInteressen.containsAll(interessen);
-            })
-            .toList();
-        log.debug("findByNachname: kunden={}", kunden);
-        return kunden;
-    }
+    @Query("""
+        SELECT   k
+        FROM     Kunde k
+        WHERE    lower(k.nachname) LIKE concat('%', lower(:nachname), '%')
+        ORDER BY k.id
+        """)
+    @EntityGraph(ADRESSE_GRAPH)
+    Collection<Kunde> findByNachname(CharSequence nachname);
 
     /**
      * Abfrage, welche Nachnamen es zu einem Präfix gibt.
@@ -185,63 +94,11 @@ public class KundeRepository {
      * @param prefix Nachname-Präfix.
      * @return Die passenden Nachnamen oder eine leere Collection.
      */
-    public @NonNull Collection<String> findNachnamenByPrefix(final @NonNull String prefix) {
-        log.debug("findByNachname: prefix={}", prefix);
-        final var nachnamen = KUNDEN.stream()
-            .map(Kunde::getNachname)
-            .filter(nachname -> nachname.startsWith(prefix))
-            .distinct()
-            .toList();
-        log.debug("findByNachname: nachnamen={}", nachnamen);
-        return nachnamen;
-    }
-
-    /**
-     * Einen neuen Kunden anlegen.
-     *
-     * @param kunde Das Objekt des neu anzulegenden Kunden.
-     * @return Der neu angelegte Kunde mit generierter ID
-     */
-    public @NonNull Kunde create(final @NonNull Kunde kunde) {
-        log.debug("create: {}", kunde);
-        kunde.setId(randomUUID());
-        KUNDEN.add(kunde);
-        log.debug("create: {}", kunde);
-        return kunde;
-    }
-
-    /**
-     * Einen vorhandenen Kunden aktualisieren.
-     *
-     * @param kunde Das Objekt mit den neuen Daten
-     */
-    public void update(final @NonNull Kunde kunde) {
-        log.debug("update: {}", kunde);
-        final OptionalInt index = IntStream
-            .range(0, KUNDEN.size())
-            .filter(i -> Objects.equals(KUNDEN.get(i).getId(), kunde.getId()))
-            .findFirst();
-        log.trace("update: index={}", index);
-        if (index.isEmpty()) {
-            return;
-        }
-        KUNDEN.set(index.getAsInt(), kunde);
-        log.debug("update: {}", kunde);
-    }
-
-    /**
-     * Einen vorhandenen Kunden löschen.
-     *
-     * @param id Die ID des zu löschenden Kunden.
-     */
-    public void deleteById(final UUID id) {
-        log.debug("deleteById: id={}", id);
-        final OptionalInt index = IntStream
-            .range(0, KUNDEN.size())
-            .filter(i -> Objects.equals(KUNDEN.get(i).getId(), id))
-            .findFirst();
-        log.trace("deleteById: index={}", index);
-        index.ifPresent(KUNDEN::remove);
-        log.debug("deleteById: #KUNDEN={}", KUNDEN.size());
-    }
+    @Query("""
+        SELECT DISTINCT k.nachname
+        FROM     Kunde k
+        WHERE    lower(k.nachname) LIKE concat(lower(:prefix), '%')
+        ORDER BY k.nachname
+        """)
+    Collection<String> findNachnamenByPrefix(String prefix);
 }

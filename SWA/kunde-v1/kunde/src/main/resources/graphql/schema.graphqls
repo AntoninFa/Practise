@@ -37,11 +37,12 @@ type Mutation {
 # https://spec.graphql.org/draft/#sec-Types
 # https://www.graphql-scalars.dev/docs/scalars/email-address
 # https://www.graphql-scalars.dev/docs/scalars/local-date
+# https://www.graphql-scalars.dev/docs/scalars/currency
+# enum als String, damit toSting() vom Enum-Wert aufgerufen wird
 "Eigenschaften eines Kunde-Datensatzes mit untergeordneten Eigenschaften"
 type Kunde {
-  "ID des Kunden"
-  id: ID
-  "Nachname des Kunden"
+  id: ID!
+  version: Int!
   nachname: String!
   email: String!
   kategorie: Int!
@@ -51,97 +52,67 @@ type Kunde {
   geschlecht: String
   familienstand: String
   adresse: Adresse!
-  umsaetze: [Umsatz!]
   interessen: [String!]
-}
-
-# https://www.graphql-scalars.dev/docs/scalars/currency
-"Daten zu einem Umsatz"
-type Umsatz {
-  "Der Betrag"
-  betrag: String!
-  "Die Währung"
-  waehrung: String!
+  username: String!
 }
 
 type Adresse {
-  "Postleitzahl der Adresse"
   plz: String!
-  "Ortsangabe"
   ort: String!
 }
 
 # https://spec.graphql.org/draft/#sec-Input-Objects
 "Suchkriterien für die Query 'kunden'"
 input Suchkriterien {
-  "Nachname der gesuchten Kunden"
   nachname: String
-  "Emailadresse der gesuchten Kunden"
   email: String
 }
 
-"Eingabedaten für einen neuen Kunden"
 input KundeInput {
-  "Nachname des neuen Kunden"
   nachname: String!
-  "Emailadresse des neuen Kunden"
   email: String!
   kategorie: Int!
-  "Newsletter-Abo: true / false"
   hasNewsletter: Boolean!
-  "Geburtsdatum des neuen Kunden"
   geburtsdatum: String
   homepage: String
-  "Geschlecht des neuen Kunden: MAENNLICH, WEIBLICH, DIVERS"
   geschlecht: Geschlecht
-  "Familienstand des neuen Kunden: LEDIG, VERHEIRATET, GESCHIEDEN, VERWITWET"
   familienstand: Familienstand
-  "InteressEN des neuen Kunden: SPORT, LESEN, REISEN"
-  interessen: [Interesse!]
-  "Umsaetze zum neuen Kunden"
-  umsaetze: [UmsatzInput!]
-  "Adresse des neuen Kunden"
   adresse: AdresseInput!
+  umsaetze: [UmsatzInput!]
+  interessen: [Interesse!]
+  username: String!
+  password: String!
 }
 
-"Aufzählungstyp für das Geschlecht eines Kunden"
 enum Geschlecht {
-  WEIBLICH
-  MAENNLICH
-  DIVERS
+    WEIBLICH
+    MAENNLICH
+    DIVERS
 }
 
-"Aufzählungstyp für den Familienstand eines Kunden"
 enum Familienstand {
-  LEDIG
-  VERHEIRATET
-  GESCHIEDEN
-  VERWITWET
+    LEDIG
+    VERHEIRATET
+    GESCHIEDEN
+    VERWITWET
 }
 
-"Aufzählungstyp für die Interessen eines Kunden"
 enum Interesse {
-  SPORT
-  LESEN
-  REISEN
+    SPORT
+    LESEN
+    REISEN
 }
 
-"Umsatzeingabe für einen Kunden: Neuanlegen oder Ändern"
 input UmsatzInput {
-  "Betrag"
   betrag: String!
-  "Währung"
   waehrung: String!
 }
 
-"Neue oder geänderte Adresse"
 input AdresseInput {
   plz: String!
   ort: String!
 }
 
-"Rückgabetyp beim Neuanlegen eines Kunden"
 type CreatePayload {
-  "ID des neu angelegten Kunden"
   id: String!
 }

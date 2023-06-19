@@ -31,39 +31,68 @@ import org.springframework.web.service.annotation.PatchExchange;
 import org.springframework.web.service.annotation.PostExchange;
 import org.springframework.web.service.annotation.PutExchange;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.IF_NONE_MATCH;
+import static org.springframework.http.HttpHeaders.IF_MATCH;
 
 @HttpExchange
 @SuppressWarnings("WriteTag")
 interface KundeRepository {
-    @GetExchange("/{id}")
-    ResponseEntity<KundeDownload> getKunde(@PathVariable String id, @RequestHeader(AUTHORIZATION) String authorization);
 
     @GetExchange("/{id}")
-    ResponseEntity<String> getKundeString(@PathVariable String id, @RequestHeader(AUTHORIZATION) String authorization);
+    ResponseEntity<KundeDownload> getById(
+        @PathVariable String id,
+        @RequestHeader(IF_NONE_MATCH) String version,
+        @RequestHeader(AUTHORIZATION) String authorization
+    );
+
+    @GetExchange("/{id}")
+    ResponseEntity<KundeDownload> getByIdOhneVersion(
+        @PathVariable String id,
+        @RequestHeader(AUTHORIZATION) String authorization
+    );
 
     @GetExchange
-    KundenDownload getKunden(
+    KundenDownload get(
         @RequestParam MultiValueMap<String, String> suchkriterien,
         @RequestHeader(AUTHORIZATION) String authorization
     );
 
     @PostExchange
-    ResponseEntity<Void> createKunde(@RequestBody KundeDTO kunde);
+    ResponseEntity<Void> post(@RequestBody KundeUserDTO kunde);
 
     @PutExchange("/{id}")
-    ResponseEntity<Void> updateKunde(
+    ResponseEntity<Void> put(
+        @PathVariable String id,
+        @RequestBody KundeDTO kunde,
+        @RequestHeader(IF_MATCH) String version,
+        @RequestHeader(AUTHORIZATION) String authorization
+    );
+
+    @PatchExchange("/{id}")
+    ResponseEntity<Void> patch(
+        @PathVariable String id,
+        @RequestBody List<PatchOperation> patch,
+        @RequestHeader(IF_MATCH) String version,
+        @RequestHeader(AUTHORIZATION) String authorization
+    );
+
+    @PutExchange("/{id}")
+    void putOhneVersion(
         @PathVariable String id,
         @RequestBody KundeDTO kunde,
         @RequestHeader(AUTHORIZATION) String authorization
     );
 
     @PatchExchange("/{id}")
-    ResponseEntity<Void> updateKunde(
+    void patchOhneVersion(
         @PathVariable String id,
         @RequestBody List<PatchOperation> patch,
         @RequestHeader(AUTHORIZATION) String authorization
     );
 
     @DeleteExchange("/{id}")
-    ResponseEntity<Void> deleteKunde(@PathVariable String id, @RequestHeader(AUTHORIZATION) String authorization);
+    ResponseEntity<Void> deleteById(@PathVariable String id, @RequestHeader(AUTHORIZATION) String authorization);
+
+    @GetExchange("/nachname/{prefix}")
+    String getNachnamen(@PathVariable String prefix, @RequestHeader(AUTHORIZATION) String authorization);
 }

@@ -17,6 +17,8 @@
 package com.acme.kunde.entity;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Enum für Familienstand. Dazu kann auf der Clientseite z.B. ein Dropdown-Menü realisiert werden.
@@ -25,24 +27,24 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum FamilienstandType {
     /**
-    * _Ledig_ mit dem internen Wert `L` für z.B. das Mapping in einem JSON-Datensatz oder das Abspeichern in einer DB.
+    * Ledig mit dem internen Wert L für z.B. das Mapping in einem JSON-Datensatz oder das Abspeichern in einer DB.
     */
     LEDIG("L"),
 
     /**
-    * _Verheiratet_ mit dem internen Wert `VH` für z.B. das Mapping in einem JSON-Datensatz oder
+    * Verheiratet mit dem internen Wert VH für z.B. das Mapping in einem JSON-Datensatz oder
     * das Abspeichern in einer DB.
     */
     VERHEIRATET("VH"),
 
     /**
-    * _Geschieden_ mit dem internen Wert `G` für z.B. das Mapping in einem JSON-Datensatz oder
+    * Geschieden mit dem internen Wert G für z.B. das Mapping in einem JSON-Datensatz oder
     * das Abspeichern in einer DB.
     */
     GESCHIEDEN("G"),
 
     /**
-    * _Verwitwet_ mit dem internen Wert `VW` für z.B. das Mapping in einem JSON-Datensatz oder
+    * Verwitwet mit dem internen Wert VW für z.B. das Mapping in einem JSON-Datensatz oder
     * das Abspeichern in einer DB.
     */
     VERWITWET("VW");
@@ -51,6 +53,18 @@ public enum FamilienstandType {
 
     FamilienstandType(final String value) {
         this.value = value;
+    }
+
+    /**
+     * Konvertierung eines Strings in einen Enum-Wert.
+     *
+     * @param value Der String, zu dem ein passender Enum-Wert ermittelt werden soll.
+     * @return Passender Enum-Wert oder null.
+     */
+    public static Optional<FamilienstandType> of(final String value) {
+        return Stream.of(values())
+            .filter(familienstand -> familienstand.value.equalsIgnoreCase(value))
+            .findFirst();
     }
 
     /**

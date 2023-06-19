@@ -32,7 +32,7 @@ interface K8s {
     /**
      * Protokoll-Ausgabe, wenn Kubernetes erkannt wird.
      *
-     * @return Listener zur Ausgabe, ob Kubernetes erkannt wird.
+     * @return Listener für den ApplicationReadyEvent, um Kubernetes zu erkennen.
      */
     @Bean
     @ConditionalOnCloudPlatform(KUBERNETES)

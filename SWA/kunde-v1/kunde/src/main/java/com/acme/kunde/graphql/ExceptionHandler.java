@@ -30,7 +30,7 @@ import static org.springframework.graphql.execution.ErrorType.NOT_FOUND;
 @ControllerAdvice
 final class ExceptionHandler {
     @GraphQlExceptionHandler
-    GraphQLError handleNotFound(final NotFoundException ex) {
+    GraphQLError onNotFound(final NotFoundException ex) {
         final var id = ex.getId();
         final var message = id == null
             ? "Kein Kunde gefunden: suchkriterien=" + ex.getSuchkriterien()

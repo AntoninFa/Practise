@@ -17,7 +17,7 @@
 package com.acme.kunde.rest.patch;
 
 /**
- * Hilfsklasse für _HTTP PATCH_ mit Datensätzen, wie z.B.
+ * Hilfsklasse für HTTP PATCH mit Datensätzen, wie z.B.
  * {"op": "replace", "path": "/email", "value": "new.email@test.de"}.
  *
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>

@@ -34,8 +34,9 @@ record KundeDownload(
     GeschlechtType geschlecht,
     FamilienstandType familienstand,
     AdresseDTO adresse,
-    List<UmsatzDTO> umsaetze,
+    UmsatzDTO umsatz,
     List<InteresseType> interessen,
+
     @SuppressWarnings("RecordComponentName")
     Links _links
 ) {

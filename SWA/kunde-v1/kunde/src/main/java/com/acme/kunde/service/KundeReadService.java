@@ -15,42 +15,73 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.acme.kunde.service;
+
 import com.acme.kunde.entity.Kunde;
 import com.acme.kunde.repository.KundeRepository;
+import com.acme.kunde.repository.PredicateBuilder;
+import com.acme.kunde.security.Rolle;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import static com.acme.kunde.security.Rolle.ADMIN;
 
 /**
  * Anwendungslogik für Kunden.
  * <img src="../../../../../asciidoc/KundeReadService.svg" alt="Klassendiagramm">
+ * Schreiboperationen werden mit Transaktionen durchgeführt und Lese-Operationen mit Readonly-Transaktionen:
+ * <a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#transactions">siehe Dokumentation</a>.
  *
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
+// https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#transactions
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
-public final class KundeReadService {
-
-
+public class KundeReadService {
     private final KundeRepository repo;
+    private final PredicateBuilder predicateBuilder;
 
     /**
      * Einen Kunden anhand seiner ID suchen.
      *
      * @param id Die Id des gesuchten Kunden
+     * @param user UserDetails-Objekt
      * @return Der gefundene Kunde
      * @throws NotFoundException Falls kein Kunde gefunden wurde
+     * @throws AccessForbiddenException Falls die erforderlichen Rollen nicht gegeben sind
      */
-    public @NonNull Kunde findById(final UUID id) {
-        log.debug("findById: id={}", id);
-        final var kunde = repo.findById(id)
-            .orElseThrow(() -> new NotFoundException(id));
+    public @NonNull Kunde findById(final UUID id, final UserDetails user) {
+        log.debug("findById: id={}, user={}", id, user);
+        final var kundeOpt = repo.findById(id);
+        if (kundeOpt.isPresent() && Objects.equals(kundeOpt.get().getUsername(), user.getUsername())) {
+            // eigene Kundendaten
+            return kundeOpt.get();
+        }
+
+        final var rollen = user
+            .getAuthorities()
+            .stream()
+            .map(GrantedAuthority::getAuthority)
+            .map(str -> str.substring(Rolle.ROLE_PREFIX.length()))
+            .map(Rolle::valueOf)
+            .toList();
+        if (!rollen.contains(ADMIN)) {
+            // nicht admin, aber keine eigenen (oder keine) Kundendaten
+            throw new AccessForbiddenException(rollen);
+        }
+
+        // admin: Kundendaten evtl. nicht gefunden
+        final var kunde = kundeOpt.orElseThrow(() -> new NotFoundException(id));
         log.debug("findById: {}", kunde);
         return kunde;
     }
@@ -62,12 +93,11 @@ public final class KundeReadService {
      * @return Die gefundenen Kunden oder eine leere Liste
      * @throws NotFoundException Falls keine Kunden gefunden wurden
      */
-    @SuppressWarnings({"ReturnCount", "NestedIfDepth"})
+    @SuppressWarnings({"ReturnCount", "NestedIfDepth", "CyclomaticComplexity"})
     public @NonNull Collection<Kunde> find(@NonNull final Map<String, List<String>> suchkriterien) {
         log.debug("find: suchkriterien={}", suchkriterien);
 
         if (suchkriterien.isEmpty()) {
-            // bissl gefährlich bei sehr großen Datenbanken
             return repo.findAll();
         }
 
@@ -94,7 +124,10 @@ public final class KundeReadService {
             }
         }
 
-        final var kunden = repo.find(suchkriterien);
+        final var predicate = predicateBuilder
+            .build(suchkriterien)
+            .orElseThrow(() -> new NotFoundException(suchkriterien));
+        final var kunden = repo.findAll(predicate);
         if (kunden.isEmpty()) {
             throw new NotFoundException(suchkriterien);
         }
@@ -109,11 +142,13 @@ public final class KundeReadService {
      * @return Die passenden Nachnamen.
      * @throws NotFoundException Falls keine Nachnamen gefunden wurden.
      */
-    public Collection<String> findNachnamenByPrefix(final String prefix) {
+    public @NonNull Collection<String> findNachnamenByPrefix(final String prefix) {
+        log.debug("findNachnamenByPrefix: {}", prefix);
         final var nachnamen = repo.findNachnamenByPrefix(prefix);
         if (nachnamen.isEmpty()) {
             throw new NotFoundException();
         }
+        log.debug("findNachnamenByPrefix: {}", nachnamen);
         return nachnamen;
     }
 }

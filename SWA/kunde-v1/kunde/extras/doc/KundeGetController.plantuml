@@ -12,9 +12,13 @@
 '
 ' You should have received a copy of the GNU General Public License
 ' along with this program.  If not, see <https://www.gnu.org/licenses/>.
-@startuml KundeGetController
+@startuml KundeHandler
 
 skinparam classAttributeIconSize 0
+
+package jakarta.servlet.http {
+    class HttpServletRequest
+}
 
 package org.springframework {
     package web.bind.annotation {
@@ -24,6 +28,8 @@ package org.springframework {
         interface "@RequestParam" as RequestParam
         interface "@ExceptionHandler" as ExceptionHandler
         interface "@ResponseStatus" as ResponseStatus
+
+        RequestMapping .left[hidden].> RestController
     }
 
     package http {
@@ -32,57 +38,75 @@ package org.springframework {
     package hateoas {
         class CollectionModel<E>
     }
+    package security.core {
+        class Authentication
+    }
     package util {
         class MultiValueMap<K,V>
     }
-}
 
-package jakarta.servlet.http {
-    interface HttpServletRequest
+    CollectionModel .up[hidden].> Authentication
+    ResponseEntity .up[hidden].> CollectionModel
 }
 
 package java.util {
     class UUID
+
     UUID .up[hidden].> HttpServletRequest
 }
 
 package com.acme.kunde {
+    package entity {
+        class Kunde << entity >>
+    }
+
     package service {
         class KundeReadService << control >> << @Service >>
         class NotFoundException
+        class AccessForbiddenException
+
+        KundeReadService .right[hidden].> NotFoundException
+        NotFoundException .right[hidden].> AccessForbiddenException
     }
 
     package rest #DDDDDD {
         class KundeModel <<entity>>
 
         class KundeGetController << boundary >> << @RestController >> << @RequestMapping >> {
-            + @GetMapping findById(@PathVariable id: UUID, request: HttpServletRequest): KundeModel
-            + @GetMapping find(@RequestParam queryParams: MultiValueMap<String, String>, request: HttpServletRequest): CollectionModel<KundeModel>
+            + @GetMapping getById(@PathVariable id: UUID, @RequestHeader("If-None-Match") version: String, request: HttpServletRequest, authentication: Authentication): ResponseEntity<KundeModel>
+            + @GetMapping get(@RequestParam queryParams: MultiValueMap<String, String>, request: HttpServletRequest)
         }
 
         class CommonExceptionHandler << @ControllerAdvice >> {
             + @ExceptionHandler @ResponseStatus onNotFound(ex: NotFoundException)
+            + @ExceptionHandler @ResponseStatus onAccessForbidden(ex: AccessForbiddenException)
         }
 
-        KundeGetController o--> "1" KundeReadService : service
+        KundeGetController o-right-> "1" KundeReadService : service
         KundeGetController ..> KundeModel
+        KundeGetController ..> Kunde
+
+        KundeGetController .up.> CollectionModel
+        KundeGetController .right.> HttpServletRequest
+        KundeGetController .up.> MultiValueMap
+        KundeGetController .up.> Authentication
+        KundeGetController .up.> ResponseEntity
 
         KundeGetController .up.> RestController
         KundeGetController .up.> RequestMapping
         KundeGetController .up.> PathVariable
         KundeGetController .up.> RequestParam
-        KundeGetController .up.> ResponseEntity
-        KundeGetController .up.> MultiValueMap
-        KundeGetController .up.> CollectionModel
-        KundeGetController .right.> HttpServletRequest
 
         CommonExceptionHandler .up.> ExceptionHandler
         CommonExceptionHandler .up.> ResponseStatus
         CommonExceptionHandler ..> NotFoundException
+        CommonExceptionHandler ..> AccessForbiddenException
         CommonExceptionHandler .up[hidden].> KundeModel
+        CommonExceptionHandler .[hidden].> Kunde
 
         KundeGetController .right.> UUID
 
+        KundeModel ..> Kunde
         KundeModel .[hidden].> KundeReadService
     }
 }

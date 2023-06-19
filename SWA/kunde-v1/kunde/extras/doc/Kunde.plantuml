@@ -31,68 +31,93 @@ package java {
 
     package time {
         class LocalDate
+        class LocalDateTime
     }
 
-    BigDecimal .up[hidden].> UUID
-    UUID .[hidden].> LocalDate
+    LocalDate .right[hidden].> LocalDateTime
+    LocalDateTime .[hidden].> Currency
+    Currency .[hidden].> BigDecimal
 }
 
-package com.acme.kunde.entity #DDDDDD {
-    class Umsatz {
-        betrag: BigDecimal
-        waehrung: Currency
+package jakarta.persistence {
+    interface "@Entity" as Entity
+    interface "@Table" as Table
+
+    Entity -[hidden]down-> Table
+    LocalDateTime .up[hidden].> Table
+}
+
+package com.acme.kunde {
+    package entity #DDDDDD {
+        class Umsatz << entity >> {
+            @Id @GeneratedValue @JsonIgnore id : UUID
+            betrag: BigDecimal
+            waehrung: Currency
+        }
+        Umsatz ..> UUID
+
+        class Adresse << entity >> {
+            @Id @GeneratedValue @JsonIgnore id : UUID
+            plz: String
+            ort: String
+        }
+        Adresse ..> UUID
+
+        enum GeschlechtType {
+            MAENNLICH
+            WEIBLICH
+            DIVERS
+        }
+
+        enum FamilienstandType {
+            LEDIG
+            VERHEIRATET
+            GESCHIEDEN
+            VERWITWET
+        }
+
+        enum InteresseType {
+            SPORT
+            LESEN
+            REISEN
+        }
+
+        class Kunde << entity >>  << @Entity >>  << @Table >> {
+            @Id @GeneratedValue id : UUID
+            @Version version : int
+            nachname : String
+            email : String
+            kategorie: int
+            hasNewsletter : boolean
+            geburtsdatum: LocalDate
+            homepage: URL
+            @Convert geschlecht: GeschlechtType
+            @Convert familienstand: FamilienstandType
+            @ElementCollection @CollectionTable @Column @Convert interessen: List<InteresseType>
+            username: String
+            @CreationTimestamp erzeugt: LocalDateTime
+            @UpdateTimestamp aktualisiert: LocalDateTime
+        }
+
+        Kunde *--> "0..1" Umsatz : @OneToOne(cascade = [...]) @JoinColumn(...) umsatz
+        Kunde *--> "1" Adresse :  @OneToOne(cascade = [...]) @JoinColumn(...) adresse
+
+        Kunde .up.> GeschlechtType
+        Kunde .up.> FamilienstandType
+        Kunde .up.> InteresseType
+
+        Kunde ..> URL
+        Kunde ..> LocalDate
+        Kunde ..> LocalDateTime
+        Kunde .right.> List
+        Kunde .right.> Entity
+        Kunde .right.> Table
+
+        Umsatz ..> Currency
+        Umsatz ..> BigDecimal
+
+        GeschlechtType .[hidden].> List
     }
-
-    class Adresse {
-        plz: String
-        ort: String
-    }
-
-    enum GeschlechtType {
-        MAENNLICH
-        WEIBLICH
-        DIVERS
-    }
-
-    enum FamilienstandType {
-        LEDIG
-        VERHEIRATET
-        GESCHIEDEN
-        VERWITWET
-    }
-
-    enum InteresseType {
-        SPORT
-        LESEN
-        REISEN
-    }
-
-    class Kunde << entity >> {
-        id : UUID
-        nachname : String
-        email : String
-        kategorie: int
-        hasNewsletter : boolean
-        geburtsdatum: LocalDate
-        homepage: URL
-        geschlecht: GeschlechtType
-        familienstand: FamilienstandType
-        interessen: List<InteresseType>
-    }
-
-    Kunde *--> "0..1" Umsatz : umsatz
-    Kunde *--> "1" Adresse : adresse
-    Kunde .up.> GeschlechtType
-    Kunde .up.> FamilienstandType
-    Kunde .up.> InteresseType
-
-    Kunde ..> UUID
-    Kunde ..> LocalDate
-    Kunde ..> List
-    Kunde ..> URL
-
-    Umsatz ..> Currency
-    Umsatz ..> BigDecimal
 }
 
 hide empty members

@@ -17,6 +17,8 @@
 package com.acme.kunde.entity;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Enum für Geschlecht. Dazu können auf der Clientseite z.B. Radiobuttons realisiert werden.
@@ -25,19 +27,19 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum GeschlechtType {
     /**
-     * _Männlich_ mit dem internen Wert `M` für z.B. das Mapping in einem JSON-Datensatz oder
+     * Männlich mit dem internen Wert M für z.B. das Mapping in einem JSON-Datensatz oder
      * das Abspeichern in einer DB.
      */
     MAENNLICH("M"),
 
     /**
-     * _Weiblich_ mit dem internen Wert `W` für z.B. das Mapping in einem JSON-Datensatz oder
+     * Weiblich mit dem internen Wert W für z.B. das Mapping in einem JSON-Datensatz oder
      * das Abspeichern in einer DB.
      */
     WEIBLICH("W"),
 
     /**
-     * _Divers_ mit dem internen Wert `D` für z.B. das Mapping in einem JSON-Datensatz oder Abspeichern in einer DB.
+     * Divers mit dem internen Wert D für z.B. das Mapping in einem JSON-Datensatz oder Abspeichern in einer DB.
      */
     DIVERS("D");
 
@@ -58,5 +60,17 @@ public enum GeschlechtType {
     @Override
     public String toString() {
         return value;
+    }
+
+    /**
+     * Konvertierung eines Strings in einen Enum-Wert.
+     *
+     * @param value Der String, zu dem ein passender Enum-Wert ermittelt werden soll.
+     * @return Passender Enum-Wert oder null.
+     */
+    public static Optional<GeschlechtType> of(final String value) {
+        return Stream.of(values())
+            .filter(geschlecht -> geschlecht.value.equalsIgnoreCase(value))
+            .findFirst();
     }
 }

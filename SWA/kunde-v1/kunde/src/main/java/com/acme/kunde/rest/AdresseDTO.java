@@ -16,6 +16,8 @@
  */
 package com.acme.kunde.rest;
 
+import com.acme.kunde.entity.Adresse;
+
 /**
  * ValueObject für das Neuanlegen und Ändern eines neuen Kunden.
  *
@@ -27,4 +29,11 @@ record AdresseDTO(
     String plz,
 
     String ort) {
+    Adresse toAdresse() {
+        return Adresse
+            .builder()
+            .plz(plz)
+            .ort(ort)
+            .build();
+    }
 }
