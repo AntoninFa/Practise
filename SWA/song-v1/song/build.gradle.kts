@@ -34,6 +34,7 @@
 //        .\gradlew allureServe
 //              EINMALIG>>   .\gradlew downloadAllure
 //        .\gradlew checkstyleMain checkstyleTest spotbugsMain spotbugsTest
+//        .\gradlew sonar
 //        .\gradlew buildHealth
 //        .\gradlew reason --id com.fasterxml.jackson.core:jackson-annotations:...
 //
@@ -74,7 +75,7 @@
 //
 //  13) Initialisierung des Gradle Wrappers in der richtigen Version
 //      dazu ist ggf. eine Internetverbindung erforderlich
-//        gradle wrapper --gradle-version=8.2-rc-1 --distribution-type=bin
+//        gradle wrapper --gradle-version=8.2-rc-2 --distribution-type=bin
 
 // https://github.com/gradle/kotlin-dsl/tree/master/samples
 // https://docs.gradle.org/current/userguide/kotlin_dsl.html
@@ -117,6 +118,9 @@ plugins {
     // https://spotbugs.readthedocs.io/en/latest/gradle.html
     alias(libs.plugins.spotbugs)
 
+    // https://docs.sonarqube.org/latest/analyzing-source-code/scanners/sonarscanner-for-gradle
+    alias(libs.plugins.sonarqubePlugin)
+
     // https://github.com/diffplug/spotless/tree/main/plugin-gradle
     //alias(libs.plugins.spotless)
 
@@ -129,7 +133,7 @@ plugins {
     // io.qameta.allure.gradle.adapter.AllureAdapterBasePlugin, ...AllureAdapterExtension, ...AllureAdapterPlugin
     // io.qameta.allure.gradle.report.AllureReportBasePlugin, ...AllureReportExtension
     // io.qameta.allure.gradle.download.AllureDownloadPlugin
-    //alias(libs.plugins.allure)
+    alias(libs.plugins.allure)
 
     // https://github.com/boxheed/gradle-sweeney-plugin
     alias(libs.plugins.sweeney)
@@ -222,19 +226,19 @@ configurations {
 @Suppress("CommentSpacing")
 // https://docs.gradle.org/current/userguide/java_library_plugin.html#sec:java_library_separation
 dependencies {
-    //implementation(platform(libs.micrometerBom))
+    implementation(platform(libs.micrometerBom))
     implementation(platform(libs.jacksonBom))
     implementation(platform(libs.nettyBom))
-    //implementation(platform(libs.reactorBom))
-    //implementation(platform(libs.springBom))
+    implementation(platform(libs.reactorBom))
+    implementation(platform(libs.springBom))
     //implementation(platform(libs.querydslBom))
-    //implementation(platform(libs.springDataBom))
+    implementation(platform(libs.springDataBom))
     //implementation(platform(libs.springSecurityBom))
     //implementation(platform(libs.zipkinReporterBom))
     //implementation(platform(libs.assertjBom))
     //implementation(platform(libs.mockitoBom))
     implementation(platform(libs.junitBom))
-    //implementation(platform(libs.allureBom))
+    implementation(platform(libs.allureBom))
     implementation(platform(libs.springBootBom))
     // spring-boot-starter-parent als "Parent POM"
     implementation(platform(libs.springdocOpenapiBom))
@@ -256,6 +260,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    // implementation(libs.crac)
 
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("mysql:mysql-connector-java")
@@ -266,6 +271,7 @@ dependencies {
     // https://stackoverflow.com/questions/59950657/querydsl-annotation-processor-and-gradle-plugin#answer-59951292
     // https://github.com/querydsl/querydsl/issues/3436
     // https://discuss.gradle.org/t/annotationprocessor-querydsl-java-lang-noclassdeffounderror/27107/5
+    // https://github.com/hibernate/hibernate-orm/tree/main/tooling/hibernate-gradle-plugin fuer "Static Metamodel"-Klassen
     implementation("com.querydsl:querydsl-jpa:${libs.versions.querydsl.get()}:jakarta")
     annotationProcessor("com.querydsl:querydsl-apt:${libs.versions.querydsl.get()}:jakarta")
     annotationProcessor("jakarta.persistence:jakarta.persistence-api:${libs.versions.jakartaPersistence.get()}")
@@ -345,12 +351,12 @@ dependencies {
         //implementation(libs.hibernateValidator)
         implementation(libs.bundles.tomcat)
         //implementation(libs.bundles.graphqlJavaBundle)
-        //implementation(libs.graphqlJava)
+        implementation(libs.graphqlJava)
         //implementation(libs.graphqlJavaDataloader)
         implementation(libs.angusMail)
         //implementation(libs.snakeyaml)
         //implementation(libs.bundles.slf4jBundle)
-        //implementation(libs.logback)
+        implementation(libs.logback)
         //implementation(libs.bundles.log4j)
         //implementation(libs.springSecurityRsa)
         testImplementation(libs.mockitoInline)
@@ -547,28 +553,28 @@ tasks.test {
 }
 
 // https://docs.qameta.io/allure/#_gradle_2
-//allure {
-//    version = libs.versions.allure.get()
-//    adapter {
-//        frameworks {
-//            junit5 {
-//                adapterVersion = libs.versions.allureJunit.get()
-//                autoconfigureListeners = true
-//                enabled = true
-//            }
-//        }
-//        autoconfigure = true
-//        aspectjWeaver = false
-//        aspectjVersion = libs.versions.aspectjweaver.get()
-//    }
-//
-//    // https://github.com/allure-framework/allure-gradle#customizing-allure-commandline-download
-//    // commandline {
-//    //     group = "io.qameta.allure"
-//    //     module = "allure-commandline"
-//    //     extension = "zip"
-//    // }
-//}
+allure {
+    version = libs.versions.allure.get()
+    adapter {
+        frameworks {
+            junit5 {
+                adapterVersion = libs.versions.allureJunit.get()
+                autoconfigureListeners = true
+                enabled = true
+            }
+        }
+        autoconfigure = true
+        aspectjWeaver = false
+        aspectjVersion = libs.versions.aspectjweaver.get()
+    }
+
+    // https://github.com/allure-framework/allure-gradle#customizing-allure-commandline-download
+    // commandline {
+    //     group = "io.qameta.allure"
+    //     module = "allure-commandline"
+    //     extension = "zip"
+    // }
+}
 
 jacoco {
     toolVersion = libs.versions.jacoco.get()
@@ -636,6 +642,17 @@ tasks.spotbugsMain {
         outputLocation = file("${layout.buildDirectory.asFile.get()}/reports/spotbugs.html")
     }
     excludeFilter = file("extras/spotbugs-exclude.xml")
+}
+
+// https://docs.sonarqube.org/latest/analyzing-source-code/scanners/sonarscanner-for-gradle/#analyzing
+sonarqube {
+    properties {
+        property("sonar.organization", "Softwarearchitektur und Microservices")
+        property("sonar.host.url", "http://localhost:9000")
+        property("sonar.token", project.properties["sonarToken"]!!)
+        property("sonar.scm.disabled", "true")
+        property("sonar.exclusions", ".allure/**/*,.gradle/**/*,.idea/**/*,build/**/*,extras/**/*,gradle/**/*,src/test/java/**/*,target/*,tmp/**/*")
+    }
 }
 
 // https://github.com/jeremylong/DependencyCheck/blob/master/src/site/markdown/dependency-check-gradle/configuration.md

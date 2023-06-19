@@ -1,10 +1,3 @@
-CREATE TABLE IF NOT EXISTS login (
-  id       UUID PRIMARY KEY,
-  username VARCHAR(20) UNIQUE NOT NULL,
-  password VARCHAR(180) NOT NULL,
-  rollen   VARCHAR(32)
-  );
-
 CREATE TABLE IF NOT EXISTS song (
     id            UUID PRIMARY KEY,
     version       INTEGER NOT NULL DEFAULT 0,
@@ -12,7 +5,6 @@ CREATE TABLE IF NOT EXISTS song (
     erscheinungsDatum  DATE CHECK (erscheinungsDatum <= current_date),
     genre         VARCHAR(20) CHECK (genre ~ 'POP|DANCEPOP|PUNKROCK|NEUEDEUTSCHEWELLE|KINDERMUSIK|RAP|FOLK'),
     musikLabel    VARCHAR(32),
-    username      VARCHAR(20) NOT NULL UNIQUE REFERENCES login(username),
     erzeugt       TIMESTAMP NOT NULL,
     aktualisiert  TIMESTAMP NOT NULL
   );
