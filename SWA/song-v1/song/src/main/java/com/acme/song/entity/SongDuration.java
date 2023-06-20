@@ -60,7 +60,7 @@ public class SongDuration {
     @JoinColumn(updatable = false)
     @JsonIgnore
     @ToString.Exclude
+    private Song song;
     // Darf nicht @NotNull sein,
     // weil beim Anlegen über REST der Rückwärts verweis noch nicht existiert
-    private Song song;
 }

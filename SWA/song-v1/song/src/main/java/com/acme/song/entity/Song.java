@@ -6,8 +6,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PostLoad;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.Version;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -88,6 +90,7 @@ public class Song {
     /**
      * Liste an Genres des Songs.
      */
+    @Transient
     @UniqueElements
     @ToString.Exclude
     private List<GenreType> genre;
@@ -96,7 +99,7 @@ public class Song {
     private String genreStr;
 
     /**
-     * Musik-Label, unter welchem der SOng erschienen ist.
+     * Musik-Label, unter welchem der Song erschienen ist.
      */
     @Size(max = MAX_STRING_SIZE)
     private String musikLabel;
@@ -104,7 +107,7 @@ public class Song {
     /**
      * Dauer des Songs in Stunden:Minute:Sekunden.
      */
-    @OneToOne(mappedBy = "song", optional = false, cascade = {PERSIST, REMOVE}, fetch = LAZY, orphanRemoval = true)
+    @OneToOne(mappedBy = "song", cascade = {PERSIST, REMOVE}, fetch = LAZY, orphanRemoval = true)
     @Valid
     @ToString.Exclude
     private SongDuration duration;
@@ -131,19 +134,20 @@ public class Song {
     private void buildGenreStr() {
         if (genre == null || genre.isEmpty()) {
             genreStr = null;
-            return;
+        } else {
+            genreStr = String.join(",", genre.stream()
+                .map(Enum::name)
+                .toList());
         }
-        final var stringList = genre.stream()
-            .map(Enum::name)
-        .toList();
     }
 
+    @PostLoad
     private void loadGenre() {
         if (genreStr == null) {
             genre = emptyList();
-            return;
+        } else {
+            final var genreAsArray = genreStr.split(",");
+            genre = Arrays.stream(genreAsArray).map(GenreType::valueOf).collect(Collectors.toList());
         }
-        final var genreAsArray = genreStr.split(",");
-        genre = Arrays.stream(genreAsArray).map(GenreType::valueOf).collect(toList());
     }
 }
