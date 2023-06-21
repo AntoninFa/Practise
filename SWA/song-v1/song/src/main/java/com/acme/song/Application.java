@@ -16,6 +16,7 @@
  */
 package com.acme.song;
 
+import com.acme.song.dev.DevConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
@@ -33,7 +34,7 @@ import static org.springframework.hateoas.support.WebStack.WEBMVC;
  * @author <a href="mailto:Juergen.Zimmermann@h-ka.de">Jürgen Zimmermann</a>
  */
 @SpringBootApplication(proxyBeanMethods = false)
-@Import(com.acme.song.ApplicationConfig.class)
+@Import({ApplicationConfig.class, DevConfig.class})
 @EnableHypermediaSupport(type = HAL, stacks = WEBMVC)
 @EnableWebSecurity
 @EnableMethodSecurity
