@@ -91,15 +91,15 @@ class SongWriteController {
     @ApiResponse(responseCode = "422", description = "Fehlerhafte Werte")
     @ApiResponse(responseCode = "412", description = "Versionsnummer falsch")
     @ApiResponse(responseCode = "428", description = VERSIONSNUMMER_FEHLT)
-    void put(@PathVariable final UUID id,
-             @RequestBody final SongDTO songDTO,
-             @RequestHeader("If-Match") final Optional<String> version,
-             final HttpServletRequest sRequest
+    ResponseEntity<Void> put(@PathVariable final UUID id,
+                               @RequestBody final SongDTO songDTO,
+                               @RequestHeader("If-Match") final Optional<String> version,
+                               final HttpServletRequest sRequest
     ) {
         log.debug("put: id={}, {}", id, songDTO);
 
         final int versionInt = getVersion(version, sRequest);
-        final var song = service.update(songDTO.toSong(null), id, versionInt);
+        final var song = service.update(songDTO.toSong(), id, versionInt);
         log.debug("put: {}", song);
 
         return noContent().eTag("\"" + song.getVersion() + '"').build();
@@ -174,7 +174,7 @@ class SongWriteController {
 
     @ExceptionHandler
     ProblemDetail onVersionOutdated(
-        final VersionOutdatedException ex,
+        final VersionInvalidException ex,
         final HttpServletRequest request
     ) {
         log.debug("onVersionOutdated: {}", ex.getMessage());

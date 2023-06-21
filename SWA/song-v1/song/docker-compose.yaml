@@ -38,7 +38,7 @@ services:
     # https://docs.docker.com/compose/profiles
     profiles: [ postgres ]
     # https://docs.docker.com/compose/networking
-    networks: [ kunde-network ]
+    networks: [ song-network ]
     volumes:
       - type: bind
         source: C:/Zimmermann/volumes/postgres/data
@@ -103,7 +103,7 @@ services:
         target: 80
         protocol: tcp
     profiles: [ postgres ]
-    networks: [ kunde-network ]
+    networks: [ song-network ]
     volumes:
       - type: bind
         source: C:/Zimmermann/volumes/postgres/pgadmin
@@ -294,7 +294,7 @@ services:
         target: 8081
         protocol: tcp
     profiles: [ fakesmtp ]
-    networks: [ kunde-network ]
+    networks: [ song-network ]
     volumes:
       - type: bind
         source: C:/Zimmermann/volumes/fakesmtp
@@ -395,7 +395,7 @@ services:
     # https://docs.docker.com/compose/profiles
     profiles: [ kunde ]
     # https://docs.docker.com/compose/networking
-    networks: [ kunde-network ]
+    networks: [ song-network ]
     volumes:
       - type: bind
         source: src\main\resources\application.container.yml
@@ -424,4 +424,4 @@ services:
 
 # https://docs.docker.com/compose/compose-file/06-networks
 networks:
-  kunde-network: {}
+  song-network: {}

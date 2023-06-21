@@ -1,33 +1,21 @@
 package com.acme.song.repository;
 
 import com.acme.song.entity.Song;
-import com.acme.song.entity.GenreType;
 import com.querydsl.core.types.Predicate;
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.IntStream;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.OptionalInt;
-
-import static java.util.Collections.emptyList;
-import static java.util.UUID.randomUUID;
-import static com.acme.song.repository.DB.SONGS;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 /**
  * Repository für den DB-Zugriff.
  */
 @Repository
-public interface SongRepository extends JpaRepository<Song, UUID>, QueryPredicateExecutor<Song> {
+public interface SongRepository extends JpaRepository<Song, UUID>, QuerydslPredicateExecutor<Song> {
 
     /**
      * Einen Song anhand seiner ID suchen.
@@ -54,7 +42,6 @@ public interface SongRepository extends JpaRepository<Song, UUID>, QueryPredicat
     @Override
     List<Song> findAll(Predicate predicate);
 
-
     /**
      * Songs anhand seines Titels finden.
      *
@@ -69,5 +56,4 @@ public interface SongRepository extends JpaRepository<Song, UUID>, QueryPredicat
         ORDER BY s.id
         """)
     Collection<Song> findByTitel(String titel);
-
 }
