@@ -71,6 +71,7 @@ public class SongReadService {
                 return songs;
             }
         }
+        log.debug("Anzahl Suchkriterien: {}", suchkriterien.size());
         final var predicate = predicateBuilder
             .build(suchkriterien)
             .orElseThrow(() -> new NotFoundException(suchkriterien));

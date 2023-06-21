@@ -86,6 +86,7 @@ public class Song {
      * Datum, an dem der Song offiziell erschienen ist.
      */
     @Past
+    @Column(name = "erscheinungsdatum")
     private LocalDate erscheinungsDatum;
 
     /**
@@ -103,6 +104,7 @@ public class Song {
      * Musik-Label, unter welchem der Song erschienen ist.
      */
     @Size(max = MAX_STRING_SIZE)
+    @Column(name = "musiklabel")
     private String musikLabel;
 
     /**
