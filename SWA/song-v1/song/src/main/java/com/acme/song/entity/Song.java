@@ -120,6 +120,15 @@ public class Song {
 
     @UpdateTimestamp
     private LocalDateTime aktualisiert;
+    //zu Interpret
+    @Column(name = "interpretid")
+    private UUID interpretId;
+
+    @Transient
+    private String interpretName;
+
+    @Transient
+    private String interpretGenre;
 
     /**
      * Daten eines Songs neu setzen.

@@ -114,10 +114,10 @@ public class SongGetController {
     @ApiResponse(responseCode = "200", description = "CollectionModel mit den Songs")
     @ApiResponse(responseCode = "404", description = "Keine Songs gefunden")
     @GetMapping(produces = HAL_JSON_VALUE)
-    CollectionModel<? extends SongModel> find(
+    CollectionModel<SongModel> get(
         @RequestParam @NonNull final MultiValueMap<String, String> suchkriterien,
         final HttpServletRequest sRequest) {
-        log.debug("find: suchkriterien={}", suchkriterien);
+        log.debug("get: suchkriterien={}", suchkriterien);
 
         final var baseUri = uriHelper.getBaseUri(sRequest).toString();
         final var songModels = service.find(suchkriterien)
@@ -127,7 +127,7 @@ public class SongGetController {
                 songModel.add(Link.of(baseUri + '/' + song.getId()));
                 return songModel;
             }).toList();
-        log.debug("find: model= {}", songModels);
+        log.debug("get: model= {}", songModels);
 
         return CollectionModel.of(songModels);
     }
