@@ -15,18 +15,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.net.URI;
+import java.util.Optional;
 import java.util.UUID;
 
+import static org.springframework.http.HttpStatus.PRECONDITION_FAILED;
+import static org.springframework.http.HttpStatus.PRECONDITION_REQUIRED;
+import static org.springframework.http.ResponseEntity.badRequest;
 import static org.springframework.http.ResponseEntity.created;
 import static com.acme.song.rest.SongGetController.ID_PATTERN;
 import static com.acme.song.rest.SongGetController.REST_PATH;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.ResponseEntity.noContent;
 
 /**
  * Eine @RestController-Klasse als REST-Schnittstelle für lesende Zugriffe.
@@ -36,9 +42,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(REST_PATH)
 @RequiredArgsConstructor
 @Slf4j
+@SuppressWarnings({"ClassFanOutComplexity"})
 class SongWriteController {
-    private static final String PROBLEM_PATH = "/problem/";
-    private final SongWriteService writeService;
+    private static final String VERSIONSNUMMER_FEHLT = "Versionsnummer fehlt";
+    /**
+     * Basispfad für "type" innerhalb von ProblemDetail.
+     */
+    public static final String PROBLEM_PATH = "/problem/";
+    private final SongWriteService service;
     private final UriHelper uriHelper;
 
     /**
@@ -53,9 +64,13 @@ class SongWriteController {
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
     @ApiResponse(responseCode = "422", description = "Fehlerhafte Werte")
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    ResponseEntity<Void> create(@RequestBody final SongDTO songDTO, final HttpServletRequest request) {
+    ResponseEntity<Void> post(@RequestBody final SongDTO songDTO, final HttpServletRequest request) {
         log.debug("create: {}", songDTO);
-        final var song = writeService.create(songDTO.toSong());
+
+        if (songDTO == null) {
+            return badRequest().build();
+        }
+        final var song = service.create(songDTO.toSong());
         final var baseUri = uriHelper.getBaseUri(request).toString();
         final var location = URI.create(baseUri + '/' + song.getId());
         return created(location).build();
@@ -74,13 +89,60 @@ class SongWriteController {
     @ApiResponse(responseCode = "400", description = "Syntaktische Fehler im Request-Body")
     @ApiResponse(responseCode = "404", description = "Song nicht in der Datenbank")
     @ApiResponse(responseCode = "422", description = "Fehlerhafte Werte")
-    void update(@PathVariable final UUID id, @RequestBody final SongDTO songDTO
+    @ApiResponse(responseCode = "412", description = "Versionsnummer falsch")
+    @ApiResponse(responseCode = "428", description = VERSIONSNUMMER_FEHLT)
+    void put(@PathVariable final UUID id,
+             @RequestBody final SongDTO songDTO,
+             @RequestHeader("If-Match") final Optional<String> version,
+             final HttpServletRequest sRequest
     ) {
-        log.debug("update: id={}, {}", id, songDTO);
+        log.debug("put: id={}, {}", id, songDTO);
 
-        final var song = songDTO.toSong();
-        writeService.update(song, id);
+        final int versionInt = getVersion(version, sRequest);
+        final var song = service.update(songDTO.toSong(null), id, versionInt);
+        log.debug("put: {}", song);
+
+        return noContent().eTag("\"" + song.getVersion() + '"').build();
     }
+
+    @SuppressWarnings({"MagicNumber"})
+    private int getVersion(final Optional<String> versionOpt, final HttpServletRequest request) {
+        log.trace("getVersion: {}", versionOpt);
+        if (versionOpt.isEmpty()) {
+            throw new VersionInvalidException(
+                PRECONDITION_REQUIRED,
+                VERSIONSNUMMER_FEHLT,
+                URI.create(request.getRequestURL().toString()));
+        }
+
+
+    final var versionStr = versionOpt.get();
+        if (versionStr.length() < 3 ||
+        versionStr.charAt(0) != '"' ||
+        versionStr.charAt(versionStr.length() - 1) != '"') {
+        throw new VersionInvalidException(
+            PRECONDITION_FAILED,
+            "Ungueltiges ETag " + versionStr,
+            URI.create(request.getRequestURL().toString())
+        );
+    }
+
+    final int version;
+        try {
+        version = Integer.parseInt(versionStr.substring(1, versionStr.length() - 1));
+    } catch (final NumberFormatException ex) {
+        throw new VersionInvalidException(
+            PRECONDITION_FAILED,
+            "Ungueltiges ETag " + versionStr,
+            URI.create(request.getRequestURL().toString()),
+            ex
+        );
+    }
+
+        log.trace("getVersion: version={}", version);
+        return version;
+}
+
 
     @ExceptionHandler
     ProblemDetail onConstraintViolations(
@@ -106,6 +168,18 @@ class SongWriteController {
         }
         final var problemDetail = ProblemDetail.forStatusAndDetail(UNPROCESSABLE_ENTITY, detail);
         problemDetail.setType(URI.create(PROBLEM_PATH + ProblemType.CONSTRAINTS.getValue()));
+        problemDetail.setInstance(URI.create(request.getRequestURL().toString()));
+        return problemDetail;
+    }
+
+    @ExceptionHandler
+    ProblemDetail onVersionOutdated(
+        final VersionOutdatedException ex,
+        final HttpServletRequest request
+    ) {
+        log.debug("onVersionOutdated: {}", ex.getMessage());
+        final var problemDetail = ProblemDetail.forStatusAndDetail(PRECONDITION_FAILED, ex.getMessage());
+        problemDetail.setType(URI.create(PROBLEM_PATH + ProblemType.PRECONDITION.getValue()));
         problemDetail.setInstance(URI.create(request.getRequestURL().toString()));
         return problemDetail;
     }

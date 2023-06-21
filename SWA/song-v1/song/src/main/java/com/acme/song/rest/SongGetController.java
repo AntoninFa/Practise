@@ -1,5 +1,6 @@
 package com.acme.song.rest;
 
+import com.acme.song.entity.Song;
 import com.acme.song.service.SongReadService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,19 +10,28 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.LinkRelation;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import static com.acme.song.rest.SongGetController.REST_PATH;
 import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
+import static org.springframework.http.HttpStatus.NOT_MODIFIED;
+import static org.springframework.http.ResponseEntity.ok;
+import static org.springframework.http.ResponseEntity.status;
 
 /**
  * Eine @RestController-Klasse als REST-Schnittstelle für lesende Zugriffe.
@@ -50,20 +60,37 @@ public class SongGetController {
     /**
      * Suche nach Song mit der passenden ID.
      *
-     * @param id id des gesuchten Songs
-     * @param sRequest Das HttpServletRequest-Objekt, um Links für HATEOAS zu erstellen.
-     * @return den Song
+     * @param id id des gesuchten Songs.
+     * @param version Versionsnummer aus dem Header If-None-Match.
+     * @param request Das Request-Objekt, um Links für HATEOAS zu erstellen.
+     * @return Response mit dem gefundenen Song.
      */
     @Operation(summary = "Suche anhand der Song-ID", tags = "Suchen")
     @ApiResponse(responseCode = "200", description = "Song gefunden")
     @ApiResponse(responseCode = "404", description = "Song konnte nicht gefunden werden")
     @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = HAL_JSON_VALUE)
-    SongModel findById(@PathVariable final UUID id, final HttpServletRequest sRequest) {
-        log.debug("findById: id={}", id);
+    ResponseEntity<SongModel> getById(@PathVariable final UUID id,
+                                       @RequestHeader("If-None-Match") final Optional<String> version,
+                                       final HttpServletRequest request,
+                                       final Authentication authentication) {
+        log.debug("getById: id={}, version={}", id, version);
 
         final var song = service.findById(id);
+        log.debug("getById: {}", song);
+
+        final var currentVersion = "\"" + song.getVersion() + '"';
+        if (Objects.equals(version.orElse(null), currentVersion)) {
+            return status(NOT_MODIFIED).build();
+        }
+        final var model = songToModel(song, request);
+        log.debug("getById: model={}", model);
+
+        return ok().eTag(currentVersion).body(model);
+    }
+
+    private SongModel songToModel(final Song song, final HttpServletRequest request) {
         final var model = new SongModel(song);
-        final var baseUri = uriHelper.getBaseUri(sRequest).toString();
+        final var baseUri = uriHelper.getBaseUri(request).toString();
         final var idUri = baseUri + '/' + song.getId();
         final var selfLink = Link.of(idUri);
         final var listLink = Link.of(baseUri, LinkRelation.of("list"));
@@ -71,8 +98,6 @@ public class SongGetController {
         final var updateLink = Link.of(idUri, LinkRelation.of("update"));
         final var removeLink = Link.of(idUri, LinkRelation.of("remove"));
         model.add(selfLink, listLink, addLink, updateLink, removeLink);
-        log.debug("findById: model= {}", model);
-
         return model;
     }
 
