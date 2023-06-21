@@ -44,11 +44,11 @@ import static org.springframework.http.ResponseEntity.noContent;
 @Slf4j
 @SuppressWarnings("ClassFanOutComplexity")
 class SongWriteController {
-    private static final String VERSIONSNUMMER_FEHLT = "Versionsnummer fehlt";
     /**
      * Basispfad für "type" innerhalb von ProblemDetail.
      */
     public static final String PROBLEM_PATH = "/problem/";
+    private static final String VERSIONSNUMMER_FEHLT = "Versionsnummer fehlt";
     private final SongWriteService service;
     private final UriHelper uriHelper;
 
@@ -79,8 +79,10 @@ class SongWriteController {
     /**
      * Einen vorhandenen Song-Datensatz überschreiben.
      *
-     * @param id      ID des Songs, welcher Überschrieben werden soll.
-     * @param songDTO as Song DataTransferObject aus dem eingegangenen Request-Body.
+     * @param id       ID des Songs, welcher Überschrieben werden soll.
+     * @param songDTO  as Song DataTransferObject aus dem eingegangenen Request-Body.
+     * @param version  Versionsnummer aus dem Header If-Match
+     * @param sRequest Das Request-Objekt, um ggf. die URL für ProblemDetail zu ermitteln
      * @return Response mit Statuscode 204 oder Statuscode 400, falls der JSON-Datensatz syntaktisch nicht korrekt ist
      *          ,oder 422 falls Constraints verletzt sind
      *          ,oder 412 falls die Versionsnummer nicht ok ist
@@ -96,9 +98,9 @@ class SongWriteController {
     @ApiResponse(responseCode = "412", description = "Versionsnummer falsch")
     @ApiResponse(responseCode = "428", description = VERSIONSNUMMER_FEHLT)
     ResponseEntity<Void> put(@PathVariable final UUID id,
-                               @RequestBody final SongDTO songDTO,
-                               @RequestHeader("If-Match") final Optional<String> version,
-                               final HttpServletRequest sRequest
+                             @RequestBody final SongDTO songDTO,
+                             @RequestHeader("If-Match") final Optional<String> version,
+                             final HttpServletRequest sRequest
     ) {
         log.debug("put: id={}, {}", id, songDTO);
 
@@ -109,7 +111,7 @@ class SongWriteController {
         return noContent().eTag("\"" + song.getVersion() + '"').build();
     }
 
-    @SuppressWarnings({"MagicNumber"})
+    @SuppressWarnings("MagicNumber")
     private int getVersion(final Optional<String> versionOpt, final HttpServletRequest request) {
         log.trace("getVersion: {}", versionOpt);
         if (versionOpt.isEmpty()) {
@@ -120,32 +122,32 @@ class SongWriteController {
         }
 
 
-    final var versionStr = versionOpt.get();
+        final var versionStr = versionOpt.get();
         if (versionStr.length() < 3 ||
-        versionStr.charAt(0) != '"' ||
-        versionStr.charAt(versionStr.length() - 1) != '"') {
-        throw new VersionInvalidException(
-            PRECONDITION_FAILED,
-            "Ungueltiges ETag " + versionStr,
-            URI.create(request.getRequestURL().toString())
-        );
-    }
+            versionStr.charAt(0) != '"' ||
+            versionStr.charAt(versionStr.length() - 1) != '"') {
+            throw new VersionInvalidException(
+                PRECONDITION_FAILED,
+                "Ungueltiges ETag " + versionStr,
+                URI.create(request.getRequestURL().toString())
+            );
+        }
 
-    final int version;
+        final int version;
         try {
-        version = Integer.parseInt(versionStr.substring(1, versionStr.length() - 1));
-    } catch (final NumberFormatException ex) {
-        throw new VersionInvalidException(
-            PRECONDITION_FAILED,
-            "Ungueltiges ETag " + versionStr,
-            URI.create(request.getRequestURL().toString()),
-            ex
-        );
-    }
+            version = Integer.parseInt(versionStr.substring(1, versionStr.length() - 1));
+        } catch (final NumberFormatException ex) {
+            throw new VersionInvalidException(
+                PRECONDITION_FAILED,
+                "Ungueltiges ETag " + versionStr,
+                URI.create(request.getRequestURL().toString()),
+                ex
+            );
+        }
 
         log.trace("getVersion: version={}", version);
         return version;
-}
+    }
 
 
     @ExceptionHandler

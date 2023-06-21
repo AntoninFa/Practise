@@ -42,12 +42,13 @@ public class SongWriteService {
         return songDB;
     }
 
-
     /**
      * Aktualisieren eines bereits vorhandenen Songs.
      *
      * @param song das Songobjekt mit den neuen Daten
      * @param id ID des Songs der Aktualisiert werden soll
+     * @param version Die erforderliche Version
+     * @return Aktualisierter Song mit erhöhter Versionsnummer
      * @throws NotFoundException Kein Song zur ID vorhanden.
      * @throws ConstraintViolationsException Falls mindestens ein Constraint verletzt ist.
      */
