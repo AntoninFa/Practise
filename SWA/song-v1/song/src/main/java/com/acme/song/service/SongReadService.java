@@ -1,11 +1,14 @@
 package com.acme.song.service;
 
 import com.acme.song.entity.Song;
+import com.acme.song.repository.PredicateBuilder;
 import com.acme.song.repository.SongRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -16,13 +19,15 @@ import java.util.UUID;
  * <img src="../../../../../../../build/docs/asciidoc/SongReadService.svg" alt="Klassendiagramm">
  */
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
-public final class SongReadService {
+public class SongReadService {
     /**
      * Repository für den DB-Zugriff.
      */
     private final SongRepository repo;
+    private final PredicateBuilder predicateBuilder;
 
     /**
      * Einen Song anhand seiner ID suchen.
@@ -66,7 +71,10 @@ public final class SongReadService {
                 return songs;
             }
         }
-        final var songs = repo.find(suchkriterien);
+        final var predicate = predicateBuilder
+            .build(suchkriterien)
+            .orElseThrow(() -> new NotFoundException(suchkriterien));
+        final var songs = repo.findAll(predicate);
         if (songs.isEmpty()) {
             throw new NotFoundException(suchkriterien);
         }

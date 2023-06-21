@@ -7,12 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
 import jakarta.validation.Validator;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Anwendungslogik für Songs.
  * <img src="../../../../../../../build/docs/asciidoc/SongWriteService.svg" alt="Klassendiagramm">
  */
 @Service
+@Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class SongWriteService {
@@ -24,6 +26,7 @@ public class SongWriteService {
      *
      * @param song Objekt des Songs der neu angelegt werden soll.
      * @return der neu angelegte Song mit generierter ID.
+     * @throws ConstraintViolationsException Falls mindestens ein Constraint verletzt ist.
      */
     public Song create(final Song song) {
         log.debug("create: {}", song);
@@ -34,7 +37,7 @@ public class SongWriteService {
 
             throw new ConstraintViolationsException(violations);
         }
-        final var songDB = repo.create(song);
+        final var songDB = repo.save(song);
         log.debug("create: {}", songDB);
         return songDB;
     }
@@ -46,8 +49,9 @@ public class SongWriteService {
      * @param song das Songobjekt mit den neuen Daten
      * @param id ID des Songs der Aktualisiert werden soll
      * @throws NotFoundException Kein Song zur ID vorhanden.
+     * @throws ConstraintViolationsException Falls mindestens ein Constraint verletzt ist.
      */
-    public void update(final Song song, final UUID id) {
+    public Song update(final Song song, final UUID id, final int version) {
         log.debug("update: song={}", song);
         log.debug("update: id={}", id);
 
@@ -57,10 +61,21 @@ public class SongWriteService {
 
             throw new ConstraintViolationsException(violations);
         }
-        if (repo.findById(id).isEmpty()) {
+        log.trace("update: Keine Constraints verletzt");
+
+        final var songDbOptional = repo.findById(id);
+        if (songDbOptional.isEmpty()) {
             throw new NotFoundException(id);
         }
-        song.setId(id);
-        repo.update(song);
+
+        var songDb = songDbOptional.get();
+        log.trace("update: version={}, songDb={}", version, songDb);
+        if (version != songDb.getVersion()) {
+            throw new VersionOutdatedException(version);
+        }
+        songDb.set(song);
+        songDb = repo.save(songDb);
+        return songDb;
+
     }
 }
