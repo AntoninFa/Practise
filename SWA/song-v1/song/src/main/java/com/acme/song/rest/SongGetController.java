@@ -43,6 +43,7 @@ import static org.springframework.http.ResponseEntity.status;
 @OpenAPIDefinition(info = @Info(title = "Song API", version = "v1"))
 @RequiredArgsConstructor
 @Slf4j
+@SuppressWarnings("ClassFanOutComplexity")
 public class SongGetController {
     /**
      * Basispfad für die REST-Schnittstelle.
@@ -63,6 +64,7 @@ public class SongGetController {
      * @param id id des gesuchten Songs.
      * @param version Versionsnummer aus dem Header If-None-Match.
      * @param request Das Request-Objekt, um Links für HATEOAS zu erstellen.
+     * @param authentication Authentication-Objekt für Security
      * @return Response mit dem gefundenen Song.
      */
     @Operation(summary = "Suche anhand der Song-ID", tags = "Suchen")

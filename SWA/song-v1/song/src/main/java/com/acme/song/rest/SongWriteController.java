@@ -42,7 +42,7 @@ import static org.springframework.http.ResponseEntity.noContent;
 @RequestMapping(REST_PATH)
 @RequiredArgsConstructor
 @Slf4j
-@SuppressWarnings({"ClassFanOutComplexity"})
+@SuppressWarnings("ClassFanOutComplexity")
 class SongWriteController {
     private static final String VERSIONSNUMMER_FEHLT = "Versionsnummer fehlt";
     /**
@@ -81,6 +81,10 @@ class SongWriteController {
      *
      * @param id      ID des Songs, welcher Überschrieben werden soll.
      * @param songDTO as Song DataTransferObject aus dem eingegangenen Request-Body.
+     * @return Response mit Statuscode 204 oder Statuscode 400, falls der JSON-Datensatz syntaktisch nicht korrekt ist
+     *          ,oder 422 falls Constraints verletzt sind
+     *          ,oder 412 falls die Versionsnummer nicht ok ist
+     *          ,oder 428 falls die Versionsnummer fehlt.
      */
     @PutMapping(path = "{id:" + ID_PATTERN + "}", consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(NO_CONTENT)

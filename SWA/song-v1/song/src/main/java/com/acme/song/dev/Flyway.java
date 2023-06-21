@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Bean;
  */
 interface Flyway {
     /**
-     * Migrationsstrategie für Flyway im Profile "dev" bereitstellen
+     * Migrationsstrategie für Flyway im Profile "dev" bereitstellen.
      *
-     * @return FlywayMigrationStrategy
+     * @return FlywayMigrationStrategy.
      */
     @Bean
     default FlywayMigrationStrategy cleanMigrateStrategy() {

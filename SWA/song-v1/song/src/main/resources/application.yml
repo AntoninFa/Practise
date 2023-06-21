@@ -35,6 +35,7 @@ spring:
   flyway:
     locations: classpath:db/migration/{vendor}
     create-schemas: false
+    clean-disabled: false
   jpa:
     hibernate:
       # https://docs.jboss.org/hibernate/orm/6.2/userguide/html_single/Hibernate_User_Guide.html#configurations-hbmddl

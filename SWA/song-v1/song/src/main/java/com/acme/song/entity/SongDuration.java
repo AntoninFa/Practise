@@ -56,7 +56,7 @@ public class SongDuration {
     /**
      * Der zugehörige Song.
      */
-    @OneToOne(optional =false, fetch = LAZY)
+    @OneToOne(optional = false, fetch = LAZY)
     @JoinColumn(updatable = false)
     @JsonIgnore
     @ToString.Exclude
