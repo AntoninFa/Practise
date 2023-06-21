@@ -2,6 +2,7 @@ package com.acme.song.repository;
 
 import com.acme.song.entity.Song;
 import com.querydsl.core.types.Predicate;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.List;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import static com.acme.song.entity.Song.DURATION_GRAPH;
 
 /**
  * Repository für den DB-Zugriff.
@@ -23,6 +25,7 @@ public interface SongRepository extends JpaRepository<Song, UUID>, QuerydslPredi
      * @param id Die Id des gesuchten Songs.
      * @return Optional leer oder mit dem gefundenen Song.
      */
+    @EntityGraph(DURATION_GRAPH)
     @Override
     Optional<Song> findById(UUID id);
 
@@ -31,6 +34,7 @@ public interface SongRepository extends JpaRepository<Song, UUID>, QuerydslPredi
      *
      * @return Alle Songs.
      */
+    @EntityGraph(DURATION_GRAPH)
     @Override
     List<Song> findAll();
 
@@ -39,6 +43,7 @@ public interface SongRepository extends JpaRepository<Song, UUID>, QuerydslPredi
      *
      * @return Alle Songs die das Prädikat erfüllen.
      */
+    @EntityGraph(DURATION_GRAPH)
     @Override
     List<Song> findAll(Predicate predicate);
 
@@ -55,5 +60,6 @@ public interface SongRepository extends JpaRepository<Song, UUID>, QuerydslPredi
         WHERE    lower(s.titel) LIKE concat('%', lower(:titel), '%')
         ORDER BY s.id
         """)
+    @EntityGraph(DURATION_GRAPH)
     Collection<Song> findByTitel(String titel);
 }

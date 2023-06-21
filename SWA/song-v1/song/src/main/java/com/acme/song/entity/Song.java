@@ -3,6 +3,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PostLoad;
 import jakarta.persistence.PrePersist;
@@ -34,6 +36,7 @@ import static jakarta.persistence.CascadeType.PERSIST;
 import static jakarta.persistence.CascadeType.REMOVE;
 import static jakarta.persistence.FetchType.LAZY;
 import static java.util.Collections.emptyList;
+import static com.acme.song.entity.Song.DURATION_GRAPH;
 
 /**
  * Daten von einem Song.
@@ -41,6 +44,7 @@ import static java.util.Collections.emptyList;
  */
 @Entity
 @Table(name = "song")
+@NamedEntityGraph(name = DURATION_GRAPH, attributeNodes = @NamedAttributeNode("duration"))
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
