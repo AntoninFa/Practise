@@ -12,6 +12,7 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Model-Klasse für Spring HATEOAS.
@@ -30,11 +31,15 @@ class SongModel extends RepresentationModel<SongModel> {
     private final List<GenreType> genre;
     private final String musikLabel;
     private final SongDuration duration;
+    private final UUID interpretId;
+    private final String interpretName;
+    private final String interpretGenre;
+
 
     /**
      * Kopierkonstruktor von einem Song Objekt.
      *
-     * @param song Song der Kopiert werden soll
+     * @param song Song der kopiert werden soll
      */
     SongModel(final Song song) {
         titel = song.getTitel();
@@ -42,5 +47,8 @@ class SongModel extends RepresentationModel<SongModel> {
         genre = song.getGenre();
         musikLabel = song.getMusikLabel();
         duration = song.getDuration();
+        interpretId = song.getInterpretId();
+        interpretName = song.getInterpretName();
+        interpretGenre = song.getInterpretGenre();
     }
 }

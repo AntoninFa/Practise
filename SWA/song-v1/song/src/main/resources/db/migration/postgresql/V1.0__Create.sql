@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS song (
                                   genre         VARCHAR(60) CHECK (genre ~ 'POP|DANCEPOP|PUNKROCK|NEUEDEUTSCHEWELLE|KINDERMUSIK|RAP|FOLK'),
                                   musikLabel    VARCHAR(40),
                                   erzeugt       TIMESTAMP NOT NULL,
-                                  aktualisiert  TIMESTAMP NOT NULL
+                                  aktualisiert  TIMESTAMP NOT NULL,
+                                  interpretId   UUID NOT NULL
 )TABLESPACE songspace;
 
 CREATE INDEX IF NOT EXISTS song_titel_idx ON song(titel) TABLESPACE songspace;

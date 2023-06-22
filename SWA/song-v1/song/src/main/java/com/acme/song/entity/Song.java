@@ -125,9 +125,11 @@ public class Song {
     private UUID interpretId;
 
     @Transient
+    @Column(name = "interpretname")
     private String interpretName;
 
     @Transient
+    @Column(name = "interpretgenre")
     private String interpretGenre;
 
     /**

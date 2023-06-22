@@ -1,11 +1,11 @@
 
 
-INSERT INTO song (id, version, titel, erscheinungsDatum, genre, musikLabel, erzeugt, aktualisiert)
+INSERT INTO song (id, version, titel, erscheinungsDatum, genre, musikLabel, erzeugt, aktualisiert, interpretId)
 VALUES
 
-  ('00000000-0000-0000-0000-000000000000',0,'Watch Me','2015-05-05','RAP','Capitol Records','2023-01-01 00:00:00','2022-01-01 00:00:00'),
-  ('00000000-0000-0000-0000-000000000001',0,'Gimme! Gimme! Gimme!','1979-10-12','RAP,DANCEPOP','Polar Music','2023-01-01 00:00:00','2022-01-01 00:00:00'),
-  ('00000000-0000-0000-0000-000000000004',0,'Goldener Reiter','1981-05-01','NEUEDEUTSCHEWELLE,POP','WEA Records','2023-01-01 00:00:00','2022-01-01 00:00:00');
+  ('00000000-0000-0000-0000-000000000000',0,'Watch Me','2015-05-05','RAP','Capitol Records','2023-01-01 00:00:00','2022-01-01 00:00:00','00000000-0000-0000-0000-000000000000'),
+  ('00000000-0000-0000-0000-000000000001',0,'Gimme! Gimme! Gimme!','1979-10-12','RAP,DANCEPOP','Polar Music','2023-01-01 00:00:00','2022-01-01 00:00:00','00000000-0000-0000-0000-000000000001'),
+  ('00000000-0000-0000-0000-000000000004',0,'Goldener Reiter','1981-05-01','NEUEDEUTSCHEWELLE,POP','WEA Records','2023-01-01 00:00:00','2022-01-01 00:00:00','00000000-0000-0000-0000-000000000004');
 
 INSERT INTO duration (id, hours, minutes, seconds, song_id)
 VALUES

@@ -115,6 +115,8 @@ spring.lifecycle.timeout-per-shutdown-phase: 30s
 ---
 spring:
   config.activate.on-profile: dev
+  flyway:
+    clean-disabled: false
   devtools.restart:
     #enabled: true
     #poll-interval: 1s

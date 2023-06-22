@@ -62,4 +62,13 @@ public interface SongRepository extends JpaRepository<Song, UUID>, QuerydslPredi
         """)
     @EntityGraph(DURATION_GRAPH)
     Collection<Song> findByTitel(String titel);
+
+    /**
+     * Song zu gegebener InterpretId ermitteln.
+     *
+     * @param interpretId InterpretId für die Suche
+     * @return Liste der gefundenen Songs
+     */
+    @EntityGraph(DURATION_GRAPH)
+    List<Song> findByInterpretId(UUID interpretId);
 }

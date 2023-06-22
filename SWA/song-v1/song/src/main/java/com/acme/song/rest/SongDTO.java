@@ -4,6 +4,7 @@ import com.acme.song.entity.GenreType;
 import com.acme.song.entity.Song;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * ValueObject benötigt zum Neuanlegen und ändern eines Songs.
@@ -13,6 +14,7 @@ import java.util.List;
  * @param genre Genre des des Song.
  * @param musikLabel Musiklabel, bei dem der Song produziert wurde.
  * @param duration Dauer des Songs.
+ * @param interpretId Id des Interpreten
  */
 record SongDTO(
 
@@ -20,7 +22,8 @@ record SongDTO(
     LocalDate erscheinungsDatum,
     List<GenreType> genre,
     String musikLabel,
-    DurationDTO duration
+    DurationDTO duration,
+    UUID interpretId
 
 ) {
 
@@ -42,11 +45,13 @@ record SongDTO(
         final var song = Song
             .builder()
             .id(null)
+            .version(0)
             .titel(titel)
             .erscheinungsDatum(erscheinungsDatum)
             .genre(genre)
             .musikLabel(musikLabel)
             .duration(durationEntity)
+            .interpretId(interpretId)
             .build();
         song.getDuration().setSong(song);
         return song;

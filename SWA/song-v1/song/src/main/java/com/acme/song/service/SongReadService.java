@@ -1,14 +1,18 @@
 package com.acme.song.service;
 
 import com.acme.song.entity.Song;
+import com.acme.song.repository.Interpret;
+import com.acme.song.repository.InterpretRestRepository;
 import com.acme.song.repository.PredicateBuilder;
 import com.acme.song.repository.SongRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.web.reactive.function.client.WebClientException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +31,7 @@ public class SongReadService {
      * Repository für den DB-Zugriff.
      */
     private final SongRepository repo;
+    private final InterpretRestRepository interpretRepository;
     private final PredicateBuilder predicateBuilder;
 
     /**
@@ -68,10 +73,22 @@ public class SongReadService {
                     throw new NotFoundException(suchkriterien);
                 }
                 log.debug("find (titel): {}", songs);
+
                 return songs;
             }
         }
+        final var interpretIds = suchkriterien.get("interpretId");
+        if (interpretIds != null && interpretIds.size() == 1) {
+            final var songs = findByInterpretId(UUID.fromString(interpretIds.get(0)));
+            if(songs.isEmpty()) {
+                throw new NotFoundException(suchkriterien);
+            }
+            log.debug("find (autoId): {}", songs);
+            return songs;
+        }
+
         log.debug("Anzahl Suchkriterien: {}", suchkriterien.size());
+
         final var predicate = predicateBuilder
             .build(suchkriterien)
             .orElseThrow(() -> new NotFoundException(suchkriterien));
@@ -80,6 +97,60 @@ public class SongReadService {
             throw new NotFoundException(suchkriterien);
         }
         log.debug("find: {}", songs);
+
         return songs;
+    }
+
+    /**
+     * Songs zur Interpreten-ID suchen.
+     *
+     * @param interpretId Die Id des vorhandenen Interpreten.
+     * @return die gefundenen Songs.
+     * @throws NotFoundException Falls keine Songs gefunden wurden.
+     */
+    public Collection<Song> findByInterpretId(final UUID interpretId) {
+        log.debug("findByInterpretId: interpretId={}", interpretId);
+
+        final var songs = repo.findByInterpretId(interpretId);
+        if (songs.isEmpty()) {
+            throw new NotFoundException(interpretId);
+        }
+        final var interpret = findInterpretById(interpretId);
+        final var name = interpret == null ? null : interpret.name();
+        final var genre = interpret == null ? null : interpret.genre();
+        log.trace("findByInterpretId: name={}, genre={}", name, genre);
+
+        songs.forEach(song-> {
+            song.setInterpretName(name);
+            song.setInterpretGenre(genre);
+        });
+        log.trace("findByInterpretId: songs={}", songs);
+
+        return songs;
+    }
+
+    private Interpret findInterpretById(final UUID interpretId) {
+        log.debug("findInterpretById: interpretId={}", interpretId);
+
+        final ResponseEntity<Interpret> response;
+        try {
+            response = interpretRepository.getInterpret(interpretId.toString());
+        } catch (final WebClientResponseException.NotFound ex) {
+            // Statuscode 404
+            log.error("findInterpretById: WebClientResponseException.NotFound");
+
+            return new Interpret("N/A", "not.found@acme.com");
+        } catch (final WebClientException ex) {
+            // sonstiger Statuscode 4xx oder 5xx
+            // WebClientRequestException oder WebClientResponseException (z.B. ServiceUnavailable)
+            log.error("findInterpretById: {}", ex.getClass().getSimpleName());
+
+            return new Interpret("Exception", "exception@acme.com");
+
+        }
+        final var interpret = response.getBody();
+        log.debug("findInterpretById: {}", interpret);
+
+        return interpret;
     }
 }
