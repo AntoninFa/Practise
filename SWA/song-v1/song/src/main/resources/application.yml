@@ -122,10 +122,10 @@ spring:
   datasource:
     password: p
     # SWA: Einstellungen fuer PostgreSQL, MySQL und Oracle
-    url: jdbc:postgresql://localhost/kunde
-    #url: jdbc:mysql://localhost/kunde
+    url: jdbc:postgresql://localhost/song
+    #url: jdbc:mysql://localhost/song
     #url: jdbc:oracle:thin:@localhost/FREEPDB1
-    username: kunde
+    username: song
   flyway:
     clean-disabled: false
   devtools.restart:

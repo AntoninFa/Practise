@@ -83,7 +83,7 @@ public class SongReadService {
             if(songs.isEmpty()) {
                 throw new NotFoundException(suchkriterien);
             }
-            log.debug("find (autoId): {}", songs);
+            log.debug("find (interpretId): {}", songs);
             return songs;
         }
 
