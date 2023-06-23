@@ -1,0 +1,34 @@
+@startuml ER Diagramm
+
+skinparam nodesep 75
+
+' hide the spot
+hide circle
+
+entity "Song" {
+  * id : UUID <<generated>>
+  --
+  * version: integer
+  * titel : text
+   erscheinungsDatum : timestamp
+   songGenre : text
+   musikLabel : text
+  * erzeugt : timestamp
+  * aktualisiert : timestamp
+  * interpret_id : UUID
+  --
+    set(song: Song)
+}
+
+entity "Duration" {
+  * id : UUID <<generated>>
+  --
+  * hours : int
+  * minutes : int
+  * seconds : int
+  * song_id: UUID <<FK>>
+}
+
+Song ||.right.o| Duration
+
+@enduml

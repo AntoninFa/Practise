@@ -21,9 +21,10 @@ type Song {
   id: ID
   titel: String!
   erscheinungsDatum: String!
-  genre: [String!]
+  songGenre: [GenreType]
   musikLabel: String
   duration: SongDuration!
+  interpretId: String
 }
 
 "Dauer eines Songs"
@@ -40,8 +41,8 @@ type SongDuration {
 input Suchkriterien {
   "Titel des gesuchten Songs"
   titel: String
-  "Genres der gesuchten Songs"
-  genre: [String!]
+  "Name eines Labels"
+  musikLabel: String
 }
 
 "Eingabedaten für einen neuen Song"
@@ -51,11 +52,13 @@ input SongInput {
   "Datum an dem ein Song erschienen ist"
   erscheinungsDatum: String!
   "Genre eines Songs"
-  genre: [String!]
+  songGenre: [String!]
   "Zu einem Song gehöriges Label"
   musikLabel: String
   "Zeitdauer eines Songs"
   duration: DurationInput!
+  "Id eines Interpreten"
+  interpretId: String
 }
 
 "Aufzählungstyp für ein Song-Genre"

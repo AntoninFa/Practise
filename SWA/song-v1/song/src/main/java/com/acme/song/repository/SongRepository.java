@@ -1,5 +1,4 @@
 package com.acme.song.repository;
-
 import com.acme.song.entity.Song;
 import com.querydsl.core.types.Predicate;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -18,7 +17,6 @@ import static com.acme.song.entity.Song.DURATION_GRAPH;
  */
 @Repository
 public interface SongRepository extends JpaRepository<Song, UUID>, QuerydslPredicateExecutor<Song> {
-
     /**
      * Einen Song anhand seiner ID suchen.
      *
@@ -62,6 +60,22 @@ public interface SongRepository extends JpaRepository<Song, UUID>, QuerydslPredi
         """)
     @EntityGraph(DURATION_GRAPH)
     Collection<Song> findByTitel(String titel);
+
+    /**
+     * Songs anhand des Labels unter dem er Produziert wurde finden.
+     *
+     * @param musikLabel Label des Songs der gefunden werden soll als String
+     * @return den gesuchten Song oder eine leere Collection, falls kein passender
+     *          Song gefunden wurde
+     */
+    @Query("""
+        SELECT   s
+        FROM     Song s
+        WHERE    lower(s.musikLabel) LIKE concat('%', lower(:musikLabel), '%')
+        ORDER BY s.id
+        """)
+    @EntityGraph(DURATION_GRAPH)
+    Collection<Song> findByLabel(String musikLabel);
 
     /**
      * Song zu gegebener InterpretId ermitteln.

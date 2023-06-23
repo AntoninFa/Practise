@@ -35,6 +35,10 @@
 --        exit
 --     docker compose down
 
+-- interpret:
+-- psql --dbname=postgres --username=postgres --file=/sql/create-db-interpret.sql
+-- psql --dbname=interpret --username=interpret --file=/sql/create-schema-interpret.sql
+
 -- https://www.postgresql.org/docs/current/sql-createrole.html
 CREATE ROLE song LOGIN PASSWORD 'p';
 

@@ -11,22 +11,20 @@ import java.util.UUID;
  *
  * @param titel Titel des Songs.
  * @param erscheinungsDatum Erscheinungsdatum des Songs im Format YYYY-MM-DD
- * @param genre Genre des des Song.
+ * @param songGenre Genre des des Song.
  * @param musikLabel Musiklabel, bei dem der Song produziert wurde.
  * @param duration Dauer des Songs.
  * @param interpretId Id des Interpreten
  */
 record SongDTO(
-
     String titel,
     LocalDate erscheinungsDatum,
-    List<GenreType> genre,
+    List<GenreType> songGenre,
     String musikLabel,
     DurationDTO duration,
     UUID interpretId
 
 ) {
-
     /**
      * Methode die SongDTO zu einem Song macht.
      *
@@ -41,14 +39,13 @@ record SongDTO(
             .minutes(duration().minutes())
             .seconds(duration().seconds())
             .build();
-
         final var song = Song
             .builder()
             .id(null)
             .version(0)
             .titel(titel)
             .erscheinungsDatum(erscheinungsDatum)
-            .genre(genre)
+            .songGenre(songGenre)
             .musikLabel(musikLabel)
             .duration(durationEntity)
             .interpretId(interpretId)

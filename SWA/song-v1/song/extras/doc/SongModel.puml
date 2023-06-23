@@ -1,0 +1,51 @@
+@startuml SongModel
+
+skinparam classAttributeIconSize 0
+' skinparam monochrome true
+
+package java {
+    package util {
+        interface List
+    }
+
+    package time {
+        class LocalDate
+    }
+}
+
+package org.springframework.hateoas {
+    class RepresentationModel<T>
+
+}
+
+package com.acme.song {
+    package entity {
+        class Song
+        class Duration
+        enum GenreType
+    }
+
+    package rest #DDDDDD {
+        class SongModel << entity >> {
+            readonly titel : String
+            readonly erscheinungsDatum : LocalDate
+            readonyl songGenre : List<GenreType>
+            readonly musikLabel : String
+            readonly duration : Duration
+            readonly interpretId : UUID
+            readonly interpretName : String
+            readonly interpretGenre : String
+            SongModel(song: Song)
+        }
+        SongModel *--> "1" Duration : duration
+        SongModel ..> Song
+        SongModel .right.> LocalDate
+        SongModel .right.> List
+        SongModel .up.> RepresentationModel
+        List .[hidden].> LocalDate
+    }
+}
+
+hide empty members
+
+@enduml

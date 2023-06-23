@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+image:
+  tag: 2023.1.1-h2
 datasource:
   url: jdbc:h2:mem:testdb
   username: sa

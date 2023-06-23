@@ -32,7 +32,6 @@ import static jakarta.persistence.FetchType.LAZY;
 @Setter
 @ToString
 public class SongDuration {
-
     /**
      * Minuten und Sekunden sollen jeweils <60 sein.
      */
@@ -52,7 +51,6 @@ public class SongDuration {
     @Min(0)
     @Max(MAXHM)
     private int seconds;
-
     /**
      * Der zugehörige Song.
      */

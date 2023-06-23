@@ -8,11 +8,11 @@ import java.util.Map;
  * Eine Value-Klasse für Eingabedaten.
  *
  * @param titel Titel des Songs
- * @param genres Genre eines Songs
+ * @param musikLabel Label eines Songs
  */
 record Suchkriterien(
     String titel,
-    List<String> genres
+    String musikLabel
 ) {
 
     /**
@@ -25,8 +25,8 @@ record Suchkriterien(
         if (titel != null) {
             map.put("titel", List.of(titel));
         }
-        if (genres != null) {
-            map.put("genre", genres);
+        if (musikLabel != null) {
+            map.put("musikLabel", List.of(musikLabel));
         }
         return map;
     }

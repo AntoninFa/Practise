@@ -1,5 +1,4 @@
 package com.acme.song.service;
-
 import com.acme.song.entity.Song;
 import com.acme.song.repository.Interpret;
 import com.acme.song.repository.InterpretRestRepository;
@@ -13,10 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClientException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
 
 /**
  * Anwendungslogik für Songs.
@@ -27,6 +28,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class SongReadService {
+    private static final String ADMIN_BASIC_AUTH = "Basic " +
+        new String(Base64.getEncoder().encode("admin:p".getBytes(ISO_8859_1)), ISO_8859_1);
     /**
      * Repository für den DB-Zugriff.
      */
@@ -56,7 +59,7 @@ public class SongReadService {
      *              oder alle Songs enthält, falls keine suchkriterien vorgegeben sind.
      * @throws NotFoundException Falls keine Songs gefunden wurden.
      */
-    @SuppressWarnings({"ReturnCount", "NestedIfDepth"})
+    @SuppressWarnings({"ReturnCount", "NestedIfDepth", "NPathComplexity", "PMD.CyclomaticComplexity"})
     public @NonNull Collection<Song> find(@NonNull final Map<String, List<String>> suchkriterien) {
         log.debug("find: suchkriterien={}", suchkriterien);
 
@@ -64,7 +67,6 @@ public class SongReadService {
             // Nicht Empfohlen bei sehr großen Datenbanken
             return repo.findAll();
         }
-
         if (suchkriterien.size() == 1) {
             final var titel = suchkriterien.get("titel");
             if (titel != null && titel.size() == 1) {
@@ -77,16 +79,35 @@ public class SongReadService {
                 return songs;
             }
         }
+
+        if (suchkriterien.size() == 1) {
+            final var musikLabel = suchkriterien.get("musikLabel");
+            if (musikLabel != null && musikLabel.size() == 1) {
+                final var songs = repo.findByLabel(musikLabel.get(0));
+                if (songs.isEmpty()) {
+                    throw new NotFoundException(suchkriterien);
+                }
+                log.debug("find (musikLabel): {}", songs);
+
+                return songs;
+            }
+        }
         final var interpretIds = suchkriterien.get("interpretId");
+        log.debug("find, suche nach interpretIds (interpretIds): {}", interpretIds);
+
         if (interpretIds != null && interpretIds.size() == 1) {
+            log.debug("find, es gibt interpretIds interpretIds (interpretIds): {}", interpretIds);
+
             final var songs = findByInterpretId(UUID.fromString(interpretIds.get(0)));
-            if(songs.isEmpty()) {
+            log.debug("find, gefundene songs zur IP-ID (songs): {}", songs);
+
+            if (songs.isEmpty()) {
                 throw new NotFoundException(suchkriterien);
             }
             log.debug("find (interpretId): {}", songs);
+
             return songs;
         }
-
         log.debug("Anzahl Suchkriterien: {}", suchkriterien.size());
 
         final var predicate = predicateBuilder
@@ -120,7 +141,7 @@ public class SongReadService {
         final var genre = interpret == null ? null : interpret.genre();
         log.trace("findByInterpretId: name={}, genre={}", name, genre);
 
-        songs.forEach(song-> {
+        songs.forEach(song -> {
             song.setInterpretName(name);
             song.setInterpretGenre(genre);
         });
@@ -130,26 +151,25 @@ public class SongReadService {
     }
 
     private Interpret findInterpretById(final UUID interpretId) {
-        log.debug("findInterpretById: interpretId={}", interpretId);
+        log.debug("findInterpretById1: interpretId={}", interpretId);
 
         final ResponseEntity<Interpret> response;
         try {
-            response = interpretRepository.getInterpret(interpretId.toString());
+            response = interpretRepository.getInterpret(interpretId.toString(), ADMIN_BASIC_AUTH);
         } catch (final WebClientResponseException.NotFound ex) {
             // Statuscode 404
-            log.error("findInterpretById: WebClientResponseException.NotFound");
+            log.error("findInterpretById2: WebClientResponseException.NotFound");
 
             return new Interpret("N/A", "not.found@acme.com");
         } catch (final WebClientException ex) {
             // sonstiger Statuscode 4xx oder 5xx
             // WebClientRequestException oder WebClientResponseException (z.B. ServiceUnavailable)
-            log.error("findInterpretById: {}", ex.getClass().getSimpleName());
+            log.error("findInterpretById3: {}", ex.getClass().getSimpleName());
 
             return new Interpret("Exception", "exception@acme.com");
-
         }
         final var interpret = response.getBody();
-        log.debug("findInterpretById: {}", interpret);
+        log.debug("findInterpretById4: {}", interpret);
 
         return interpret;
     }

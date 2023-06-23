@@ -21,9 +21,9 @@ releases:
   - name: song
     namespace: acme
     chart: extras/kubernetes/song
-    #values: [extras/kubernetes/song/dev.yaml]
+    values: [extras/kubernetes/song/dev.yaml]
     #values: [extras/kubernetes/song/dev.yaml, extras/kubernetes/song/dev-mysql.yaml]
-    values: [extras/kubernetes/song/dev.yaml, extras/kubernetes/song/dev-h2.yaml]
+    #values: [extras/kubernetes/song/dev.yaml, extras/kubernetes/song/dev-h2.yaml]
     # Fortio:
     #values: [extras/kubernetes/song/dev.yaml, extras/kubernetes/song/dev-fortio.yaml]
     #values: [extras/kubernetes/song/dev.yaml, extras/kubernetes/song/dev-mysql.yaml, extras/kubernetes/song/dev-fortio.yaml]

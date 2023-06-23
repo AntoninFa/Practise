@@ -6,8 +6,9 @@ mutation {
     input: {
       titel: "Schnappi, das kleine Krokodil"
       erscheinungsDatum: "2004-10-06"
-      genre: ["KINDERMUSIK"]
+      songGenre: ["KINDERMUSIK"]
       musikLabel: "Polydor Records"
+      interpretId: "00000000-0000-0000-0000-000000000420"
       duration: {
     hours: 0,
     minutes: 2,
@@ -27,8 +28,9 @@ mutation {
     input: {
       titel: ""
       erscheinungsDatum: "2004-10-06"
-      genre: ["KINDERMUSIK"]
+      songGenre: ["KINDERMUSIK"]
       musikLabel: "Polydor Records"
+      interpretId: "00000000-0000-0000-0000-000000000420"
       duration: {
     hours: 0,
     minutes: 2,

@@ -28,7 +28,7 @@ type Query {
 type Song {
     duration: SongDuration!
     erscheinungsDatum: String!
-    genre: [String!]
+    songGenre: [String!]
     "ID des Songs"
     id: ID
     musikLabel: String
@@ -70,7 +70,7 @@ input SongInput {
     "Datum an dem ein Song erschienen ist"
     erscheinungsDatum: String!
     "Genre eines Songs"
-    genre: [String!]
+    songGenre: [String!]
     "Zu einem Song gehöriges Label"
     musikLabel: String
     "Titel des neuen Songs"
@@ -80,7 +80,7 @@ input SongInput {
 "Suchkriterien für die Query 'songs"
 input Suchkriterien {
     "Genres der gesuchten Songs"
-    genre: [String!]
+    songGenre: [String!]
     "Titel des gesuchten Songs"
     titel: String
 }

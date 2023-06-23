@@ -1,0 +1,52 @@
+@startuml Komponenten
+
+package com.acme.song #DDDDDD {
+    package rest <<boundary>> #FFFFFF {
+        [@Controller\nSongGetController] as SongGetController
+        [@Controller\nSongWriteController] as SongWriteController
+    }
+
+    package service <<control>> #FFFFFF {
+        [@Service\nSongReadService] as SongReadService
+        [@Service\nSongWriteService] as SongWriteService
+    }
+
+    package repository <<control>> #FFFFFF {
+        [SongRepository]
+    }
+
+    package entity <<entity>> #FFFFFF {
+        [Song]
+    }
+}
+
+cloud {
+    [Spring Data]
+}
+
+database "song (PostgreSQL)" {
+    [Tabelle song]
+    [Tabelle Duration]
+}
+
+RESTClient ~~> [SongGetController]
+RESTClient ~~> [SongWriteController]
+
+[SongGetController] --> [SongReadService]
+[SongWriteController] --> [SongWriteService]
+[SongReadService] --> [SongRepository]
+[SongWriteService] --> [SongRepository]
+
+[SongGetController] .left.> [Song]
+[SongWriteController] ..> [Song]
+[SongReadService] .left.> [Song]
+[SongWriteService] ..> [Song]
+[SongRepository] ..> [Song]
+
+[SongRepository] ~right~> [Spring Data]
+[Spring Data] ~right~> [Tabelle song]
+[Spring Data] ~~> [Tabelle Duration]
+
+footer (c) Huema Yilmaz
+
+@enduml

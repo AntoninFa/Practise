@@ -1,11 +1,8 @@
 package com.acme.song.rest;
-
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.ErrorResponseException;
-
 import java.net.URI;
-
 import static com.acme.song.rest.ProblemType.PRECONDITION;
 import static com.acme.song.rest.SongWriteController.PROBLEM_PATH;
 

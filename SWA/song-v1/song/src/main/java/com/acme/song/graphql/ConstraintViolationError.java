@@ -1,5 +1,4 @@
 package com.acme.song.graphql;
-
 import com.acme.song.entity.Song;
 import graphql.GraphQLError;
 import graphql.language.SourceLocation;

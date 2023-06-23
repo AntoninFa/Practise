@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# https://kubernetes.io/docs/concepts/services-networking/ingress
+# https://kubernetes.io/docs/concepts/services-networking/ingress/
 # https://github.com/kubernetes/ingress-nginx
 # https://kubernetes.io/docs/concepts/services-networking/ingress-controllers
 # https://github.com/kubernetes/ingress-nginx/blob/main/README.md#changelog Versionen von nginx
@@ -36,10 +36,10 @@ spec:
       http:
         paths:
           # (.*) wird abgebildet auf $2 (d.h. 2. Pfad-Segment), z.B.
-          #   kubernetes.docker.internal/songn wird zu kubernetes.docker.internal:8080/
-          #   kubernetes.docker.internal/songn/123 wird zu kubernetes.docker.internal:8080/123
-          #   kubernetes.docker.internal/songn/graphql wird zu kubernetes.docker.internal:8080/graphql
-          - path: /songn(/|$)(.*)
+          #   kubernetes.docker.internal/songs wird zu kubernetes.docker.internal:8080/
+          #   kubernetes.docker.internal/songs/123 wird zu kubernetes.docker.internal:8080/123
+          #   kubernetes.docker.internal/songs/graphql wird zu kubernetes.docker.internal:8080/graphql
+          - path: /songs(/|$)(.*)
             pathType: Prefix
             backend:
               service:
@@ -47,6 +47,13 @@ spec:
                 port:
                   name: http-svc
                   #number: 8080
+          - path: /interpret(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: interpret
+                port:
+                  name: http-svc
   # https://kubernetes.github.io/ingress-nginx/user-guide/tls
   # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#ssl-ciphers
   tls:

@@ -39,9 +39,12 @@ package com.acme.song {
         SongDTO .[hidden].> UUID
         SongDTO .[hidden].> SongWriteService
         class SongWriteController << boundary >> << @Controller >> << @RequestMapping >> {
-            + @PostMapping create(@RequestBody songDTO: SongDTO, request: HttpServletRequest): ResponseEntity<Void>
-            + @PutMapping update(@PathVariable id: UUID, @RequestBody songDTO: SongDTO, @RequestHeader("If-Match") version: Optional<String>, request: HttpServletRequest): ResponseEntity<Void>
+            + @PostMapping post(@RequestBody songDTO: SongDTO, request: HttpServletRequest): ResponseEntity<Void>
+            + @PutMapping put(@PathVariable id: UUID, @RequestBody songDTO: SongDTO, @RequestHeader("If-Match") version: Optional<String>, request: HttpServletRequest): ResponseEntity<Void>
             + @ExceptionHandler onConstraintViolations(ex: ConstraintViolationsException, req: HttpServletRequest): ResponseEntity<ProblemDetail>
+            + @ExceptionHandler onVersionOutdated(ex: VersionOutdatedException, req: HttpServletRequest): ResponseEntity<ProblemDetail>
+
+
         }
         SongWriteController o-right-> "1" SongWriteService : service
         SongWriteController ..> SongDTO

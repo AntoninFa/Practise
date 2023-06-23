@@ -1,10 +1,8 @@
 package com.acme.song.entity;
-
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 import com.fasterxml.jackson.annotation.JsonValue;
-
 
 /**
  * Enum für die verschiedenen Musik Genres.
@@ -20,7 +18,6 @@ public enum GenreType {
      * Dance-Pop Genre.
      */
     DANCEPOP("DANCEPOP"),
-
 
     /**
      * Punkrock Genre.
@@ -41,13 +38,16 @@ public enum GenreType {
      * Rap Genre.
      */
     RAP("RAP"),
+    /**
+     * Disco Genre.
+     */
+    DISCO("DISCO"),
 
     /**
      * Folk Genre.
      */
     FOLK("FOLK");
     private final String value;
-
     GenreType(final String value) {
         this.value = value;
     }

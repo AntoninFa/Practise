@@ -4,6 +4,6 @@ Content-Type: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
 ### Suche mit vorhandener ID2
-GET {{restUrl}}/00000000-0000-0000-0000-000000000002
+GET {{restUrl}}/00000000-0000-0000-0000-000000000020
 Content-Type: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}

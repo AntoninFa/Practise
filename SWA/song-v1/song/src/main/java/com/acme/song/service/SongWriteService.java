@@ -1,5 +1,4 @@
 package com.acme.song.service;
-
 import com.acme.song.entity.Song;
 import com.acme.song.repository.SongRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class SongWriteService {
     private final SongRepository repo;
     private final Validator validator;
-
     /**
      * Einen neuen Song anlegen.
      *
@@ -39,6 +37,7 @@ public class SongWriteService {
         }
         final var songDB = repo.save(song);
         log.debug("create: {}", songDB);
+
         return songDB;
     }
 
@@ -68,7 +67,6 @@ public class SongWriteService {
         if (songDbOptional.isEmpty()) {
             throw new NotFoundException(id);
         }
-
         var songDb = songDbOptional.get();
         log.trace("update: version={}, songDb={}", version, songDb);
         if (version != songDb.getVersion()) {
@@ -77,6 +75,5 @@ public class SongWriteService {
         songDb.set(song);
         songDb = repo.save(songDb);
         return songDb;
-
     }
 }

@@ -51,7 +51,6 @@ spec:
       containers:
         # https://kubernetes.io/docs/concepts/containers/images
         - image: "{{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          # default
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: {{ .Chart.Name }}
           # https://kubernetes.io/docs/tasks/inject-data-application/define-interdependent-environment-variables
@@ -122,7 +121,7 @@ spec:
             httpGet:
               path: /actuator/health/liveness
               port: http
-            # Anzahl Sesongn, bis die Probe fuer Liveness abgesetzt wird
+            # Anzahl Sesongs, bis die Probe fuer Liveness abgesetzt wird
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelay }}
             # default: 1 Sek.
             timeoutSeconds: {{ .Values.livenessProbe.timeout }}
@@ -136,7 +135,7 @@ spec:
             httpGet:
               path: /actuator/health/readiness
               port: http
-            # Anzahl Sesongn, bis die Probe fuer Readiness abgesetzt wird
+            # Anzahl Sesongs, bis die Probe fuer Readiness abgesetzt wird
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelay }}
             # default: 1 Sek.
             timeoutSeconds: {{ .Values.readinessProbe.timeout }}
@@ -147,6 +146,7 @@ spec:
           volumeMounts:
             - mountPath: /tmp
               name: log-{{ include "song.name" . }}{{ .Values.versionSuffix }}
+      #priorityClassName: medium-priority
       volumes:
         - name: log-{{ include "song.name" . }}{{ .Values.versionSuffix }}
           # https://kubernetes.io/docs/concepts/storage/volumes/#hostpath

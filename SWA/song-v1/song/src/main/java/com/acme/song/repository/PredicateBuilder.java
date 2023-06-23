@@ -37,7 +37,6 @@ public class PredicateBuilder {
         if (booleanExprList.isEmpty() || booleanExprList.contains(null)) {
             return Optional.empty();
         }
-
         final var result = booleanExprList
             .stream()
             .reduce(booleanExprList.get(0), BooleanExpression::and);
@@ -52,19 +51,23 @@ public class PredicateBuilder {
     ) {
         log.trace("toSpec: paramName={}, paramValues={}", paramName, paramValues);
 
-        if (paramValues == null || (!Objects.equals(paramName, "genre") && paramValues.size() != 1)) {
+        if (paramValues == null || (!Objects.equals(paramName, "songGenre") && paramValues.size() != 1)) {
             return null;
         }
-
         final var value = paramValues.get(0);
         return switch (paramName) {
             case "titel" -> titel(value, qSong);
-            case "interesse" -> genre(paramValues, qSong);
+            case "musikLabel" -> musikLabel(value, qSong);
+            case "songGenre" -> genre(paramValues, qSong);
             default -> null;
         };
     }
 
     private BooleanExpression titel(final String teil, final QSong qSong) {
+        return qSong.titel.toLowerCase().matches("%" + teil.toLowerCase(GERMAN) + '%');
+    }
+
+    private BooleanExpression musikLabel(final String teil, final QSong qSong) {
         return qSong.titel.toLowerCase().matches("%" + teil.toLowerCase(GERMAN) + '%');
     }
 

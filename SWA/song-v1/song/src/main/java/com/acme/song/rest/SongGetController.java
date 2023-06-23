@@ -1,5 +1,4 @@
 package com.acme.song.rest;
-
 import com.acme.song.entity.Song;
 import com.acme.song.service.SongReadService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.LinkRelation;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.util.MultiValueMap;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -54,17 +51,14 @@ public class SongGetController {
      */
     public static final String ID_PATTERN =
         "[\\dA-Fa-f]{8}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{4}-[\\dA-Fa-f]{12}";
-
     private final SongReadService service;
     private final UriHelper uriHelper;
-
     /**
      * Suche nach Song mit der passenden ID.
      *
      * @param id id des gesuchten Songs.
      * @param version Versionsnummer aus dem Header If-None-Match.
      * @param request Das Request-Objekt, um Links für HATEOAS zu erstellen.
-     * @param authentication Authentication-Objekt für Security
      * @return Response mit dem gefundenen Song.
      */
     @Operation(summary = "Suche anhand der Song-ID", tags = "Suchen")
@@ -73,8 +67,7 @@ public class SongGetController {
     @GetMapping(path = "{id:" + ID_PATTERN + "}", produces = HAL_JSON_VALUE)
     ResponseEntity<SongModel> getById(@PathVariable final UUID id,
                                        @RequestHeader("If-None-Match") final Optional<String> version,
-                                       final HttpServletRequest request,
-                                       final Authentication authentication) {
+                                       final HttpServletRequest request) {
         log.debug("getById: id={}, version={}", id, version);
 
         final var song = service.findById(id);

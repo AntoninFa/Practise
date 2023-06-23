@@ -59,7 +59,6 @@ public class Song {
      */
     public static final String DURATION_GRAPH = "Song.duration";
     private static final int MAX_STRING_SIZE = 42;
-
     /**
      * ID die einen Song eindeutig identifiziert.
      */
@@ -67,13 +66,11 @@ public class Song {
     @GeneratedValue
     @EqualsAndHashCode.Include
     private UUID id;
-
     /**
      * Versionsnummer für optimistische Synchronisation.
      */
     @Version
     private int version;
-
     /**
      * Titel des Songs.
      */
@@ -81,25 +78,21 @@ public class Song {
     @NotBlank
     @Size(max = MAX_STRING_SIZE)
     private String titel;
-
     /**
      * Datum, an dem der Song offiziell erschienen ist.
      */
     @Past
     @Column(name = "erscheinungsdatum")
     private LocalDate erscheinungsDatum;
-
     /**
      * Liste an Genres des Songs.
      */
     @Transient
     @UniqueElements
     @ToString.Exclude
-    private List<GenreType> genre;
-
-    @Column(name = "genre")
+    private List<GenreType> songGenre;
+    @Column(name = "songgenre")
     private String genreStr;
-
     /**
      * Musik-Label, unter welchem der Song erschienen ist.
      */
@@ -114,20 +107,16 @@ public class Song {
     @Valid
     @ToString.Exclude
     private SongDuration duration;
-
     @CreationTimestamp
     private LocalDateTime erzeugt;
-
     @UpdateTimestamp
     private LocalDateTime aktualisiert;
     //zu Interpret
     @Column(name = "interpretid")
     private UUID interpretId;
-
     @Transient
     @Column(name = "interpretname")
     private String interpretName;
-
     @Transient
     @Column(name = "interpretgenre")
     private String interpretGenre;
@@ -140,16 +129,16 @@ public class Song {
     public void set(final Song song) {
         this.titel = song.titel;
         this.erscheinungsDatum = song.erscheinungsDatum;
-        this.genre = song.genre;
+        this.songGenre = song.songGenre;
         this.musikLabel = song.musikLabel;
     }
 
     @PrePersist
     private void buildGenreStr() {
-        if (genre == null || genre.isEmpty()) {
+        if (songGenre == null || songGenre.isEmpty()) {
             genreStr = null;
         } else {
-            genreStr = String.join(",", genre.stream()
+            genreStr = String.join(",", songGenre.stream()
                 .map(Enum::name)
                 .toList());
         }
@@ -158,10 +147,10 @@ public class Song {
     @PostLoad
     private void loadGenre() {
         if (genreStr == null) {
-            genre = emptyList();
+            songGenre = emptyList();
         } else {
             final var genreAsArray = genreStr.split(",");
-            genre = Arrays.stream(genreAsArray).map(GenreType::valueOf).collect(Collectors.toList());
+            songGenre = Arrays.stream(genreAsArray).map(GenreType::valueOf).collect(Collectors.toList());
         }
     }
 }

@@ -27,7 +27,7 @@ Kubernetes: `>=1.25.0`
 | datasource.password | string | `"Change Me!"` |  |
 | datasource.url | string | `"jdbc:postgresql://localhost/song"` |  |
 | datasource.username | string | `"song"` |  |
-| deployment.containerPort | int | `8080` | Port innerhalb des Containers |
+| deployment.containerPort | int | `8081` | Port innerhalb des Containers |
 | fullnameOverride | string | `""` | _Fully Qualified Name (FQN)_ ist defaultmäßig im Chart bei `name` und kann überschrieben werden. |
 | gid | int | `1000` | ID der Linux-Gruppe |
 | h2.console.enabled | string | `"false"` |  |
@@ -56,7 +56,7 @@ Kubernetes: `>=1.25.0`
 | resourcesRequests.cpu | Mindest- | `"500m"` | Anforderung an CPU-Ressourcen in _millicores_, z.B. `500m` oder `1` |
 | resourcesRequests.ephemeral | Mindest- | `"64Mi"` | Anforderung an flüchtigen Speicher für z.B. Caching und Logs |
 | resourcesRequests.memory | Mindest- | `"512Mi"` | Anforderung an Memory-Resourcen als _mebibyte_ Wert |
-| servicePort | int | `8080` | Port des Kubernetes-Service |
+| servicePort | int | `8081` | Port des Kubernetes-Service |
 | ssl | string | `"true"` | Flag, ob TLS genutzt wird |
 | uid | int | `1000` | ID des Linux-Users |
 | versionSuffix | string | `"-v1"` | Version als Suffix in deployment.yaml für Canary-Releases |

@@ -50,7 +50,7 @@ COPY src ./src
 # "here document" wie in einem Shellscipt
 RUN <<EOF
 ./gradlew --no-configuration-cache --no-daemon --no-watch-fs bootJar
-java -Djarmode=layertools -jar ./build/libs/kunde-2023.1.0.jar extract
+java -Djarmode=layertools -jar ./build/libs/kunde-2023.1.1.jar extract
 EOF
 
 # ---------------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ COPY --from=builder --chown=kunde:kunde /source/spring-boot-loader/ ./
 COPY --from=builder --chown=kunde:kunde /source/application/ ./
 
 USER kunde
-EXPOSE 8080
+EXPOSE 8081
 
 # Basis-Kommando, das immer ausgefuehrt wird
 ENTRYPOINT ["java", "--enable-preview", "org.springframework.boot.loader.JarLauncher"]

@@ -30,7 +30,7 @@ services:
   # https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.docker-compose.profiles
 
   postgres:
-    image: postgres:15.3-bullseye
+    image: postgres:15.3-bookworm
     ports:
       - published: 5432
         target: 5432
@@ -97,7 +97,7 @@ services:
   # ------------------------------------------------------------------------------------
   # http://localhost:8888 mit Emailadresse "pgadmin@acme.com" und Passwort "p"
   pgadmin:
-    image: dpage/pgadmin4:7.2
+    image: dpage/pgadmin4:7.3
     ports:
       - published: 8888
         target: 80
@@ -127,26 +127,273 @@ services:
           cpus: "1.0"
           memory: 1G
 
+  # ------------------------------------------------------------------------------------
+  # M y S Q L
+  # ------------------------------------------------------------------------------------
+  mysql:
+    image: mysql:8.0.33-oracle
+    ports:
+      - published: 3306
+        target: 3306
+    profiles: [ mysql ]
+    networks: [ song-network ]
+    volumes:
+      - type: bind
+        source: C:/Zimmermann/volumes/mysql/db
+        target: /var/lib/mysql
+      - type: bind
+        source: C:/Zimmermann/volumes/mysql/mysqld
+        target: /var/run/mysqld
+      - type: bind
+        source: C:/Zimmermann/volumes/mysql/run-mysqld
+        target: /run/mysqld
+      - type: bind
+        source: C:/Zimmermann/volumes/mysql/log
+        target: /var/log
+      - type: bind
+        source: C:/Zimmermann/volumes/mysql/tmp
+        target: /tmp
+      - type: bind
+        source: C:/Zimmermann/volumes/mysql/sql
+        target: /sql
+        read_only: true
+    environment:
+      - PMA_HOST=mysql
+      - MYSQL_ROOT_PASSWORD=p
+      - TZ=Europe/Berlin
+    security_opt:
+      - label:user:mysql
+      - no-new-privileges:true
+    container_name: mysql
+    hostname: mysql
+    healthcheck:
+      test:
+        [
+          CMD,
+          mysqladmin,
+          --user=root,
+          --password=p,
+          --host=mysql,
+          ping
+        ]
+      interval: 5s
+      timeout: 2s
+      start_period: 5s
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1G
+        reservations:
+          cpus: "1.0"
+          memory: 512M
 
   # ------------------------------------------------------------------------------------
-  # k u n d e
+  # p h p M y A d m i n
   # ------------------------------------------------------------------------------------
-  kunde:
-    image: juergenzimmermann/kunde:2023.1.1
-    #image: juergenzimmermann/kunde:2023.1.1-jammy
-    #image: juergenzimmermann/kunde:2023.1.1-ubi9
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.1
+    links: [ mysql ]
+    ports:
+      - published: 8889
+        target: 80
+    profiles: [ mysql ]
+    networks: [ song-network ]
+    environment:
+      - MYSQL_ROOT_PASSWORD=p
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+      - PMA_ARBITRARY=1
+    # kein dedizierter User im Image vorhanden
+    container_name: phpmyadmin
+    # https://github.com/phpmyadmin/docker/issues/293
+    hostname: phpmyadmin.mysql.docker
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 768M
+        reservations:
+          cpus: "0.5"
+          memory: 768M
+
+  # ------------------------------------------------------------------------------------
+  # O r a c l e
+  # ------------------------------------------------------------------------------------
+  oracle:
+    # 2 statt 12 GB; u.a. genutzt fuer die Entwicklung von Hibernate und Spring Data JPA
+    image: gvenzl/oracle-free:23.2-slim
+    #image: container-registry.oracle.com/database/express
+    ports:
+      - published: 1521
+        target: 1521
+      # https://github.com/gvenzl/oci-oracle-xe/issues/174
+      - published: 5500
+        target: 5500
+    profiles: [ oracle ]
+    networks: [ song-network ]
+    volumes:
+      - type: bind
+        source: C:/Zimmermann/volumes/oracle/oradata
+        target: /opt/oracle/oradata
+      - type: bind
+        source: C:/Zimmermann/volumes/oracle/sql
+        target: /sql
+    environment:
+      - TZ=Europe/Berlin
+      # Passwort fuer SYS, SYSTEM und PDBADMIN: nur beim 1. Aufruf setzen
+      - ORACLE_PASSWORD=p
+        #- ORACLE_DATABASE=FREEPDB1
+        # SGA (= System Global Area) fuer Cache
+        #- INIT_SGA_SIZE=64M
+      # PGA (= Program Global Area) fuer Stored Procedures
+      #- INIT_PGA_SIZE=10M
+    # user: oracle:oinstall
+    container_name: XE
+    hostname: XE
+    healthcheck:
+      # /opt/oracle/healthcheck.sh
+      # https://stackoverflow.com/questions/50217637/how-do-i-check-if-oracle-is-up-in-docker
+      #test: [ CMD, bash, -c, healthcheck.sh ]
+      test:
+        [
+          CMD,
+          bash,
+          -c,
+          "echo 'SELECT 1 FROM dual;' | sqlplus sys/p@XE as sysdba"
+        ]
+      interval: 120s
+      timeout: 5s
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          # https://www.esolution.ca/oracle-database-xe-system-requirements
+          # TODO https://github.com/gvenzl/oci-oracle-xe/issues/168
+          memory: 2048M
+        reservations:
+          cpus: "1.0"
+          memory: 512M
+
+  # ------------------------------------------------------------------------------------
+  # f a k e s m t p
+  # ------------------------------------------------------------------------------------
+  fakesmtp:
+    # https://hub.docker.com/r/gessnerfl/fake-smtp-server
+    # https://hub.docker.com/r/greenmail/standalone
+    image: gessnerfl/fake-smtp-server:2.1.0
+    ports:
+      - published: 5025
+        target: 8025
+        protocol: tcp
+      - published: 5080
+        target: 8081
+        protocol: tcp
+      - published: 5081
+        target: 8081
+        protocol: tcp
+    profiles: [ fakesmtp ]
+    networks: [ song-network ]
+    volumes:
+      - type: bind
+        source: C:/Zimmermann/volumes/fakesmtp
+        target: /tmp
+    environment:
+      - TZ=Europe/Berlin
+      - SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
+      - SPRING_MAIN_BANNER-MODE=LOG
+      - SPRING_LAZY-INITIALIZATION=true
+      - SPRING_JPA_OPEN-IN-VIEW=true
+    container_name: fakesmtp
+    hostname: fakesmtp
+    cap_drop: [ ALL ]
+    stop_grace_period: 3s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 768M
+        reservations:
+          cpus: "0.5"
+          memory: 768M
+
+  # ------------------------------------------------------------------------------------
+  # T r i v y
+  # ------------------------------------------------------------------------------------
+  trivy:
+    image: aquasec/trivy:0.42.0
+    command: [image, juergenzimmermann/song:2023.1.0]
+    profiles: [ trivy ]
+    volumes:
+      - type: bind
+        source: //var/run/docker.sock
+        target: /var/run/docker.sock
+      - type: bind
+        source: C:/Zimmermann/volumes/trivy
+        target: /root/.cache
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2048M
+
+  # ------------------------------------------------------------------------------------
+  # S o n a r Q u b e
+  # ------------------------------------------------------------------------------------
+  sonar:
+    image: sonarqube:10.0.0-community
+    ports:
+      # Port fuer HTTP
+      - published: 9000
+        target: 9000
+      # Port fuer H2
+      - published: 9092
+        target: 9092
+    profiles: [ sonar ]
+    volumes:
+      - type: bind
+        source: C:/Zimmermann/volumes/sonarqube/data
+        target: /opt/sonarqube/data
+      - type: bind
+        source: C:/Zimmermann/volumes/sonarqube/logs
+        target: /opt/sonarqube/logs
+      - type: bind
+        source: C:/Zimmermann/volumes/sonarqube/language-plugins
+        target: /opt/sonarqube/lib/extensions
+        read_only: true
+    environment:
+      - TZ=Europe/Berlin
+    container_name: sonar
+    hostname: sonar
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2048M
+        reservations:
+          cpus: "2.0"
+          memory: 2048M
+
+  # ------------------------------------------------------------------------------------
+  # s o n g
+  # ------------------------------------------------------------------------------------
+  song:
+    image: juergenzimmermann/song:2023.1.1
+    #image: juergenzimmermann/song:2023.1.1-jammy
+    #image: juergenzimmermann/song:2023.1.1-ubi9
     depends_on:
       postgres:
-      #mysql:
-      #oracle:
+        #mysql:
+        #oracle:
         condition: service_healthy
     ports:
       #- published: 8080-8081
-      - published: 8080
-        target: 8080
+      - published: 8081
+        target: 8081
         protocol: tcp
     # https://docs.docker.com/compose/profiles
-    profiles: [ kunde ]
+    profiles: [ song ]
     # https://docs.docker.com/compose/networking
     networks: [ song-network ]
     volumes:
@@ -155,11 +402,11 @@ services:
         target: /workspace/BOOT-INF/classes/application.yml
         read_only: true
       - type: bind
-        source: C:\Zimmermann\volumes\kunde-v2
+        source: C:\Zimmermann\volumes\song-v2
         target: /tmp
     # https://docs.docker.com/compose/environment-variables/set-environment-variables
     env_file: [ docker-compose.env ]
-    hostname: kunde
+    hostname: song
     # https://docs.docker.com/compose/compose-file/compose-file-v3/#cap_add-cap_drop
     cap_drop: [ ALL ]
     deploy:

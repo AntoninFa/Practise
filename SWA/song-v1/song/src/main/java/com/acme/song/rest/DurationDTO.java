@@ -1,5 +1,4 @@
 package com.acme.song.rest;
-
 /**
  * ValueObject benötigt zum Neuanlegen und ändern eines Songs.
  *
@@ -8,7 +7,6 @@ package com.acme.song.rest;
  * @param seconds Anzahl Sekunden
  */
 record DurationDTO(
-
     int hours,
     int minutes,
     int seconds) {

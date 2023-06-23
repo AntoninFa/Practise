@@ -6,12 +6,8 @@ package java.util {
 
 package org.springframework {
     package stereotype {
-        interface Service
+        interface Transactional
     }
-    package security.core.userdetails {
-        interface UserDetails
-    }
-    UUID .right[hidden].> UserDetails
 }
 
 package com.acme.song {
@@ -33,7 +29,7 @@ package com.acme.song {
         SongWriteService o--> "1" SongRepository : repo
         SongWriteService .right.> Song
         SongWriteService .up.> UUID
-        SongWriteService .up.> Service
+        SongWriteService .up.> Transactional
     }
 }
 hide empty members

@@ -1,5 +1,4 @@
 package com.acme.song.rest;
-
 import com.acme.song.service.ConstraintViolationsException;
 import com.acme.song.service.SongWriteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
 import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
-
 import static org.springframework.http.HttpStatus.PRECONDITION_FAILED;
 import static org.springframework.http.HttpStatus.PRECONDITION_REQUIRED;
 import static org.springframework.http.ResponseEntity.badRequest;
@@ -121,7 +118,6 @@ class SongWriteController {
                 URI.create(request.getRequestURL().toString()));
         }
 
-
         final var versionStr = versionOpt.get();
         if (versionStr.length() < 3 ||
             versionStr.charAt(0) != '"' ||
@@ -144,8 +140,8 @@ class SongWriteController {
                 ex
             );
         }
-
         log.trace("getVersion: version={}", version);
+
         return version;
     }
 

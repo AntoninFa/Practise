@@ -1,5 +1,5 @@
 ### Suche nach vorhandenem Titel
-GET {{restUrl}}?titel=Watch Me
+GET {{restUrl}}?titel=Mockingbird
 Accept: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
@@ -8,7 +8,7 @@ GET {{restUrl}}?titel=KeinSong
 Accept: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}
 
-### Suche nach Genres
-GET {{restUrl}}?genre=POP&genre=NEUEDEUTSCHEWELLE
+### Suche nach musikLabel
+GET {{restUrl}}?musikLabel=Polar Music
 Accept: application/hal+json
 Authorization: Basic {{userAdmin}} {{password}}

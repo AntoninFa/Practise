@@ -12,6 +12,14 @@ package java {
     UUID .[hidden].> LocalDate
 }
 
+package jakarta.persistence {
+    interface "@Entity" as Entity
+    interface "@Table" as Table
+
+    Entity -[hidden]down-> Table
+    LocalDateTime .up[hidden].> Table
+}
+
 package com.acme.song.entity #DDDDDD {
     class SongDuration {
         int: hours
@@ -31,8 +39,9 @@ package com.acme.song.entity #DDDDDD {
         id : UUID
         titel : String
         erscheinungsDatum : LocalDate
-        genre : List<GenreType>
+        songGenre : List<GenreType>
         musikLabel : String
+        interpret_id : UUID
     }
     Song *--> "0..1" SongDuration : duration
     Song .up.> GenreType

@@ -42,8 +42,8 @@ package com.acme.song {
     package rest #DDDDDD {
         class SongModel <<entity>>
         class SongGetController << boundary >> << Controller >> << @RequestMapping >> {
-            + @GetMapping findById(@PathVariable id: UUID, sRequest: HttpServletRequest): SongModel
-            + @GetMapping find(@RequestParam queryParams: MultiValueMap<String, String>, request: HttpServletRequest): CollectionModel<SongModel>
+            + @GetMapping getById(@PathVariable id: UUID, @RequestHeader("If-None-Match") version: String, sRequest: HttpServletRequest): SongModel
+            + @GetMapping get(@RequestParam queryParams: MultiValueMap<String, String>, request: HttpServletRequest): CollectionModel<SongModel>
         }
         class CommonExceptionHandler << @ControllerAdvice >> {
             + @ExceptionHandler @ResponseStatus onNotFound(ex: NotFoundException)

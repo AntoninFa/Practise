@@ -12,7 +12,6 @@ import static com.acme.song.rest.SongGetController.REST_PATH;
 @Component
 @Slf4j
 class UriHelper {
-
     private static final String X_FORWARDED_PROTO = "X-Forwarded-Proto";
     private static final String X_FORWARDED_HOST = "x-forwarded-host";
     private static final String X_FORWARDED_PREFIX = "x-forwarded-prefix";
@@ -33,6 +32,7 @@ class UriHelper {
         final var baseUri = uriComponents.getScheme() + "://" + uriComponents.getHost() + ':' +
             uriComponents.getPort() + REST_PATH;
         log.debug("getBaseUri (ohne Forwarding): baseUri={}", baseUri);
+
         return URI.create(baseUri);
     }
 
@@ -44,10 +44,12 @@ class UriHelper {
         var forwardedPrefix = request.getHeader(X_FORWARDED_PREFIX);
         if (forwardedPrefix == null) {
             log.trace("getBaseUriForwarded: Kein \"" + X_FORWARDED_PREFIX + "\" im Header");
+
             forwardedPrefix = SONGS_PREFIX;
         }
         final var baseUri = forwardedProto + "://" + forwardedHost + forwardedPrefix + REST_PATH;
         log.debug("getBaseUriForwarded: baseUri={}", baseUri);
+
         return URI.create(baseUri);
     }
 }

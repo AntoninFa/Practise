@@ -21,7 +21,6 @@ public class NotFoundException extends RuntimeException {
      * Suchkriterien zu welchen keine Songs gefunden wurden.
      */
     private final Map<String, List<String>> suchkriterien;
-
     NotFoundException(final UUID id) {
         super(NOTFOUNDERRORMESSAGE + id);
         this.id = id;

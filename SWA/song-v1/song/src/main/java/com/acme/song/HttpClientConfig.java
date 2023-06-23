@@ -25,7 +25,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import java.time.Duration;
 
 /**
@@ -36,7 +35,7 @@ import java.time.Duration;
  */
 interface HttpClientConfig {
     String GRAPHQL_PATH = "/graphql";
-    int KUNDE_DEFAULT_PORT = 8080;
+    int INTERPRET_DEFAULT_PORT = 8080;
     int TIMEOUT_IN_SECONDS = 10;
 
     @Bean
@@ -50,14 +49,13 @@ interface HttpClientConfig {
         // Umgebungsvariable in Kubernetes
         final var interpretHostEnv = System.getenv("KUNDE_SERVICE_HOST");
         final var interpretPortEnv = System.getenv("KUNDE_SERVICE_PORT");
-
         @SuppressWarnings("VariableNotUsedInsideIf")
         final var schema = interpretHostEnv == null ? "https" : "http";
         final var interpretHost = interpretHostEnv == null ? "localhost" : interpretHostEnv;
-        final int interpretPort = interpretPortEnv == null ? KUNDE_DEFAULT_PORT : Integer.parseInt(interpretPortEnv);
-
+        final int interpretPort = interpretPortEnv == null
+            ? INTERPRET_DEFAULT_PORT : Integer.parseInt(interpretPortEnv);
         final var log = LoggerFactory.getLogger(HttpClientConfig.class);
-        log.error("interpretHost: {}, interpretPort: {}", interpretHost, interpretPort);
+        log.info("interpretHost: {}, interpretPort: {}", interpretHost, interpretPort);
 
         return UriComponentsBuilder.newInstance()
             .scheme(schema)
