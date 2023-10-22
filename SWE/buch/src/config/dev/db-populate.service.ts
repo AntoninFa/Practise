@@ -24,7 +24,7 @@ import { Injectable, type OnApplicationBootstrap } from '@nestjs/common';
 import {
     adminDataSourceOptions,
     dbPopulate,
-    resourcesDir,
+    dbResourcesDir,
     typeOrmModuleOptions,
 } from '../db.js';
 import { DataSource } from 'typeorm';
@@ -45,6 +45,8 @@ export class DbPopulateService implements OnApplicationBootstrap {
     readonly #tabellen = ['buch', 'titel', 'abbildung'];
 
     readonly #datasource: DataSource;
+
+    readonly #resourcesDir = dbResourcesDir;
 
     readonly #logger = getLogger(DbPopulateService.name);
 
@@ -70,34 +72,34 @@ export class DbPopulateService implements OnApplicationBootstrap {
         this.#logger.warn(`${typeOrmModuleOptions.type}: DB wird neu geladen`);
         switch (dbType) {
             case 'postgres': {
-                await this.#populatePostgres(resourcesDir);
+                await this.#populatePostgres();
                 break;
             }
             case 'mysql': {
-                await this.#populateMySQL(resourcesDir);
+                await this.#populateMySQL();
                 break;
             }
             case 'sqlite': {
-                await this.#populateSQLite(resourcesDir);
+                await this.#populateSQLite();
                 break;
             }
             default: {
-                await this.#populatePostgres(resourcesDir);
+                await this.#populatePostgres();
                 break;
             }
         }
         this.#logger.warn('DB wurde neu geladen');
     }
 
-    async #populatePostgres(basePath: string) {
-        const dropScript = resolve(basePath, 'drop.sql');
+    async #populatePostgres() {
+        const dropScript = resolve(this.#resourcesDir, 'drop.sql');
         // https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options
-        const dropStatements = readFileSync(dropScript, 'utf8'); // eslint-disable-line security/detect-non-literal-fs-filename
+        const dropStatements = readFileSync(dropScript, 'utf8'); // eslint-disable-line security/detect-non-literal-fs-filename,n/no-sync
         await this.#datasource.query(dropStatements);
 
-        const createScript = resolve(basePath, 'create.sql'); // eslint-disable-line sonarjs/no-duplicate-string
+        const createScript = resolve(this.#resourcesDir, 'create.sql'); // eslint-disable-line sonarjs/no-duplicate-string
         // https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options
-        const createStatements = readFileSync(createScript, 'utf8'); // eslint-disable-line security/detect-non-literal-fs-filename
+        const createStatements = readFileSync(createScript, 'utf8'); // eslint-disable-line security/detect-non-literal-fs-filename,n/no-sync
         await this.#datasource.query(createStatements);
 
         // https://typeorm.io/data-source
@@ -116,12 +118,12 @@ export class DbPopulateService implements OnApplicationBootstrap {
         await dataSource.destroy();
     }
 
-    async #populateMySQL(basePath: string) {
+    async #populateMySQL() {
         // repo.query() kann bei MySQL nur 1 Anweisung mit "raw SQL" ausfuehren
-        const dropScript = resolve(basePath, 'drop.sql');
+        const dropScript = resolve(this.#resourcesDir, 'drop.sql');
         await this.#executeStatements(dropScript);
 
-        const createScript = resolve(basePath, 'create.sql');
+        const createScript = resolve(this.#resourcesDir, 'create.sql');
         await this.#executeStatements(createScript);
 
         // https://typeorm.io/data-source
@@ -143,15 +145,15 @@ export class DbPopulateService implements OnApplicationBootstrap {
         await dataSource.destroy();
     }
 
-    async #populateSQLite(basePath: string) {
-        const dropScript = resolve(basePath, 'drop.sql');
+    async #populateSQLite() {
+        const dropScript = resolve(this.#resourcesDir, 'drop.sql');
         // repo.query() kann bei SQLite nur 1 Anweisung mit "raw SQL" ausfuehren
         await this.#executeStatements(dropScript);
 
-        const createScript = resolve(basePath, 'create.sql');
+        const createScript = resolve(this.#resourcesDir, 'create.sql');
         await this.#executeStatements(createScript);
 
-        const insertScript = resolve(basePath, 'insert.sql');
+        const insertScript = resolve(this.#resourcesDir, 'insert.sql');
         await this.#executeStatements(insertScript);
     }
 
@@ -160,7 +162,7 @@ export class DbPopulateService implements OnApplicationBootstrap {
         // alternativ: https://nodejs.org/api/fs.html#fspromisesopenpath-flags-mode
         const statements: string[] = [];
         let statement = '';
-        readFileSync(script, 'utf8') // eslint-disable-line security/detect-non-literal-fs-filename
+        readFileSync(script, 'utf8') // eslint-disable-line security/detect-non-literal-fs-filename,n/no-sync
             // bei Zeilenumbruch einen neuen String erstellen
             .split(/\r?\n/u)
             // Kommentarzeilen entfernen

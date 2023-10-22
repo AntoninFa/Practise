@@ -33,6 +33,7 @@ scanner(
             'sonar.tests': '__tests__',
             'sonar.token': sonarToken,
             'sonar.scm.disabled': 'true',
+            'sonar.javascript.environments': 'node',
         },
     },
     () => process.exit(),

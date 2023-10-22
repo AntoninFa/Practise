@@ -50,14 +50,14 @@ const logging =
     !loggerDefaultValue;
 const logger = 'advanced-console';
 
-export const resourcesDir = resolve(nodeConfig.resourcesDir, 'db', dbType);
+export const dbResourcesDir = resolve(nodeConfig.resourcesDir, 'db', dbType);
 
 // TODO records als "deeply immutable data structure" (Stage 2)
 // https://github.com/tc39/proposal-record-tuple
 export let typeOrmModuleOptions: TypeOrmModuleOptions;
 switch (dbType) {
     case 'postgres': {
-        const cert = readFileSync(resolve(resourcesDir, 'certificate.cer')); // eslint-disable-line security/detect-non-literal-fs-filename
+        const cert = readFileSync(resolve(dbResourcesDir, 'certificate.cer')); // eslint-disable-line security/detect-non-literal-fs-filename
         typeOrmModuleOptions = {
             type: 'postgres',
             host,
@@ -79,7 +79,7 @@ switch (dbType) {
         break;
     }
     case 'mysql': {
-        const cert = readFileSync(resolve(resourcesDir, 'certificate.cer')); // eslint-disable-line security/detect-non-literal-fs-filename
+        const cert = readFileSync(resolve(dbResourcesDir, 'certificate.cer')); // eslint-disable-line security/detect-non-literal-fs-filename
         typeOrmModuleOptions = {
             type: 'mysql',
             host,

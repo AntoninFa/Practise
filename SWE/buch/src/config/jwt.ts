@@ -15,11 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { RESOURCES_DIR, config } from './app.js';
 import { type SignOptions, type VerifyOptions } from 'jsonwebtoken';
-import { config } from './app.js';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { resourcesDir } from './tls.js';
 
 /**
  * Das Modul enthält die Konfiguration für JWT.
@@ -27,7 +26,7 @@ import { resourcesDir } from './tls.js';
  */
 
 // public und private key fuer JWT
-const jwtDir = resolve(resourcesDir, 'jwt');
+const jwtDir = resolve(RESOURCES_DIR, 'jwt');
 
 // Algorithmen fuer JWT: https://tools.ietf.org/html/rfc7518
 

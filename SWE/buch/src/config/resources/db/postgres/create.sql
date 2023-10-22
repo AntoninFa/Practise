@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS buch (
                   -- https://www.postgresql.org/docs/current/datatype-datetime.html
     datum         date,
     homepage      varchar(40),
+    -- schlagwoerter json,
     schlagwoerter varchar(64),
                   -- https://www.postgresql.org/docs/current/datatype-datetime.html
     erzeugt       timestamp NOT NULL DEFAULT NOW(),

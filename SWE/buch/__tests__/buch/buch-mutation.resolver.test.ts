@@ -189,7 +189,7 @@ describe('GraphQL Mutations', () => {
     // -------------------------------------------------------------------------
     test('Neues Buch nur als "admin"/"fachabteilung"', async () => {
         // given
-        const token = await loginGraphQL(client, 'dirk.delta', 'p');
+        const token = await loginGraphQL(client, 'adriana.alpha', 'p');
         const authorization = { Authorization: `Bearer ${token}` }; // eslint-disable-line @typescript-eslint/naming-convention
         const body: GraphQLQuery = {
             query: `

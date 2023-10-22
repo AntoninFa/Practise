@@ -457,15 +457,15 @@ validieren:
 ```powershell
     # Distroless (Debian Bullseye bzw. 11)
     Get-Content Dockerfile | docker run --rm --interactive hadolint/hadolint:2.12.1-beta-debian
-    docker buildx build --sbom true --tag juergenzimmermann/buch:2023.10.0-distroless .
+    docker build --sbom true --tag juergenzimmermann/buch:2023.10.0-distroless .
 
     # Debian Bookworm (12) slim
     Get-Content Dockerfile.debian | docker run --rm --interactive hadolint/hadolint:2.12.1-beta-debian
-    docker buildx build --sbom true --tag juergenzimmermann/buch:2023.10.0-bookworm --file Dockerfile.bookworm .
+    docker build --sbom true --tag juergenzimmermann/buch:2023.10.0-bookworm --file Dockerfile.bookworm .
 
     # Wolfi
     Get-Content Dockerfile.wolfi | docker run --rm --interactive hadolint/hadolint:2.12.1-beta-debian
-    docker buildx build --sbom true --tag juergenzimmermann/buch:2023.10.0-wolfi --file Dockerfile.wolfi .
+    docker build --sbom true --tag juergenzimmermann/buch:2023.10.0-wolfi --file Dockerfile.wolfi .
 ```
 
 ### Image inspizieren
@@ -752,7 +752,7 @@ wozu es die Datei `Dockerfile.jenkins` gibt, um ein solches Image zu erstellen:
 ```powershell
     cd .extras\compose\jenkins
     Get-Content Dockerfile | docker run --rm --interactive hadolint/hadolint:2.10.0-beta-debian
-    docker buildx build --sbom true --tag juergenzimmermann/jenkins:2023.10.0 .
+    docker build --sbom true --tag juergenzimmermann/jenkins:2023.10.0 .
 ```
 
 Das neu gebaute Image `juergenzimmermann/jenkins:2023.10.0` wird in

@@ -201,6 +201,25 @@ describe('POST /rest', () => {
         expect(statusCode).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
     });
 
+    test('Neues Buch als Kunde', async () => {
+        // given
+        const token = await loginRest(client, 'adriana.alpha', 'p');
+        headers.Authorization = `Bearer ${token}`;
+
+        // when
+        const response: AxiosResponse<Record<string, any>> = await client.post(
+            '/rest',
+            neuesBuch,
+            { headers },
+        );
+
+        // then
+        const { status, data } = response;
+
+        expect(status).toBe(HttpStatus.FORBIDDEN);
+        expect(data.statusCode).toBe(HttpStatus.FORBIDDEN);
+    });
+
     test('Neues Buch, aber ohne Token', async () => {
         // when
         const response: AxiosResponse<Record<string, any>> = await client.post(

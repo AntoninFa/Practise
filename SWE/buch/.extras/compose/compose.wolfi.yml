@@ -16,23 +16,3 @@
 services:
   buch:
     image: juergenzimmermann/buch:2023.10.0-wolfi
-    volumes:
-      - type: bind
-        source: app.yml
-        target: /app/dist/config/resources/app.yml
-        read_only: true
-      - type: bind
-        source: ../../log
-        target: /app/log
-        read_only: true
-      - type: bind
-        source: ../../src/config/resources/tls/private-key.pem
-        target: /app/dist/config/resources/tls/private-key.pem
-        read_only: true
-      - type: bind
-        source: ../../src/config/resources/jwt/private-key.pem
-        target: /app/dist/config/resources/jwt/private-key.pem
-        read_only: true
-      - type: bind
-        source: ../../src/config/resources/db/sqlite/buch.sqlite
-        target: /app/dist/config/resources/db/sqlite/buch.sqlite

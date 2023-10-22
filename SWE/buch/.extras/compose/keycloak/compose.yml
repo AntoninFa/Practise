@@ -18,7 +18,7 @@
 
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:22.0.3-0
+    image: quay.io/keycloak/keycloak:22.0.4-0
     #depends_on: [postgres]
     ports:
       - published: 8080
